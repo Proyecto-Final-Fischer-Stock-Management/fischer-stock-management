@@ -1,73 +1,60 @@
-# React + TypeScript + Vite
+# Fischer Stock Management
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Proyecto separado en dos aplicaciones:
 
-Currently, two official plugins are available:
+- `frontend`: React + TypeScript + Vite + TailwindCSS + React Router.
+- `backend`: arquitectura preparada para Node.js + Express + PostgreSQL + Prisma + JWT + bcrypt.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+La app todavia esta vacia visualmente para que puedas empezar a codear sin borrar una demo. El frontend ya tiene lo minimo para compilar: entrada React, Tailwind conectado, React Router instalado y rutas base declaradas.
 
-## React Compiler
+## Instalar en una compu nueva
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Desde la raiz del proyecto:
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+cd frontend
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Si estas en PowerShell y `npm` da error por Execution Policy, usa:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm.cmd install
+npm.cmd run dev
 ```
+
+Para verificar que compila:
+
+```bash
+npm run build
+```
+
+## Dependencias frontend instaladas
+
+Estas ya estan declaradas en `frontend/package.json`, asi que en una compu nueva solo hace falta `npm install`.
+
+```bash
+npm install react react-dom react-router-dom
+npm install -D vite typescript @vitejs/plugin-react tailwindcss @tailwindcss/vite eslint @eslint/js typescript-eslint eslint-plugin-react-hooks eslint-plugin-react-refresh globals @types/node @types/react @types/react-dom
+```
+
+## Preparar backend
+
+El backend tiene arquitectura de carpetas y archivos, pero todavia no tiene `package.json` ni implementacion. Cuando quieras empezar a programarlo:
+
+```bash
+cd backend
+npm init -y
+npm install express dotenv jsonwebtoken bcrypt prisma @prisma/client
+npx prisma generate
+```
+
+No uses `npx prisma init` salvo que borres la carpeta `backend/prisma`, porque la arquitectura ya incluye `prisma/schema.prisma`.
+
+La explicacion completa de carpetas, archivos y conexiones esta en [ARCHITECTURE.md](./ARCHITECTURE.md).
+
+## Archivos generados
+
+- `frontend/node_modules`: dependencias instaladas por `npm install`. No se edita a mano.
+- `frontend/dist`: salida generada por `npm run build`. Sirve para previsualizar o desplegar el frontend compilado, pero no es codigo fuente.
