@@ -1,8 +1,8 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
-import { ProtectedRoute } from './ProtectedRoute'
+import { Navigate, Route, Routes } from "react-router-dom";
+import { ProtectedRoute } from "./ProtectedRoute"; // el error está pq hay que agregar codigo en protected route
 
 function EmptyPage() {
-  return null
+  return null;
 }
 
 export function AppRouter() {
@@ -11,7 +11,7 @@ export function AppRouter() {
       <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<EmptyPage />} />
 
-      <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+      <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
         <Route path="/admin" element={<EmptyPage />} />
         <Route path="/admin/stock" element={<EmptyPage />} />
         <Route path="/admin/stock/create" element={<EmptyPage />} />
@@ -22,7 +22,7 @@ export function AppRouter() {
         <Route path="/admin/notifications" element={<EmptyPage />} />
       </Route>
 
-      <Route element={<ProtectedRoute allowedRoles={['repositor']} />}>
+      <Route element={<ProtectedRoute allowedRoles={["repositor"]} />}>
         <Route path="/repositor/check-in" element={<EmptyPage />} />
         <Route path="/repositor" element={<EmptyPage />} />
         <Route path="/repositor/catalog" element={<EmptyPage />} />
@@ -32,5 +32,5 @@ export function AppRouter() {
 
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
-  )
+  );
 }

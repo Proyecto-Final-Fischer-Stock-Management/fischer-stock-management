@@ -52,7 +52,7 @@ npx prisma generate
 
 No uses `npx prisma init` salvo que borres la carpeta `backend/prisma`, porque la arquitectura ya incluye `prisma/schema.prisma`.
 
-La explicacion completa de carpetas, archivos y conexiones esta en [ARCHITECTURE.md](./ARCHITECTURE.md).
+La explicacion completa de carpetas, archivos y conexiones esta en [ARCHITECTURE.md](./frontend/ARCHITECTURE.md) o (./backend/ARCHITECTURE.md).
 
 ## Archivos generados
 
