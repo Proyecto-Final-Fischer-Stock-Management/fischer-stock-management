@@ -46,15 +46,24 @@ El backend tiene arquitectura de carpetas y archivos, pero todavia no tiene `pac
 ```bash
 cd backend
 npm init -y
-npm install express dotenv jsonwebtoken bcrypt prisma @prisma/client
+npm install express cors dotenv jsonwebtoken bcrypt prisma @prisma/client
+npm install -D nodemon
 npx prisma generate
 ```
 
 No uses `npx prisma init` salvo que borres la carpeta `backend/prisma`, porque la arquitectura ya incluye `prisma/schema.prisma`.
 
-La explicacion completa de carpetas, archivos y conexiones esta en [ARCHITECTURE.md](./frontend/ARCHITECTURE.md) o (./backend/ARCHITECTURE.md).
+La explicacion completa de carpetas, archivos y conexiones esta separada en:
+
+- [Frontend architecture](./frontend/ARCHITECTURE.md)
+- [Backend architecture](./backend/ARCHITECTURE.md)
 
 ## Archivos generados
 
 - `frontend/node_modules`: dependencias instaladas por `npm install`. No se edita a mano.
-- `frontend/dist`: salida generada por `npm run build`. Sirve para previsualizar o desplegar el frontend compilado, pero no es codigo fuente.
+- `frontend/dist`: salida generada por `npm run build`. Sirve para previsualizar o desplegar el frontend compilado, pero no es codigo fuente y no deberia versionarse.
+
+## Variables de entorno
+
+- `backend/.env`: archivo local con secretos y configuracion real. Esta ignorado por Git.
+- `backend/.env.example`: plantilla segura para documentar que variables necesita el backend.

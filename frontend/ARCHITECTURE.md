@@ -1,13 +1,13 @@
-# Arquitectura del proyecto
+# Arquitectura frontend
 
-Este documento explica para que sirve cada archivo, por que esta ahi y con que se conecta. La estructura esta separada en `frontend` y `backend`.
+Este documento explica para que sirve cada archivo del frontend, por que esta ahi y con que se conecta.
 
 ## Archivos de la raiz
 
-- `.gitignore`: indica que archivos y carpetas no deberian subirse al repositorio, por ejemplo `node_modules`, builds, logs y variables locales.
-- `.gitattributes`: configura reglas de Git para el repositorio, normalmente normalizacion de saltos de linea y comportamiento de archivos.
-- `README.md`: guia rapida del proyecto, instalacion y comandos principales.
-- `ARCHITECTURE.md`: documento detallado de arquitectura, carpetas, archivos y conexiones.
+- `../.gitignore`: indica que archivos y carpetas no deberian subirse al repositorio, por ejemplo `node_modules`, `dist`, logs y variables locales.
+- `../.gitattributes`: configura reglas de Git para el repositorio, normalmente normalizacion de saltos de linea y comportamiento de archivos.
+- `../README.md`: guia rapida del proyecto, instalacion y comandos principales.
+- `frontend/ARCHITECTURE.md`: documento detallado de arquitectura del frontend.
 
 ## Frontend
 
@@ -57,11 +57,8 @@ npm install -D vite typescript @vitejs/plugin-react tailwindcss @tailwindcss/vit
 - `frontend/index.html`: HTML raiz donde Vite monta React en el elemento `root`.
 - `frontend/src/main.tsx`: punto de entrada. Monta `<App />` dentro de `StrictMode`.
 - `frontend/src/App.tsx`: componente raiz. Envuelve la app con `AuthProvider`, `BrowserRouter` y `AppRouter`.
-- `frontend/src/index.css`: estilos globales importados por `main.tsx`. Importa `styles/tailwind.css`.
+- `frontend/src/index.css`: estilos globales importados por `main.tsx`. Importa TailwindCSS directamente con `@import "tailwindcss"`.
 - `frontend/node_modules`: dependencias instaladas localmente por `npm install`. No se edita a mano y normalmente no se sube al repositorio.
-- `frontend/dist/index.html`: HTML compilado generado por `npm run build`. Se conecta con los assets finales de `dist/assets`.
-- `frontend/dist/assets/*.js`: bundle JavaScript generado por Vite para produccion. No se edita a mano.
-- `frontend/dist/assets/*.css`: CSS final generado por Vite/Tailwind para produccion. No se edita a mano.
 
 Conexion principal: `index.html` -> `main.tsx` -> `App.tsx` -> `AuthProvider` -> `BrowserRouter` -> `AppRouter`.
 
@@ -81,11 +78,10 @@ Conexion principal: `index.html` -> `main.tsx` -> `App.tsx` -> `AuthProvider` ->
 - `frontend/src/features/admin`: funcionalidades del administrador.
 - `frontend/src/features/repositor`: funcionalidades del repositor.
 - `frontend/src/hooks`: hooks reutilizables.
-- `frontend/src/layouts`: layouts por tipo de usuario o seccion.
 - `frontend/src/services`: servicios compartidos para comunicacion externa.
 - `frontend/src/types`: tipos TypeScript compartidos.
 - `frontend/src/utils`: funciones auxiliares puras y reutilizables.
-- `frontend/dist`: build generado por Vite. No es fuente, se puede regenerar con `npm run build`.
+- `frontend/dist`: build generado por Vite con `npm run build`. No es fuente, no deberia versionarse y se puede regenerar cuando haga falta.
 
 ### App, rutas y sesion
 
@@ -107,7 +103,6 @@ Cuando implementes login, el flujo deberia ser: `LoginPage` -> `authApi` -> back
 - `/admin/accounts`: cuentas.
 - `/admin/accounts/create`: crear usuario.
 - `/admin/accounts/:userId/edit`: modificar usuario.
-- `/admin/notifications`: notificaciones. (extra)
 - `/repositor/check-in`: check-in.
 - `/repositor`: pantalla principal repositor.
 - `/repositor/catalog`: catalogo.
@@ -130,14 +125,14 @@ Estos archivos se conectarian con pages y formularios para no repetir UI.
 - `frontend/src/services/apiClient.ts`: cliente HTTP centralizado. Deberia conectarse con el backend Express y adjuntar JWT en headers.
 - `frontend/src/utils/formatters.ts`: helpers para formatear fechas, codigos, nombres y textos.
 
-### Tipos compartidos (aca iria toda la logica creo)
+### Tipos compartidos
 
 - `frontend/src/types/product.ts`: producto, codigos, imagen, cadena y filtros.
 - `frontend/src/types/user.ts`: usuarios, roles y datos de cuenta.
 - `frontend/src/types/checkin.ts`: check-in/check-out, cadena, sucursal y sector.
 - `frontend/src/types/order.ts`: pedido, items reportados, quiebre, cantidad y observaciones.
 
-Estos tipos se conectan con pages, componentes y servicios API.
+Estos tipos se conectan con pages, componentes y servicios API. No deberian contener logica de negocio; esa logica deberia vivir en servicios, hooks o componentes segun corresponda.
 
 ## Pantallas frontend
 
@@ -158,6 +153,7 @@ Se conecta con backend `statistics` y `checkins`.
 
 - `frontend/src/features/admin/stock/pages/StockPage.tsx`: listado, buscador, filtros y acciones de productos.
 - `frontend/src/features/admin/stock/pages/CreateProductPage.tsx`: crear producto.
+- `frontend/src/features/admin/stock/pages/EditProductPage.tsx`: modificar producto existente desde el listado de stock.
 - `frontend/src/features/admin/stock/components/ProductList.tsx`: lista con eliminar.
 - `frontend/src/features/admin/stock/components/ProductForm.tsx`: formulario reutilizable.
 - `frontend/src/features/admin/stock/services/productsApi.ts`: llamadas a productos.

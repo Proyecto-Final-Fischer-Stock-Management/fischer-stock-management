@@ -18,7 +18,6 @@ El backend por ahora tiene estructura de carpetas y archivos, pero no tiene impl
 - `backend/src/modules/products`: CRUD, busqueda y filtros de productos.
 - `backend/src/modules/checkins`: check-in, check-out e historial de visitas.
 - `backend/src/modules/statistics`: calculos y datos del dashboard admin.
-- `backend/src/modules/notifications`: mails/notificaciones vistos por admin.
 - `backend/src/modules/orders`: formularios/pedidos cargados por repositor.
 - `backend/src/modules/emails`: envio de pedidos por email.
 - `backend/src/routes`: archivo central para montar rutas de todos los modulos.
@@ -55,6 +54,7 @@ npx prisma studio
 - `backend/src/config/env.js`: lee variables de entorno.
 - `backend/src/config/prisma.js`: instancia Prisma Client y conecta con PostgreSQL.
 - `backend/src/config/jwt.js`: configuracion de firma/verificacion JWT.
+- `backend/.env`: variables reales locales del entorno. No deberia subirse al repositorio.
 - `backend/.env.example`: variables necesarias como `DATABASE_URL`, `JWT_SECRET`, `PORT` y credenciales de mail.
 
 Flujo backend: `server.js` -> `app.js` -> `routes/index.js` -> modulos.
@@ -69,7 +69,7 @@ Se conectan con rutas protegidas de admin y repositor.
 
 ### Auth backend
 
-- `backend/src/modules/auth/autRoutes.js`: define `POST /api/auth/login`.
+- `backend/src/modules/auth/authRoutes.js`: define `POST /api/auth/login`.
 - `backend/src/modules/auth/authController.js`: recibe request/response.
 - `backend/src/modules/auth/authService.js`: busca usuario, compara password con bcrypt y genera JWT.
 
@@ -78,7 +78,7 @@ Se conecta con Prisma, bcrypt, JWT y modelo `User`.
 ### Usuarios backend
 
 - `backend/src/modules/users/usersRoutes.js`: rutas CRUD de usuarios.
-- `backend/src/modules/users/userController.js`: maneja requests.
+- `backend/src/modules/users/usersController.js`: maneja requests.
 - `backend/src/modules/users/usersService.js`: crea, lista, modifica y elimina usuarios.
 
 Se conecta con Prisma `User`, bcrypt y middleware de rol admin.
@@ -108,6 +108,14 @@ Se conecta con Prisma `CheckIn` o `Visit` y usuarios repositor.
 
 Se conecta con productos, pedidos/formularios y checkins.
 
+### Emails backend
+
+- `backend/src/modules/emails/emailsRoutes.js`: endpoint para enviar pedido por email.
+- `backend/src/modules/emails/emailsController.js`: recibe solicitud de envio.
+- `backend/src/modules/emails/emailsService.js`: arma y envia el correo.
+
+Se conecta con pedidos, usuario repositor y configuracion SMTP/Gmail.
+
 ### Pedidos backend
 
 - `backend/src/modules/orders/ordersRoutes.js`: rutas de formularios/pedidos.
@@ -115,14 +123,6 @@ Se conecta con productos, pedidos/formularios y checkins.
 - `backend/src/modules/orders/ordersService.js`: guarda stock actual, quiebre, cantidad y observaciones.
 
 Se conecta con Prisma `Order` o `StockReport`, productos, usuario repositor y emails.
-
-### Emails backend
-
-- `backend/src/modules/emails/emails.routes.js`: endpoint para enviar pedido por email.
-- `backend/src/modules/emails/emails.controller.js`: recibe solicitud de envio.
-- `backend/src/modules/emails/emails.service.js`: arma y envia el correo.
-
-Se conecta con pedidos, usuario repositor y configuracion SMTP/Gmail.
 
 ### Utilidades backend
 
@@ -149,8 +149,6 @@ Se conecta con pedidos, usuario repositor y configuracion SMTP/Gmail.
 - `POST /api/users`
 - `PUT /api/users/:id`
 - `DELETE /api/users/:id`
-- `GET /api/notifications`
-- `DELETE /api/notifications/:id`
 - `GET /api/orders/my`
 - `POST /api/orders`
 - `PUT /api/orders/:id`
