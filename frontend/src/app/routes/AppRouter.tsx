@@ -1,5 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { ProtectedRoute } from "./ProtectedRoute";
+import AdminHomePage from "../../features/admin/dashboard/pages/AdminHomePage";
+import LoginPage from "../../features/auth/pages/LoginPage";
 
 function EmptyPage() {
   return null;
@@ -9,10 +11,10 @@ export function AppRouter() {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/login" replace />} />
-      <Route path="/login" element={<EmptyPage />} />
+      <Route path="/login" element={<LoginPage />} />
 
       <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
-        <Route path="/admin" element={<EmptyPage />} />
+        <Route path="/admin" element={<AdminHomePage />} />
         <Route path="/admin/stock" element={<EmptyPage />} />
         <Route path="/admin/stock/create" element={<EmptyPage />} />
         <Route path="/admin/stock/:productId/edit" element={<EmptyPage />} />

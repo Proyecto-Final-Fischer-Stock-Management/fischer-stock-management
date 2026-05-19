@@ -1,8 +1,11 @@
-export default function Boton() {
+export default function Button() {
+    const handleClick = () => {
+        alert("Hiciste click!!");
+    }
     return (
-       <div>
-        <></>
-       </div> 
+       <button onClick={handleClick}>
+        Button
+       </button> 
     )
     
 }
