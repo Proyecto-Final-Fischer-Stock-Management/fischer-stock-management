@@ -3,7 +3,7 @@ export default function Button() {
         alert("Hiciste click!!");
     }
     return (
-       <button onClick={handleClick}>
+       <button onClick={handleClick} className="bg-blue-300">
         Button
        </button> 
     )

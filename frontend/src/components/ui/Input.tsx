@@ -11,9 +11,8 @@ export default function MyInput() {
     <div>
       <label>
         Escribe algo:
-        <input type="text" value={texto} onChange={manejarCambio} />
+        <input type="text" value={texto} onChange={manejarCambio} className="width-16"/>
       </label>
-      <p>Texto actual: {texto}</p>
     </div>
   );
 }
