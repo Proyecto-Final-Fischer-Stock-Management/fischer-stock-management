@@ -1,8 +1,8 @@
 ## Backend
 
-Base esperada: Node.js + Express + PostgreSQL + Prisma + JWT + bcrypt.
+Base esperada: Node.js + Express + PostgreSQL en Neon/Vercel + Prisma 7 + JWT + bcrypt.
 
-El backend por ahora tiene estructura de carpetas y archivos, pero no tiene implementacion ni `package.json`. La idea es que primero tengas claro donde va cada responsabilidad.
+El backend tiene estructura de carpetas, `package.json`, Prisma configurado para el cambio de Prisma 7 y una instancia de Prisma Client preparada para Neon.
 
 ### Carpetas backend
 
@@ -31,31 +31,33 @@ Desde una compu nueva, cuando quieras empezar a programar el backend:
 
 ```bash
 cd backend
-npm init -y
-npm install express cors dotenv jsonwebtoken bcrypt prisma @prisma/client
-npm install -D nodemon
-npx prisma generate
+npm install
+npm run prisma:generate
 ```
 
-No uses `npx prisma init` en este repo salvo que borres `backend/prisma`, porque ya existe `backend/prisma/schema.prisma`.
+No uses `npx prisma init` en este repo salvo que borres `backend/prisma` y `backend/prisma.config.ts`, porque ya existen.
 
 Cuando tengas modelos en Prisma y la base PostgreSQL configurada:
 
 ```bash
-npx prisma migrate dev
-npx prisma studio
+npm run prisma:migrate
+npm run prisma:studio
 ```
 
 ### Entrada y configuracion backend
 
+- `backend/package.json`: declara dependencias y scripts del backend. Incluye Express, Prisma 7, `@prisma/adapter-neon`, JWT, bcrypt, dotenv y nodemon.
+- `backend/package-lock.json`: fija versiones exactas instaladas para reproducir el entorno con `npm install`.
+- `backend/tsconfig.json`: configuracion TypeScript minima para archivos de tooling del backend, especialmente `prisma.config.ts`.
+- `backend/prisma.config.ts`: configuracion nueva de Prisma 7. Define donde esta `schema.prisma`, donde van las migrations y que URL usa Prisma CLI/Migrate.
 - `backend/src/server.js`: levanta el servidor y escucha el puerto.
 - `backend/src/app.js`: crea la app Express, middlewares globales y rutas.
 - `backend/src/routes/index.js`: agrupa rutas de todos los modulos.
 - `backend/src/config/env.js`: lee variables de entorno.
-- `backend/src/config/prisma.js`: instancia Prisma Client y conecta con PostgreSQL.
+- `backend/src/config/prisma.js`: instancia Prisma Client con `PrismaNeon` de `@prisma/adapter-neon`. Usa la URL pooled/runtime de Neon y evita crear varias instancias en desarrollo.
 - `backend/src/config/jwt.js`: configuracion de firma/verificacion JWT.
 - `backend/.env`: variables reales locales del entorno. No deberia subirse al repositorio.
-- `backend/.env.example`: variables necesarias como `DATABASE_URL`, `JWT_SECRET`, `PORT` y credenciales de mail.
+- `backend/.env.example`: plantilla segura con `DATABASE_URL`, `DIRECT_URL`, `PORT` y `JWT_SECRET`.
 
 Flujo backend: `server.js` -> `app.js` -> `routes/index.js` -> modulos.
 
@@ -131,8 +133,14 @@ Se conecta con Prisma `Order` o `StockReport`, productos, usuario repositor y em
 
 ### Prisma
 
-- `backend/prisma/schema.prisma`: modelos de base de datos. Deberia contener `User`, `Product`, `CheckIn`/`Visit`, `Order`/`StockReport`, `OrderItem`, `Notification`, `Chain`, `Branch` y `Sector`.
+- `backend/prisma/schema.prisma`: modelos de base de datos. En Prisma 7 ya no lleva `url` dentro de `datasource`; la URL vive en `backend/prisma.config.ts`.
 - `backend/prisma/seed.js`: datos iniciales, por ejemplo admin inicial, cadenas, sucursales y sectores.
+
+Para Neon/Vercel se recomienda:
+
+- `DATABASE_URL`: URL pooled/runtime. Es la que usa `src/config/prisma.js` para las queries de la app.
+- `DIRECT_URL`: URL directa/no pooled. Es la mejor opcion para Prisma Migrate desde `prisma.config.ts`.
+- `POSTGRES_PRISMA_URL`, `POSTGRES_URL` o `POSTGRES_URL_NON_POOLING`: nombres que Vercel/Neon puede crear automaticamente. La configuracion actual los toma como fallback.
 
 ## Rutas API sugeridas
 
