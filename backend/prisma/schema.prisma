@@ -13,9 +13,68 @@ model Users {
   email String  @unique
   role  Role
   password  String
+  updates Updates[]
+}
+
+model Products {
+  fischer_code  Int @id @default(autoincrement())
+  easy_sap  Int @unique
+  stockout  Boolean @default(false)
+  name  String
+  sector  Sector
+  actual_stock  Int 
+  minimun_stock Int
+  product_picture String
+  updates Updates[]
+}
+
+model CheckIn {
+  id  Int @id @default(autoincrement())
+  frachise String
+  branch  String
+  sector Sector
+  checkin_time  DateTime @default(now())
+}
+
+model Franchise {
+  id  Int @id @default(autoincrement())
+  name  String
+  branches_amount Int
+  branches Branches[]
+}
+
+model Branches {
+  id  Int @id @default(autoincrement())
+  direction String
+  franchise_id Int
+  has  Franchise  @relation(fields: [franchise_id], references: [id])
+  sectors Sectors[]
+}
+
+model Sectors {
+  id  Int @id @default(autoincrement())
+  sector_boss_email String
+  sector  Sector
+  branches_id Int
+  has Branches  @relation(fields:[branches_id], references: [id])
+}
+
+model Updates {
+  user  Users @relation(fields:[user_id], references: [id])
+  user_id Int
+  product Products @relation(fields:[product_id], references: [fischer_code])
+  product_id Int
+  stockout  Boolean
+  actual_stock  Int
+  @@id([user_id, product_id])
 }
 
 enum Role {
   Administrator
   Stockman
+}
+
+enum Sector {
+  Pintureria
+  Ferreteria
 }
