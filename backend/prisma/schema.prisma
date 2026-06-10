@@ -17,13 +17,13 @@ model Users {
   administrated Users[] @relation("manager")
   sendsto Sends[] @relation("sendsto")
   recieves  Sends[]  @relation("recieves")
-  products  Products[]  @relation("manages")
+  product  Product[]  @relation("manages")
   sectors Sectors[] @relation("tours")
   checkinR  CheckIn[] @relation("does")
   checkinA  CheckIn[] @relation("monitors")
 }
 
-model Products {
+model Product {
   fischer_code  Int @id @default(autoincrement())
   easy_sap  Int @unique
   stockout  Boolean @default(false)
@@ -68,7 +68,7 @@ model Sectors {
   sector  Sector
   branches_id Int
   has Branches  @relation(fields:[branches_id], references: [id])
-  products Products[] @relation("sellsin")
+  product Product[] @relation("sellsin")
   users Users[] @relation("tours")
 }
 
@@ -86,7 +86,7 @@ model Sends {
 model Updates {
   user  Users @relation(fields:[user_id], references: [id])
   user_id Int
-  product Products @relation(fields:[product_id], references: [fischer_code])
+  product Product @relation(fields:[product_id], references: [fischer_code])
   product_id Int
   stockout  Boolean
   actual_stock  Int

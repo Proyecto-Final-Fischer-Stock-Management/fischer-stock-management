@@ -5,55 +5,56 @@ POST http://localhost:4306/auth/login
 Content-Type: application/json
 
 {
-    "complete_name": "Joaquín Margules",
+    "completeName": "Joaquín Margules",
     "password": "123123123"
 }
 
 ### GET /auth/me
 GET http://localhost:4306/auth/me
 
-
 ### STOCKMAN ROUTES
 
 ### GET /checkin/franchises
-GET http://localhost:4306/checkin/franchises
+GET http://localhost:4306/stockman/check-in/franchises
 
 ### GET /checkin/branches
-GET http://localhost:4306/checkin/branches
+GET http://localhost:4306/stockman/check-in/branches
 
 ### GET /checkin/sectors
-GET http://localhost:4306/checkin/sectors
+GET http://localhost:4306/stockman/check-in/sectors
 
 ### POST /checkin
-POST http://localhost:4306/checkin
+POST http://localhost:4306/stockman/check-in
 Content-Type: application/json
 
 {
-
+    "franchise":"EASY",
+    "branch":"Belgrano",
+    "sector":"Pintureria"
 }
 
 ### GET /home/last-checkin
-GET http://localhost:4306/home/last-checkin
+GET http://localhost:4306/stockman/home/last-check-in
 
 ### GET /catalog/products
-GET http://localhost:4306/catalog/products
+GET http://localhost:4306/stockman/catalog/products
 
 ### POST /order/product
-POST http://localhost:4306/order/product
+POST http://localhost:4306/stockman/order/product
 Content-Type: application/json
 
 {
-
+    
 }
 
 ### GET /order/product
-GET http://localhost:4306/order/product
+GET http://localhost:4306/stockman/order/product
 
 ### DELETE /order/product
-DELETE http://localhost:4306/order/product
+DELETE http://localhost:4306/stockman/order/product
 
 ### POST /order
-POST http://localhost:4306/order
+POST http://localhost:4306/stockman/order
 Content-Type: application/json
 
 {
@@ -63,16 +64,16 @@ Content-Type: application/json
 ### ADMIN ROUTES
 
 ### GET /dashboard/stats
-GET http://localhost:4306/dashboard/stats
+GET http://localhost:4306/administrator/dashboard/stats
 
 ### GET /dashboard/visits
-GET http://localhost:4306/dashboard/visits
+GET http://localhost:4306/administrator/dashboard/visits
 
 ### GET /stock/product
-GET http://localhost:4306/stock/product
+GET http://localhost:4306/administrator/stock/product
 
 ### POST /stock/product
-POST http://localhost:4306/stock/product
+POST http://localhost:4306/administrator/stock/product
 Content-Type: application/json
 
 {
@@ -80,13 +81,13 @@ Content-Type: application/json
 }
 
 ### DELETE /stock/product
-DELETE http://localhost:4306/stock/product
+DELETE http://localhost:4306/administrator/stock/product
 
 ### GET /accounts/user
-GET http://localhost:4306/accounts/user
+GET http://localhost:4306/administrator/accounts/user
 
 ### POST /accounts/user
-POST http://localhost:4306/accounts/user
+POST http://localhost:4306/administrator/accounts/user
 Content-Type: application/json
 
 {
@@ -94,4 +95,4 @@ Content-Type: application/json
 }
 
 ### DELETE /accounts/user
-DELETE http://localhost:4306/accounts/user
+DELETE http://localhost:4306/administrator/accounts/user

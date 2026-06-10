@@ -7,7 +7,7 @@ router.get("/check-in/branches", (req, res) => {});
 router.get("/check-in/sectors", (req, res) => {});
 router.post("/check-in", (req, res) => {});
 
-router.get("/home/last-checkin", (req, res) => {});
+router.get("/home/last-check-in", (req, res) => {});
 
 router.get("/catalog/products", (req, res) => {});
 router.post("/order/product", (req, res) => {});
