@@ -2,26 +2,19 @@ import { Router } from "express";
 
 const router = Router();
 
-const notImplemented = (req, res) => {
-  res.status(501).json({
-    message: `Route ${req.method} ${req.originalUrl} is not implemented yet.`,
-  });
-};
+router.get("/check-in/franchises", (req, res) => {});
+router.get("/check-in/branches", (req, res) => {});
+router.get("/check-in/sectors", (req, res) => {});
+router.post("/check-in", (req, res) => {});
 
-router.get("/check-in/franchises", notImplemented);
-router.get("/check-in/branches", notImplemented);
-router.get("/check-in/sectors", notImplemented);
-router.post("/check-in", notImplemented);
+router.get("/home/last-checkin", (req, res) => {});
 
-router.get("/home/last-check-in", notImplemented);
+router.get("/catalog/products", (req, res) => {});
+router.post("/order/product", (req, res) => {});
 
-router.get("/catalog/products", notImplemented);
-router.post("/order/product", notImplemented);
-
-router.get("/order/product", notImplemented);
-router.get("/order/products", notImplemented);
-// router.put("/order/product", notImplemented);
-router.delete("/order/product", notImplemented);
-router.post("/order/send", notImplemented);
+router.get("/order/product", (req, res) => {});
+// router.put("/order/product", (req, res) => {});
+router.delete("/order/product", (req, res) => {});
+router.post("/order", (req, res) => {});
 
 export default router;

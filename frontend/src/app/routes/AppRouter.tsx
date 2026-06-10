@@ -25,7 +25,6 @@ export function AppRouter() {
         <Route path="/repositor/check-in" element={<EmptyPage />} />
         <Route path="/repositor" element={<EmptyPage />} />
         <Route path="/repositor/catalog" element={<EmptyPage />} />
-        <Route path="/repositor/catalog/:productId" element={<EmptyPage />} />
         <Route path="/repositor/order" element={<EmptyPage />} />
       </Route>
 

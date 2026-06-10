@@ -1,0 +1,97 @@
+### AUTH ROUTES
+
+### POST /auth/login
+POST http://localhost:4306/auth/login
+Content-Type: application/json
+
+{
+    "complete_name": "Joaquín Margules",
+    "password": "123123123"
+}
+
+### GET /auth/me
+GET http://localhost:4306/auth/me
+
+
+### STOCKMAN ROUTES
+
+### GET /checkin/franchises
+GET http://localhost:4306/checkin/franchises
+
+### GET /checkin/branches
+GET http://localhost:4306/checkin/branches
+
+### GET /checkin/sectors
+GET http://localhost:4306/checkin/sectors
+
+### POST /checkin
+POST http://localhost:4306/checkin
+Content-Type: application/json
+
+{
+
+}
+
+### GET /home/last-checkin
+GET http://localhost:4306/home/last-checkin
+
+### GET /catalog/products
+GET http://localhost:4306/catalog/products
+
+### POST /order/product
+POST http://localhost:4306/order/product
+Content-Type: application/json
+
+{
+
+}
+
+### GET /order/product
+GET http://localhost:4306/order/product
+
+### DELETE /order/product
+DELETE http://localhost:4306/order/product
+
+### POST /order
+POST http://localhost:4306/order
+Content-Type: application/json
+
+{
+
+}
+
+### ADMIN ROUTES
+
+### GET /dashboard/stats
+GET http://localhost:4306/dashboard/stats
+
+### GET /dashboard/visits
+GET http://localhost:4306/dashboard/visits
+
+### GET /stock/product
+GET http://localhost:4306/stock/product
+
+### POST /stock/product
+POST http://localhost:4306/stock/product
+Content-Type: application/json
+
+{
+
+}
+
+### DELETE /stock/product
+DELETE http://localhost:4306/stock/product
+
+### GET /accounts/user
+GET http://localhost:4306/accounts/user
+
+### POST /accounts/user
+POST http://localhost:4306/accounts/user
+Content-Type: application/json
+
+{
+
+}
+
+### DELETE /accounts/user
+DELETE http://localhost:4306/accounts/user

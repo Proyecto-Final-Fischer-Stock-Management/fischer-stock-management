@@ -8,8 +8,7 @@ datasource db {
 
 model Users {
   id  Int @id @default(autoincrement())
-  name  String
-  surname String
+  complete_name  String
   email String  @unique
   role  Role
   password  String
