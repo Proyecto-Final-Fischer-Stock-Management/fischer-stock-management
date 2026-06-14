@@ -28,13 +28,14 @@ model Product {
   easy_sap  Int @unique
   stockout  Boolean @default(false)
   name  String
-  sector  Sector
   actual_stock  Int 
   minimun_stock Int
-  product_picture String
+  product_picture Bytes
   updates Updates[]
   users Users[] @relation("manages")
-  sectors Sectors[] @relation("sellsin")
+  sectors Sectors[] @relation("soldin")
+  franchises  Franchise[]  @relation("soldto") 
+  branches  Branches[]  @relation("storedin")
 }
 
 model CheckIn {
@@ -52,6 +53,7 @@ model Franchise {
   name  String
   branches_amount Int
   branches  Branches[]
+  products  Product[]  @relation("soldto")
 }
 
 model Branches {
@@ -59,6 +61,7 @@ model Branches {
   direction String
   franchise_id  Int
   has  Franchise  @relation(fields: [franchise_id], references: [id])
+  products  Product[] @relation("storedin")
   sectors Sectors[]
 }
 
@@ -68,7 +71,7 @@ model Sectors {
   sector  Sector
   branches_id Int
   has Branches  @relation(fields:[branches_id], references: [id])
-  product Product[] @relation("sellsin")
+  product Product[] @relation("soldin")
   users Users[] @relation("tours")
 }
 

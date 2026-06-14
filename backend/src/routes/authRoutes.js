@@ -6,6 +6,7 @@ import prisma from "../../prisma/prisma.js";
 
 const router = Router();
 
+// Login a user
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;

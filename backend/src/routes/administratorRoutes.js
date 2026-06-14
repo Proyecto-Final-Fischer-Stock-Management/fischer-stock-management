@@ -7,18 +7,60 @@ const router = Router();
 router.get("/dashboard/stats", (req, res) => {});
 router.get("/dashboard/visits", (req, res) => {});
 
-router.get("/stock/product", (req, res) => {});
+// Get all products
+router.get("/stock/products", async (req, res) => {
+  const { frachise, branch, sector } = req.body;
+  try {
+    const products = await prisma.product.findMany({
+      where: {
+        sectors: sector,
+      },
+      // DESDE ACA TENGO QUE ENTERARME DE COMO HACER PARA QUE UN PRODUCTO PUEDA ESTAR EN VARIAS SUCURSALES Y FRANQUICIAS
+    });
+    return res.status(200).send({
+      products: products,
+    });
+  } catch (err) {
+    console.log(err.message);
+    res.sendStatus(503);
+  }
+});
 router.post("/stock/product", (req, res) => {});
 // router.put("/stock/product", (req, res) => {});
 router.delete("/stock/product", (req, res) => {});
 
-router.get("/accounts/users", async (req, res) => {
+// Get all users
+router.get("/accounts/users/:id", async (req, res) => {
+  const { id } = req.params;
   try {
-    const user = await prisma.users.findMany({
+    const users = await prisma.users.findMany({
       where: {
         NOT: {
-          id: user.id,
+          id: parseInt(id),
         },
+      },
+      select: {
+        id: true,
+        complete_name: true,
+        role: true,
+      },
+    });
+    return res.status(200).send({
+      users,
+    });
+  } catch (err) {
+    console.log(err.message);
+    res.sendStatus(503);
+  }
+});
+
+// Get one user
+router.get("/accounts/user", async (req, res) => {
+  const { id } = req.body;
+  try {
+    const user = await prisma.users.findUnique({
+      where: {
+        id,
       },
     });
     return res.status(200).send({
@@ -30,19 +72,20 @@ router.get("/accounts/users", async (req, res) => {
         password: user.password,
       },
     });
-  } catch (err) {
+  } catch (error) {
     console.log(err.message);
     res.sendStatus(503);
   }
 });
 
+// Create a user
 router.post("/accounts/user", async (req, res) => {
   const { completeName, email, role, password } = req.body;
 
   const hashedpassword = bcrypt.hashSync(password, 24);
 
   try {
-    const user = await prisma.create({
+    const user = await prisma.users.create({
       data: {
         complete_name: completeName,
         email: email,
@@ -59,7 +102,20 @@ router.post("/accounts/user", async (req, res) => {
 
 // router.put("/accounts/user", (req, res) => {});
 
-router.delete("/accounts/user/:id", async (req, res) => {});
+// Delete a user
+router.delete("/accounts/user", async (req, res) => {
+  const { id } = req.body;
+  try {
+    await prisma.users.delete({
+      where: {
+        id: id,
+      },
+    });
+  } catch (err) {
+    console.log(err.message);
+    res.sendStatus(503);
+  }
+});
 
 // router.get("/notifications/emails", (req, res) => {});
 // router.get("/notifications/emails/:emailId", (req, res) => {});
