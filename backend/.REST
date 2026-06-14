@@ -5,7 +5,7 @@ POST http://localhost:4306/auth/login
 Content-Type: application/json
 
 {
-    "completeName": "Joaquín Margules",
+    "email": "margulesjoa@gmail.com",
     "password": "123123123"
 }
 
