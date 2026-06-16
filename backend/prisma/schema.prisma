@@ -26,9 +26,9 @@ model Users {
 model Product {
   fischer_code  Int @id @default(autoincrement())
   easy_sap  Int @unique
-  stockout  Boolean @default(false)
+  stockout  Boolean @default(true)
   name  String
-  actual_stock  Int 
+  actual_stock  Int @default(0)
   minimun_stock Int
   product_picture Bytes
   updates Updates[]

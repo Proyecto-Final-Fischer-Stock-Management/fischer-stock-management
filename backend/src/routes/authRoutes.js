@@ -10,7 +10,6 @@ const router = Router();
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-
     const user = await prisma.users.findUnique({
       where: {
         email: email, // variable a agregar en el front
@@ -18,13 +17,13 @@ router.post("/login", async (req, res) => {
     });
 
     if (!user) {
-      return res.status(404).send({ message: "User not found" });
+      return res.status(400).send({ message: "Invalid user or password" });
     }
 
-    const passwordIsCorrect = bcrypt.compareSync(password, user.password);
+    const passwordIsCorrect = await bcrypt.compare(password, user.password);
 
     if (!passwordIsCorrect) {
-      return res.status(401).send({ message: "Invalid password" });
+      return res.status(400).send({ message: "Invalid user or password" });
     }
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
