@@ -1,9 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { PrismaNeon } from "@prisma/adapter-neon";
 import { Pool } from "@neondatabase/serverless";
-import dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 

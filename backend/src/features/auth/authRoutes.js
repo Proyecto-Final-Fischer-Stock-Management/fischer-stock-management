@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { login } from "./authService";
+import { login } from "./authService.js";
 
 const router = Router();
 
@@ -19,7 +19,7 @@ router.post("/login", async (req, res) => {
     }
 
     return res.status(503).send({
-      message: "Service unavailable",
+      message: err.message,
     });
   }
 });

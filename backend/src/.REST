@@ -1,0 +1,19 @@
+### Login
+POST http://localhost:4306/auth/login
+Content-Type: application/json
+
+{
+  "email": "testmail@gmail.com",
+  "password": "123123123"
+}
+
+### Create a user
+POST http://localhost:4306/administrator/accounts/user
+Content-Type: application/json
+
+{
+    "completeName": "Persona de Test",
+    "email": "testmail@gmail.com",
+    "role": "Administrator",
+    "password": "123123123"
+}

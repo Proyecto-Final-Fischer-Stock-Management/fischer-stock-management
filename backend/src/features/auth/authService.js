@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { findByEmail } from "./authRepository";
+import { findByEmail } from "./authRepository.js";
 import { expireTokenTime } from "../../config/jwt.js";
 
 export async function login(email, password) {

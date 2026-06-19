@@ -1,6 +1,6 @@
 import { Router } from "express";
 import bcrypt from "bcrypt";
-import prisma from "../../prisma/prisma";
+import prisma from "../../prisma/prisma.js";
 
 const router = Router();
 
@@ -54,7 +54,8 @@ router.get("/stock/product", async (req, res) => {
 // Create a product
 router.post("/stock/product", async (req, res) => {
   try {
-    const { fischerCode, easySap, name, minimunStock, productPicture };
+    const { fischerCode, easySap, name, minimunStock, productPicture } =
+      req.body;
     const product = await prisma.product.create({
       data: {
         fischer_code: fischerCode,
@@ -82,7 +83,9 @@ router.delete("/stock/product", async (req, res) => {
       },
     });
   } catch (err) {
-    console.log(err.message);
+    return res.status(503).send({
+      message: err.message,
+    });
   }
 });
 
@@ -106,8 +109,9 @@ router.get("/accounts/users/:id", async (req, res) => {
       users,
     });
   } catch (err) {
-    console.log(err.message);
-    res.sendStatus(503);
+    return res.status(503).send({
+      message: err.message,
+    });
   }
 });
 
@@ -130,16 +134,17 @@ router.get("/accounts/user", async (req, res) => {
       },
     });
   } catch (error) {
-    console.log(err.message);
-    res.sendStatus(503);
+    return res.status(503).send({
+      message: err.message,
+    });
   }
 });
 
 // Create a user
 router.post("/accounts/user", async (req, res) => {
+  const { completeName, email, role, password } = req.body;
+  const hashedpassword = bcrypt.hashSync(password, 7);
   try {
-    const { completeName, email, role, password } = req.body;
-    const hashedpassword = bcrypt.hashSync(password, 24);
     const user = await prisma.users.create({
       data: {
         complete_name: completeName,
@@ -150,8 +155,9 @@ router.post("/accounts/user", async (req, res) => {
     });
     return res.status(201).send({ message: "User successfully created" });
   } catch (err) {
-    console.log(err.message);
-    res.sendStatus(503);
+    res.status(503).send({
+      message: err.message,
+    });
   }
 });
 
@@ -167,8 +173,9 @@ router.delete("/accounts/user", async (req, res) => {
       },
     });
   } catch (err) {
-    console.log(err.message);
-    res.sendStatus(503);
+    return res.status(503).send({
+      message: err.message,
+    });
   }
 });
 
