@@ -12,8 +12,16 @@ POST http://localhost:4306/administrator/accounts/user
 Content-Type: application/json
 
 {
-    "completeName": "Persona de Test",
-    "email": "testmail@gmail.com",
-    "role": "Administrator",
-    "password": "123123123"
+  "completeName": "Persona de Test",
+  "email": "testmail@gmail.com",
+  "role": "Administrator",
+  "password": "123123123"
+}
+
+### Delete a user
+DELETE http://localhost:4306/administrator/accounts/user
+Content-Type: application/json
+
+{
+  "id": 4
 }

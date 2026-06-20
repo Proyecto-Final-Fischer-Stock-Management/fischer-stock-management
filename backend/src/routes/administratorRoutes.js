@@ -140,45 +140,7 @@ router.get("/accounts/user", async (req, res) => {
   }
 });
 
-// Create a user
-router.post("/accounts/user", async (req, res) => {
-  const { completeName, email, role, password } = req.body;
-  const hashedpassword = bcrypt.hashSync(password, 7);
-  try {
-    const user = await prisma.users.create({
-      data: {
-        complete_name: completeName,
-        email: email,
-        role: role,
-        password: hashedpassword,
-      },
-    });
-    return res.status(201).send({ message: "User successfully created" });
-  } catch (err) {
-    res.status(503).send({
-      message: err.message,
-    });
-  }
-});
-
 // router.put("/accounts/user", (req, res) => {});
-
-// Delete a user
-router.delete("/accounts/user", async (req, res) => {
-  try {
-    const { id } = req.body;
-    await prisma.users.delete({
-      where: {
-        id: id,
-      },
-    });
-  } catch (err) {
-    return res.status(503).send({
-      message: err.message,
-    });
-  }
-});
-
 // router.get("/notifications/emails", (req, res) => {});
 // router.get("/notifications/emails/:emailId", (req, res) => {});
 // router.delete("/notifications/emails/:emailId", (req, res) => {});
