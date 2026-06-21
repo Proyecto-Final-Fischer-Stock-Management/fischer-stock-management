@@ -1,49 +1,53 @@
-import ChInput from "../../../../components/ui/CheckInput.tsx";
-import LogBtn from "../../../../components/ui/LogBtn.tsx";
+import { Link } from "react-router-dom";
+import ChInput from "../../../../components/ui/CheckInput";
+import { ButtonLink } from "../../../../components/ui/Button";
 
 export default function AdminHomePage() {
   return (
-    <div className="min-w-screen min-h-screen bg-gray-200">
-      <div className="object-contain w-30 h-20 pt-3 pl-4">
-        <img src="../../../public/Logo Fischer  sin fondo.png"></img>
-      </div>
+    <div className="min-h-screen min-w-screen bg-gray-200">
+      <Link
+        to="/admin"
+        aria-label="Ir a pantalla principal"
+        className="block h-20 w-30 object-contain pt-3 pl-4"
+      >
+        <img src="/Logo Fischer  sin fondo.png" alt="" />
+      </Link>
 
       <div className="flex flex-row bg-white">
-        <div className="pl-4 pt-1 w-8 h-5">
-          <img src="../../../public/ep_arrow-left-bold.png"></img>
-        </div>
+        <Link
+          to="/admin"
+          aria-label="Volver"
+          className="flex h-8 w-10 items-center justify-center"
+        >
+          <img className="h-5 w-5" src="/ep_arrow-left-bold.png" alt="" />
+        </Link>
         <div className="pl-3">Pantalla principal - repositor</div>
       </div>
 
       <div className="flex flex-col">
-        <div className="text-lg pt-4 pl-4">¡Hola, Isabella!</div>
-        <div className="text-sm pt-3 pl-4"> Ultimo check-in</div>
+        <div className="pt-4 pl-4 text-lg">¡Hola, Isabella!</div>
+        <div className="pt-3 pl-4 text-sm">Ultimo check-in</div>
       </div>
-      <div className="pl-10 pt-3">
-        <ChInput
-          text="Sucursal: "
-          contenido="  Blablabla"
-          imagen="../../../public/ubicacion.png"
-        ></ChInput>
-        <ChInput
-          text="Cadena: "
-          contenido="  Blablabla"
-          imagen="../../../public/ubicacion.png"
-        ></ChInput>
-        <ChInput
-          text="Sector: "
-          contenido="  Blablabla"
-          imagen="../../../public/ubicacion.png"
-        ></ChInput>
+
+      <div className="pt-3 pl-10">
+        <ChInput text="Sucursal: " contenido="Blablabla" imagen="/ubicacion.png" />
+        <ChInput text="Cadena: " contenido="Blablabla" imagen="/ubicacion.png" />
+        <ChInput text="Sector: " contenido="Blablabla" imagen="/ubicacion.png" />
       </div>
-      <div>
-        <div className="text-sm pl-4 pt-3">Accesos rápidos</div>
+
+      <div className="pt-3 pl-4 text-sm">Accesos rápidos</div>
+      <div className="pt-3 pl-4">
+        <ButtonLink to="/repositor/catalog" variant="secondary" className="w-64">
+          Ver catálogo
+        </ButtonLink>
       </div>
-      <LogBtn/>
-      <div>
-        <div className="text-sm pl-4 pt-3">Pedidos</div>
+
+      <div className="pt-3 pl-4 text-sm">Pedidos</div>
+      <div className="pt-3 pl-4">
+        <ButtonLink to="/repositor/order" variant="secondary" className="w-64">
+          Ver pedidos
+        </ButtonLink>
       </div>
-      <LogBtn/>
     </div>
   );
 }

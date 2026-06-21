@@ -1,22 +1,25 @@
-import { useState } from "react";
+import type { InputHTMLAttributes } from "react";
 
-export default function MyInput() {
-  const [texto, setTexto] = useState("");
+type InputProps = InputHTMLAttributes<HTMLInputElement> & {
+  fullWidth?: boolean;
+};
 
-  const manejarCambio = (evento) => {
-    setTexto(evento.target.value);
-  };
-
+export default function Input({
+  className = "",
+  fullWidth = false,
+  ...props
+}: InputProps) {
   return (
-    <div>
-      <label>
-        <input
-          type="text"
-          value={texto}
-          onChange={manejarCambio}
-          className=" text-center w-57 px-4 py-2 border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700 transition-colors"
-        />
-      </label>
-    </div>
+    <input
+      className={[
+        "px-4 py-2 border border-gray-300 shadow-sm text-gray-700 transition-colors",
+        "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+        fullWidth ? "w-full" : "w-64",
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
+      {...props}
+    />
   );
 }

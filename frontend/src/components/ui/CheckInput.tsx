@@ -1,25 +1,22 @@
-import { useState } from "react";
+import { useState, type ChangeEvent } from "react";
 
 type Props = {
-  text: String;
+  text: string;
   contenido: string;
   imagen?: string;
 };
 
-function ChInput(props: Props) {
-  const { text, contenido, imagen } = props;
-  // 1. Creamos el estado para guardar el valor
+function ChInput({ text, contenido, imagen }: Props) {
   const [texto, setTexto] = useState("");
 
-  // 2. Función que se ejecuta cada vez que el usuario escribe
-  const manejarCambio = (evento) => {
+  const manejarCambio = (evento: ChangeEvent<HTMLInputElement>) => {
     setTexto(evento.target.value);
   };
 
   return (
     <div className="flex flex-row">
-      <img src={imagen}></img>
-      <label> {text} </label>
+      {imagen && <img src={imagen} alt="" />}
+      <label>{text}</label>
       <input
         type="text"
         value={texto}

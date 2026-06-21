@@ -11,8 +11,8 @@ function EmptyPage() {
 export function AppRouter() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/CatalogPage" replace />} />
-      <Route path="/login" element={<CatalogPage />} />
+      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route path="/login" element={<LoginPage />} />
 
       <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
         <Route path="/admin" element={<AdminHomePage />} />
@@ -27,7 +27,7 @@ export function AppRouter() {
       <Route element={<ProtectedRoute allowedRoles={["repositor"]} />}>
         <Route path="/repositor/check-in" element={<EmptyPage />} />
         <Route path="/repositor" element={<EmptyPage />} />
-        <Route path="/repositor/catalog" element={<EmptyPage />} />
+        <Route path="/repositor/catalog" element={<CatalogPage />} />
         <Route path="/repositor/order" element={<EmptyPage />} />
       </Route>
 
