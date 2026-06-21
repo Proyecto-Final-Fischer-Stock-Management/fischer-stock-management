@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { ProtectedRoute } from "./ProtectedRoute";
 import AdminHomePage from "../../features/admin/dashboard/pages/AdminHomePage";
 import LoginPage from "../../features/auth/pages/LoginPage";
+import CatalogPage from "../../features/repositor/catalog/pages/CatalogPage";
 
 function EmptyPage() {
   return null;
@@ -10,8 +11,8 @@ function EmptyPage() {
 export function AppRouter() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/AdminHomePage" replace />} />
-      <Route path="/login" element={<AdminHomePage />} />
+      <Route path="/" element={<Navigate to="/CatalogPage" replace />} />
+      <Route path="/login" element={<CatalogPage />} />
 
       <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
         <Route path="/admin" element={<AdminHomePage />} />

@@ -1,4 +1,5 @@
 import ChInput from "../../../../components/ui/CheckInput.tsx";
+import LogBtn from "../../../../components/ui/LogBtn.tsx";
 
 export default function AdminHomePage() {
   return (
@@ -18,13 +19,31 @@ export default function AdminHomePage() {
         <div className="text-lg pt-4 pl-4">¡Hola, Isabella!</div>
         <div className="text-sm pt-3 pl-4"> Ultimo check-in</div>
       </div>
-      <div className="pl-10">
+      <div className="pl-10 pt-3">
         <ChInput
-          text="hola"
-          contenido="Blablabla"
+          text="Sucursal: "
+          contenido="  Blablabla"
+          imagen="../../../public/ubicacion.png"
+        ></ChInput>
+        <ChInput
+          text="Cadena: "
+          contenido="  Blablabla"
+          imagen="../../../public/ubicacion.png"
+        ></ChInput>
+        <ChInput
+          text="Sector: "
+          contenido="  Blablabla"
           imagen="../../../public/ubicacion.png"
         ></ChInput>
       </div>
+      <div>
+        <div className="text-sm pl-4 pt-3">Accesos rápidos</div>
+      </div>
+      <LogBtn/>
+      <div>
+        <div className="text-sm pl-4 pt-3">Pedidos</div>
+      </div>
+      <LogBtn/>
     </div>
   );
 }
