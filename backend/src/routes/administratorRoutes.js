@@ -133,7 +133,7 @@ router.get("/accounts/user", async (req, res) => {
         password: user.password,
       },
     });
-  } catch (error) {
+  } catch (err) {
     return res.status(503).send({
       message: err.message,
     });

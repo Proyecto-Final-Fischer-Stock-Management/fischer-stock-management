@@ -14,7 +14,7 @@ export function CreateUser(completeName, email, role, hashedpassword) {
 export function DeleteUser(id) {
   return prisma.users.delete({
     where: {
-      id,
+      id: id,
     },
   });
 }

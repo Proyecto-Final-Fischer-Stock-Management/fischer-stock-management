@@ -7,6 +7,14 @@ Content-Type: application/json
   "password": "123123123"
 }
 
+### Get one user
+GET http://localhost:4306/administrator/accounts/user
+Content-Type: application/json
+
+{
+  "id": 5
+}
+
 ### Create a user
 POST http://localhost:4306/administrator/accounts/user
 Content-Type: application/json
@@ -23,5 +31,13 @@ DELETE http://localhost:4306/administrator/accounts/user
 Content-Type: application/json
 
 {
-  "id": 4
+  "id": 5
+}
+
+### Get a product
+GET http://localhost:4306/administrator/stock/product
+Content-Type: application/json
+
+{
+  "fischerCode": 676767
 }
