@@ -5,6 +5,7 @@ import { ButtonLink } from "../../../../components/ui/Button";
 export default function AdminHomePage() {
   return (
     <div className="min-h-screen px-4 py-8 bg-gray-200">
+      <div>
       <Link
         to="/admin"
         aria-label="Ir a pantalla principal"
@@ -41,12 +42,6 @@ export default function AdminHomePage() {
           Ver catálogo
         </ButtonLink>
       </div>
-
-      <div className="pt-3 pl-4 text-sm">Pedidos</div>
-      <div className="pt-3 pl-4">
-        <ButtonLink to="/repositor/order" variant="secondary" className="w-64">
-          Ver pedidos
-        </ButtonLink>
       </div>
     </div>
   );

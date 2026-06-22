@@ -25,7 +25,7 @@ export default function LoginPage() {
 
       <div className="text-center text-sm">
         <div className="pb-5">
-          <label className="mb-3 block pl-16 text-left">
+          <label className="mb-3 block text-center">
             Ingrese email o usuario
           </label>
           <Input
@@ -36,7 +36,7 @@ export default function LoginPage() {
         </div>
 
         <div className="pb-5">
-          <label className="mb-3 block pl-16 text-left">
+          <label className="mb-3 block text-center w-5/6 object-left">
             Ingrese contraseña
           </label>
           <Input
@@ -46,8 +46,8 @@ export default function LoginPage() {
             placeholder="Contraseña"
           />
         </div>
-
-        <div className="flex flex-col items-start gap-2 pb-12 pl-16">
+       <div className="flex justify-center">
+        <div className="flex flex-col items-start gap-2 pb-12">
           <Button variant="link" size="sm" onClick={() => alert("Mal ahí")}>
             ¿Olvidaste tu contraseña?
           </Button>
@@ -55,6 +55,7 @@ export default function LoginPage() {
             Ayuda con el log-in
           </Button>
         </div>
+        </div> 
 
         <Button
           variant="secondary"
