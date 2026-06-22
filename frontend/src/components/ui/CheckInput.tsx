@@ -22,6 +22,7 @@ function ChInput({ text, contenido, imagen }: Props) {
         value={texto}
         onChange={manejarCambio}
         placeholder={contenido}
+        className="text-center"
       />
     </div>
   );

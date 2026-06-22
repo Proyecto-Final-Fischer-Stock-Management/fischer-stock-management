@@ -4,7 +4,7 @@ import { ButtonLink } from "../../../../components/ui/Button";
 
 export default function AdminHomePage() {
   return (
-    <div className="min-h-screen min-w-screen bg-gray-200">
+    <div className="min-h-screen px-4 py-8 bg-gray-200">
       <Link
         to="/admin"
         aria-label="Ir a pantalla principal"
@@ -30,9 +30,9 @@ export default function AdminHomePage() {
       </div>
 
       <div className="pt-3 pl-10">
-        <ChInput text="Sucursal: " contenido="Blablabla" imagen="/ubicacion.png" />
-        <ChInput text="Cadena: " contenido="Blablabla" imagen="/ubicacion.png" />
-        <ChInput text="Sector: " contenido="Blablabla" imagen="/ubicacion.png" />
+        <ChInput text="Sucursal:" contenido="Blablabla" imagen="/ubicacion.png" />
+        <ChInput text="Cadena:" contenido="Blablabla" imagen="/ubicacion.png" />
+        <ChInput text="Sector:" contenido="Blablabla" imagen="/ubicacion.png" />
       </div>
 
       <div className="pt-3 pl-4 text-sm">Accesos rápidos</div>

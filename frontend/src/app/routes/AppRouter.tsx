@@ -12,7 +12,7 @@ export function AppRouter() {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/login" replace />} />
-      <Route path="/login" element={<LoginPage />} />
+      <Route path="/login" element={<AdminHomePage />} />
 
       <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
         <Route path="/admin" element={<AdminHomePage />} />
