@@ -12,7 +12,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-[#F4F4F4]">
-      <div className="pt-15 pb-10 text-center text-base">
+      <div className="pt-15 pb-5 text-center text-base">
         Bienvenido Repositor
         <div className="flex justify-center pb-3">
           <img
@@ -22,8 +22,8 @@ export default function LoginPage() {
           />
         </div>
       </div>
-
       <div className="text-center text-sm">
+        <div className="bg-white mx-134 pt-4">
         <div className="pb-5">
           <label className="mb-3 block text-center">
             Ingrese email o usuario
@@ -36,7 +36,7 @@ export default function LoginPage() {
         </div>
 
         <div className="pb-5">
-          <label className="mb-3 block text-center w-5/6 object-left">
+          <label className="mb-3 block text-center">
             Ingrese contraseña
           </label>
           <Input
@@ -47,7 +47,7 @@ export default function LoginPage() {
           />
         </div>
        <div className="flex justify-center">
-        <div className="flex flex-col items-start gap-2 pb-12">
+        <div className="flex flex-col items-start gap-2 pb-3">
           <Button variant="link" size="sm" onClick={() => alert("Mal ahí")}>
             ¿Olvidaste tu contraseña?
           </Button>
@@ -56,7 +56,8 @@ export default function LoginPage() {
           </Button>
         </div>
         </div> 
-
+        </div>
+        <div className="pt-4">
         <Button
           variant="secondary"
           className="w-64"
@@ -65,6 +66,7 @@ export default function LoginPage() {
         >
           Log-in
         </Button>
+        </div>
       </div>
     </div>
   );
