@@ -1,18 +1,33 @@
 import { useState } from "react";
 import { Button } from "../../../components/ui/Button";
 import Input from "../../../components/ui/Input";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../hooks/useAuth";
 
 export default function LoginPage() {
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleLogin = () => {
-    alert(`Login provisorio para ${user}`);
-  };
+    login(
+    {
+      id: "1",
+      firstName: "Isabella",
+      lastName: "Demo",
+      email: user,
+      role: "admin",
+    },
+    "token-provisorio",
+  );
+
+  navigate("/admin");
+};
 
   return (
     <div className="min-h-screen bg-[#F4F4F4]">
-      <div className="pt-15 pb-10 text-center text-base">
+      <div className="pt-15 pb-10 text-center text-base ">
         Bienvenido Repositor
         <div className="flex justify-center pb-3">
           <img
@@ -36,7 +51,7 @@ export default function LoginPage() {
         </div>
 
         <div className="pb-5">
-          <label className="mb-3 block text-center w-5/6 object-left">
+          <label className="mb-3 block text-center">
             Ingrese contraseña
           </label>
           <Input

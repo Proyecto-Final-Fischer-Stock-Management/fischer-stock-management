@@ -13,7 +13,7 @@ export default function AdminHomePage() {
       >
         <img src="/Logo Fischer  sin fondo.png" alt="" />
       </Link>
-
+      <div className="text-center">
       <div className="flex flex-row bg-white">
         <Link
           to="/admin"
@@ -29,11 +29,12 @@ export default function AdminHomePage() {
         <div className="pt-4 pl-4 text-lg">¡Hola, Isabella!</div>
         <div className="pt-3 pl-4 text-sm">Ultimo check-in</div>
       </div>
-
+      <div className="flex justify-center">
       <div className="pt-3 pl-10">
         <ChInput text="Sucursal:" contenido="Blablabla" imagen="/ubicacion.png" />
         <ChInput text="Cadena:" contenido="Blablabla" imagen="/ubicacion.png" />
         <ChInput text="Sector:" contenido="Blablabla" imagen="/ubicacion.png" />
+      </div>
       </div>
 
       <div className="pt-3 pl-4 text-sm">Accesos rápidos</div>
@@ -41,6 +42,7 @@ export default function AdminHomePage() {
         <ButtonLink to="/repositor/catalog" variant="secondary" className="w-64">
           Ver catálogo
         </ButtonLink>
+      </div>
       </div>
       </div>
     </div>
