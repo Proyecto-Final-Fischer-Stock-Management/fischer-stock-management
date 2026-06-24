@@ -27,7 +27,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-[#F4F4F4]">
-      <div className="pt-15 pb-10 text-center text-base ">
+      <div className="pt-13 pb-10 text-center text-base ">
         Bienvenido Repositor
         <div className="flex justify-center pb-3">
           <img
@@ -62,7 +62,7 @@ export default function LoginPage() {
           />
         </div>
        <div className="flex justify-center">
-        <div className="flex flex-col items-start gap-2 pb-12">
+        <div className="flex flex-col items-start gap-2 pb-">
           <Button variant="link" size="sm" onClick={() => alert("Mal ahí")}>
             ¿Olvidaste tu contraseña?
           </Button>
