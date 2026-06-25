@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ButtonImage, Button } from "../../../../components/ui/Button";
 import ChInput from "../../../../components/ui/CheckInput";
+import Input from "../../../../components/ui/Input";
 
 export default function CatalogPage() {
     return (
@@ -19,6 +20,10 @@ export default function CatalogPage() {
           <img className="h-5 w-5" src="/ep_arrow-left-bold.png" alt="volver a la pantala principal" />
         </Link>
         <div className="pl-3">Pantalla principal - repositor</div>
+      </div>
+      <div>
+      <Input className="bg-white">
+      </Input>
       </div>
       <div className=" bg-white mt-3 mx-115">
       <ChInput
