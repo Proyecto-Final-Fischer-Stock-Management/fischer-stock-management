@@ -7,13 +7,18 @@ Content-Type: application/json
   "password": "123123123"
 }
 
+# ----------------ADMINISTRATOR ROUTES--------------------------------
+
 ### Get one user
 GET http://localhost:4306/administrator/accounts/user
 Content-Type: application/json
 
 {
-  "id": 5
+  "id": 1
 }
+
+### Get all user
+GET http://localhost:4306/administrator/accounts/users/1
 
 ### Create a user
 POST http://localhost:4306/administrator/accounts/user
@@ -31,7 +36,7 @@ DELETE http://localhost:4306/administrator/accounts/user
 Content-Type: application/json
 
 {
-  "id": 5
+  "id": 1
 }
 
 ### Get a product
@@ -40,4 +45,14 @@ Content-Type: application/json
 
 {
   "fischerCode": 676767
+}
+
+# ----------------STOCKMAN ROUTES-------------------------------- (HACER CREATE PRODUCT EN ADMIN)
+
+### Get all products that sells in the place
+GET http://localhost:4306/stockman/catalog/products
+Content-Type: application/json
+
+{
+  "sector_id": 1
 }

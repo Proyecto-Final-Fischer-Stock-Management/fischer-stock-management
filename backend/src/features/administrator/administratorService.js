@@ -1,7 +1,23 @@
 import bcrypt from "bcrypt";
-import { CreateUser, DeleteUser } from "./administratorRepository.js";
+import {
+  GetAnUser,
+  GetAllUsers,
+  CreateUser,
+  DeleteUser,
+} from "./administratorRepository.js";
 
-export async function CreationProcess(completeName, email, role, password) {
+export async function UGettingOneProcess(id) {
+  const information = await GetAnUser(id);
+  return information;
+}
+
+export async function UGettingAllProcess(id) {
+  const parsedId = parseInt(id);
+  const information = await GetAllUsers(parsedId);
+  return information;
+}
+
+export async function UCreationProcess(completeName, email, role, password) {
   if (!completeName || !email || !role || !password) {
     throw new Error("Required fields incompleted");
   }
@@ -13,7 +29,7 @@ export async function CreationProcess(completeName, email, role, password) {
   return "User successfully created";
 }
 
-export async function DeletionProcess(id) {
+export async function UDeletionProcess(id) {
   await DeleteUser(id);
   return "User successfully deleted";
 }

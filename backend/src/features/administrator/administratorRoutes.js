@@ -1,14 +1,54 @@
 import { Router } from "express";
-import { CreationProcess, DeletionProcess } from "./administratorService.js";
+import {
+  UGettingOneProcess,
+  UCreationProcess,
+  UDeletionProcess,
+  UGettingAllProcess,
+} from "./administratorService.js";
 
 const router = Router();
+
+router.get("/dashboard/stats", (req, res) => {});
+router.get("/dashboard/visits", (req, res) => {});
+
+// Get one user
+router.get("/accounts/user", async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    const user = await UGettingOneProcess(id);
+
+    return res.status(200).send({
+      user,
+    });
+  } catch (err) {
+    return res.status(503).send({
+      message: err.message,
+    });
+  }
+});
+
+// Get all users
+router.get("/accounts/users/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const users = await UGettingAllProcess(id);
+    return res.status(200).send({
+      users,
+    });
+  } catch (err) {
+    return res.status(503).send({
+      message: err.message,
+    });
+  }
+});
 
 // Create a user
 router.post("/accounts/user", async (req, res) => {
   try {
     const { completeName, email, role, password } = req.body;
 
-    const result = await CreationProcess(completeName, email, role, password);
+    const result = await UCreationProcess(completeName, email, role, password);
 
     return res.status(201).send({ result });
   } catch (err) {
@@ -30,7 +70,7 @@ router.delete("/accounts/user", async (req, res) => {
   try {
     const { id } = req.body;
 
-    const result = await DeletionProcess(id);
+    const result = await UDeletionProcess(id);
 
     return res.status(200).send({ result });
   } catch (err) {
@@ -39,5 +79,92 @@ router.delete("/accounts/user", async (req, res) => {
     });
   }
 });
+
+// Get all products --- TO FINISH
+router.get("/stock/products", async (req, res) => {
+  try {
+    const products = await prisma.product.findMany({
+      select: {
+        fischer_code: true,
+        easy_sap: true,
+        name: true,
+        product_picture: true,
+      },
+    });
+    return res.status(200).send({
+      products: products,
+    });
+  } catch (err) {
+    console.log(err.message);
+    res.sendStatus(503);
+  }
+});
+
+// Get one product --- TO FINISH
+router.get("/stock/product", async (req, res) => {
+  try {
+    const { fischerCode } = req.body;
+    const product = await prisma.product.findUnique({
+      where: {
+        fischer_code: fischerCode,
+      },
+    });
+    return res.status(200).send({
+      product: {
+        fischerCode: product.fischer_code,
+        easySap: product.easy_sap,
+        name: product.name,
+        minimunStock: product.minimun_stock,
+        productPicture: product.product_picture,
+      },
+    });
+  } catch (err) {
+    console.log(err.message);
+    res.sendStatus(503);
+  }
+});
+
+// Create a product --- TO FINISH
+router.post("/stock/product", async (req, res) => {
+  try {
+    const { fischerCode, easySap, name, minimunStock, productPicture } =
+      req.body;
+    const product = await prisma.product.create({
+      data: {
+        fischer_code: fischerCode,
+        easy_sap: easySap,
+        name: name,
+        minimun_stock: minimunStock,
+        product_picture: productPicture,
+      },
+    });
+    return res.status(201).send({ message: "Product successfully created" });
+  } catch (err) {
+    console.log(err.message);
+    res.sendStatus(503);
+  }
+});
+// router.put("/stock/product", async (req, res) => {});
+
+// Delete a product --- TO FINISH
+router.delete("/stock/product", async (req, res) => {
+  try {
+    const { fischerCode } = req.body;
+    const product = await prisma.product.delete({
+      where: {
+        fischer_code: fischerCode,
+      },
+    });
+  } catch (err) {
+    return res.status(503).send({
+      message: err.message,
+    });
+  }
+});
+
+// router.put("/accounts/user", (req, res) => {});
+// router.get("/notifications/emails", (req, res) => {});
+// router.get("/notifications/emails/:emailId", (req, res) => {});
+// router.delete("/notifications/emails/:emailId", (req, res) => {});
 
 export default router;
