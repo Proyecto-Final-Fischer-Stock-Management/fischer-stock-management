@@ -12,10 +12,10 @@ export function AppRouter() {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/login" replace />} />
-      <Route path="/login" element={<LoginPage />} />
+      <Route path="/login" element={<CatalogPage/>} />
 
       <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
-        <Route path="/admin" element={<LoginPage />} />
+        <Route path="/admin" element={<AdminHomePage />} />
         <Route path="/admin/stock" element={<EmptyPage />} />
         <Route path="/admin/stock/create" element={<EmptyPage />} />
         <Route path="/admin/stock/:productId/edit" element={<EmptyPage />} />

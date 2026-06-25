@@ -26,10 +26,10 @@ export default function LoginPage() {
 };
 
   return (
-    <div className="min-h-screen bg-[#F4F4F4]">
-      <div className="pt-13 pb-10 text-center text-base ">
+    <div className="min-h-screen px-4 py-8 bg-[#F4F4F4]">
+      <div className="pt-6 pb-10 text-center text-base ">
         Bienvenido Repositor
-        <div className="flex justify-center pb-3">
+        <div className="flex justify-center">
           <img
             className="h-35 w-35 object-contain pt-8"
             src="/FOTO USUARIO.png"
@@ -37,7 +37,6 @@ export default function LoginPage() {
           />
         </div>
       </div>
-
       <div className="text-center text-sm">
         <div className="pb-5">
           <label className="mb-3 block text-center">

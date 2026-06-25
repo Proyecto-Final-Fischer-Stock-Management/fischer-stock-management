@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import ChInput from "../../../../components/ui/CheckInput";
-import { ButtonLink } from "../../../../components/ui/Button";
+import { ButtonImage, ButtonLink } from "../../../../components/ui/Button";
 
 export default function AdminHomePage() {
   return (
@@ -13,7 +13,7 @@ export default function AdminHomePage() {
       >
         <img src="/Logo Fischer  sin fondo.png" alt="" />
       </Link>
-      <div className="text-center">
+      <div className="">
       <div className="flex flex-row bg-white">
         <Link
           to="/admin"
@@ -29,7 +29,7 @@ export default function AdminHomePage() {
         <div className="pt-4 pl-4 text-lg">¡Hola, Isabella!</div>
         <div className="pt-3 pl-4 text-sm">Ultimo check-in</div>
       </div>
-      <div className="flex justify-center">
+      <div className="">
       <div className="pt-3 pl-10">
         <ChInput text="Sucursal:" contenido="Blablabla" imagen="/ubicacion.png" />
         <ChInput text="Cadena:" contenido="Blablabla" imagen="/ubicacion.png" />
@@ -39,9 +39,20 @@ export default function AdminHomePage() {
 
       <div className="pt-3 pl-4 text-sm">Accesos rápidos</div>
       <div className="pt-3 pl-4">
-        <ButtonLink to="/repositor/catalog" variant="secondary" className="w-64">
-          Ver catálogo
-        </ButtonLink>
+        <div className="flex flex-row pt-2">
+          <div className="w-30 h-30">
+          <ButtonImage
+          imageSrc="../../../public/Group 28.png"
+          altText="Buscar productos"
+          />
+          </div>
+          <div className="w-30 h-30">
+          <ButtonImage
+          imageSrc="../../../public/Group 29.png"
+          altText="Checkout"
+          />
+          </div>
+        </div>
       </div>
       </div>
       </div>

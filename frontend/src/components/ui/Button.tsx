@@ -11,6 +11,11 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   fullWidth?: boolean;
 };
 
+interface ButtonImageProps {
+  imageSrc: string;
+  altText: string;
+}
+
 type ButtonLinkProps = LinkProps & {
   children: ReactNode;
   variant?: ButtonVariant;
@@ -19,7 +24,7 @@ type ButtonLinkProps = LinkProps & {
 };
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: "border border-blue-600 bg-blue-600 text-white hover:bg-blue-700",
+  primary: "border border-blue-600 bg-blue-600 text-white hover:bg-blue-700 rounded-md",
   secondary:
     "border border-gray-300 bg-white text-gray-900 shadow-sm hover:bg-gray-50",
   ghost:
@@ -78,6 +83,40 @@ export function Button({
     </button>
   );
 }
+
+export const ButtonImage: React.FC<ButtonImageProps> = ({ imageSrc, altText }) => {
+  const handleClick = () => {
+    // Aquí irá tu lógica de navegación más adelante (ej. con react-router-dom o un link simple)
+    console.log("Navegando a la otra página...");
+  };
+
+  return (
+    <button
+      onClick={handleClick}
+      className="
+        group
+        relative
+        overflow-hidden
+        rounded-lg
+        border-2
+        border-transparent
+        p-0
+        transition-all
+        duration-200
+        focus:outline-none
+        hover:border-white
+        focus:border-white
+        active:scale-95
+      "
+    >
+      <img 
+        src={imageSrc} 
+        alt={altText} 
+        className="h-auto w-full max-w-[200px] object-cover"
+      />
+    </button>
+  );
+};
 
 export function ButtonLink({
   children,
