@@ -1,4 +1,5 @@
 import { Router } from "express";
+import multer from "multer";
 import {
   UGettingOneProcess,
   UCreationProcess,
@@ -8,6 +9,10 @@ import {
 } from "./administratorService.js";
 
 const router = Router();
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+});
 
 router.get("/dashboard/stats", (req, res) => {});
 router.get("/dashboard/visits", (req, res) => {});
@@ -126,26 +131,32 @@ router.get("/stock/product", async (req, res) => {
 });
 
 // Create a product --- TO FINISH
-router.post("/stock/product", async (req, res) => {
-  try {
-    const { fischerCode, easySap, name, minimunStock, productPicture } =
-      req.body;
-    const result = await PCreationProcess(
-      fischerCode,
-      easySap,
-      name,
-      minimunStock,
-      productPicture,
-    );
-    return res.status(201).send({ result });
-  } catch (err) {
-    if (err.message === "Required fields are incompleted") {
-      return res.status(400).send({ message: "Complete the required fields" });
-    }
+router.post(
+  "/stock/product",
+  //upload.single("productPicture"),
+  async (req, res) => {
+    try {
+      const { fischerCode, easySap, name, minimunStock } = req.body;
+      // const productPicture = req.file.buffer;
+      const result = await PCreationProcess(
+        fischerCode,
+        easySap,
+        name,
+        minimunStock,
+        // productPicture (cuando lo pueda testear con otra cosa descomentar esto)
+      );
+      return res.status(201).send({ result });
+    } catch (err) {
+      if (err.message === "Required fields are incompleted") {
+        return res
+          .status(400)
+          .send({ message: "Complete the required fields" });
+      }
 
-    return res.status(503).send(err.message);
-  }
-});
+      return res.status(503).send(err.message);
+    }
+  },
+);
 // router.put("/stock/product", async (req, res) => {});
 
 // Delete a product --- TO FINISH

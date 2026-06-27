@@ -24,13 +24,13 @@ model Users {
 }
 
 model Product {
-  fischer_code  Int @id @default(autoincrement())
+  fischer_code  Int  @id  @unique
   easy_sap  Int @unique
   stockout  Boolean @default(true)
   name  String
   actual_stock  Int @default(0)
   minimun_stock Int
-  product_picture Bytes
+  product_picture Bytes ? //sacar el ? cuando pueda hacer test con otra cosa
   updates Updates[]
   users Users[] @relation("manages")
   sectors Sectors[] @relation("isin")

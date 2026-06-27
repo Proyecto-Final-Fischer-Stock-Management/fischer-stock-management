@@ -1,5 +1,11 @@
 # Fischer Stock Management
 
+IMPORTANTISIMO HACER MAÑANA:
+
+1. DESCOMENTAR TODO LO DE PRODUCT PICTURE
+2. TEST DE CREATE PRODUCT EN SUPERTEST/NODETEST
+3. PROBAR EL PUTO TEST Y MAS VALE Q FUNCIONE
+
 Proyecto separado en dos aplicaciones:
 
 - `frontend`: React + TypeScript + Vite + TailwindCSS + React Router.

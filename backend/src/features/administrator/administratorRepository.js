@@ -52,7 +52,7 @@ export function CreateProduct(
   easySap,
   name,
   minimunStock,
-  productPicture,
+  // productPicture, (cuando lo pueda testear con otra cosa descomentar esto)
 ) {
   return prisma.product.create({
     data: {
@@ -60,7 +60,7 @@ export function CreateProduct(
       easy_sap: easySap,
       name: name,
       minimun_stock: minimunStock,
-      product_picture: productPicture,
+      // product_picture: productPicture, (cuando lo pueda testear con otra cosa descomentar esto)
     },
   });
 }
