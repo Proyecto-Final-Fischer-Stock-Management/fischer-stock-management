@@ -84,7 +84,7 @@ export function Button({
   );
 }
 
-export const ButtonImage: React.FC<ButtonImageProps> = ({ imageSrc, altText }) => {
+export function ButtonImage({ imageSrc, altText }: ButtonImageProps) {
   const handleClick = () => {
     // Aquí irá tu lógica de navegación más adelante (ej. con react-router-dom o un link simple)
     console.log("Navegando a la otra página...");
@@ -116,7 +116,7 @@ export const ButtonImage: React.FC<ButtonImageProps> = ({ imageSrc, altText }) =
       />
     </button>
   );
-};
+}
 
 export function ButtonLink({
   children,

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import ChInput from "../../../../components/ui/CheckInput";
-import { ButtonImage, ButtonLink } from "../../../../components/ui/Button";
+import { ButtonImage } from "../../../../components/ui/Button";
 
 export default function AdminHomePage() {
   return (
@@ -42,13 +42,13 @@ export default function AdminHomePage() {
         <div className="flex flex-row pt-2">
           <div className="w-30 h-30">
           <ButtonImage
-          imageSrc="../../../public/Group 28.png"
+          imageSrc="/Group 28.png"
           altText="Buscar productos"
           />
           </div>
           <div className="w-30 h-30">
           <ButtonImage
-          imageSrc="../../../public/Group 29.png"
+          imageSrc="/Group 29.png"
           altText="Checkout"
           />
           </div>
