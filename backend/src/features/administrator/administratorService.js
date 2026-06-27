@@ -4,6 +4,7 @@ import {
   GetAllUsers,
   CreateUser,
   DeleteUser,
+  CreateProduct,
 } from "./administratorRepository.js";
 
 export async function UGettingOneProcess(id) {
@@ -32,4 +33,18 @@ export async function UCreationProcess(completeName, email, role, password) {
 export async function UDeletionProcess(id) {
   await DeleteUser(id);
   return "User successfully deleted";
+}
+
+export async function PCreationProcess(
+  fischerCode,
+  easySap,
+  name,
+  minimunStock,
+  productPicture,
+) {
+  if (!fischerCode || !easySap || !name || !minimunStock || !productPicture) {
+    throw new Error("Required fields are incompleted");
+  }
+  await CreateProduct(fischerCode, easySap, name, minimunStock, productPicture);
+  return "Product successfully created";
 }

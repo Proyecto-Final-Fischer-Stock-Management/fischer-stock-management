@@ -46,3 +46,21 @@ export function DeleteUser(id) {
     },
   });
 }
+
+export function CreateProduct(
+  fischerCode,
+  easySap,
+  name,
+  minimunStock,
+  productPicture,
+) {
+  return prisma.product.create({
+    data: {
+      fischer_code: fischerCode,
+      easy_sap: easySap,
+      name: name,
+      minimun_stock: minimunStock,
+      product_picture: productPicture,
+    },
+  });
+}

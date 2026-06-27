@@ -4,6 +4,7 @@ import {
   UCreationProcess,
   UDeletionProcess,
   UGettingAllProcess,
+  PCreationProcess,
 } from "./administratorService.js";
 
 const router = Router();
@@ -129,19 +130,20 @@ router.post("/stock/product", async (req, res) => {
   try {
     const { fischerCode, easySap, name, minimunStock, productPicture } =
       req.body;
-    const product = await prisma.product.create({
-      data: {
-        fischer_code: fischerCode,
-        easy_sap: easySap,
-        name: name,
-        minimun_stock: minimunStock,
-        product_picture: productPicture,
-      },
-    });
-    return res.status(201).send({ message: "Product successfully created" });
+    const result = await PCreationProcess(
+      fischerCode,
+      easySap,
+      name,
+      minimunStock,
+      productPicture,
+    );
+    return res.status(201).send({ result });
   } catch (err) {
-    console.log(err.message);
-    res.sendStatus(503);
+    if (err.message === "Required fields are incompleted") {
+      return res.status(400).send({ message: "Complete the required fields" });
+    }
+
+    return res.status(503).send(err.message);
   }
 });
 // router.put("/stock/product", async (req, res) => {});
