@@ -11,10 +11,10 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   fullWidth?: boolean;
 };
 
-interface ButtonImageProps {
+type ButtonImageProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   imageSrc: string;
   altText: string;
-}
+};
 
 type ButtonLinkProps = LinkProps & {
   children: ReactNode;
@@ -24,7 +24,8 @@ type ButtonLinkProps = LinkProps & {
 };
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: "border border-blue-600 bg-blue-600 text-white hover:bg-blue-700 rounded-md",
+  primary:
+    "rounded-md border border-blue-600 bg-blue-600 text-white hover:bg-blue-700",
   secondary:
     "border border-gray-300 bg-white text-gray-900 shadow-sm hover:bg-gray-50",
   ghost:
@@ -84,34 +85,21 @@ export function Button({
   );
 }
 
-export function ButtonImage({ imageSrc, altText }: ButtonImageProps) {
-  const handleClick = () => {
-    // Aquí irá tu lógica de navegación más adelante (ej. con react-router-dom o un link simple)
-    console.log("Navegando a la otra página...");
-  };
-
+export function ButtonImage({
+  imageSrc,
+  altText,
+  type = "button",
+  ...props
+}: ButtonImageProps) {
   return (
     <button
-      onClick={handleClick}
-      className="
-        group
-        relative
-        overflow-hidden
-        rounded-lg
-        border-2
-        border-transparent
-        p-0
-        transition-all
-        duration-200
-        focus:outline-none
-        hover:border-white
-        focus:border-white
-        active:scale-95
-      "
+      type={type}
+      className="group relative overflow-hidden rounded-lg border-2 border-transparent p-0 transition-all duration-200 hover:border-white focus:border-white focus:outline-none active:scale-95"
+      {...props}
     >
-      <img 
-        src={imageSrc} 
-        alt={altText} 
+      <img
+        src={imageSrc}
+        alt={altText}
         className="h-auto w-full max-w-[200px] object-cover"
       />
     </button>

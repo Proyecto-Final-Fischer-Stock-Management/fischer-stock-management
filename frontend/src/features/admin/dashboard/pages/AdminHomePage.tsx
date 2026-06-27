@@ -1,8 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ChInput from "../../../../components/ui/CheckInput";
 import { ButtonImage } from "../../../../components/ui/Button";
 
 export default function AdminHomePage() {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen px-4 py-8 bg-gray-200">
       <div>
@@ -44,6 +46,7 @@ export default function AdminHomePage() {
           <ButtonImage
           imageSrc="/Group 28.png"
           altText="Buscar productos"
+          onClick={() => navigate("/admin/catalog")}
           />
           </div>
           <div className="w-30 h-30">

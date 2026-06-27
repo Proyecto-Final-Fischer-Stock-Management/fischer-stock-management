@@ -16,6 +16,7 @@ export function AppRouter() {
 
       <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
         <Route path="/admin" element={<AdminHomePage />} />
+        <Route path="/admin/catalog" element={<CatalogPage />} />
         <Route path="/admin/stock" element={<EmptyPage />} />
         <Route path="/admin/stock/create" element={<EmptyPage />} />
         <Route path="/admin/stock/:productId/edit" element={<EmptyPage />} />
