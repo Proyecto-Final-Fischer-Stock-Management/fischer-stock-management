@@ -9,6 +9,7 @@ export default function LoginPage() {
   const { login, isAuthenticated, user: authUser } = useAuth();
   const [emailOrUser, setEmailOrUser] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated && authUser?.role === "admin") {
@@ -32,37 +33,70 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-gray-200 px-4 py-6">
       <div className="mx-auto flex min-h-[calc(100vh-48px)] w-full max-w-sm flex-col bg-[#F4F4F4] px-4 py-8">
-        <div className="flex flex-1 flex-col justify-center gap-5 text-sm">
-          <div className="text-center text-base">Bienvenido Repositor</div>
+        <div className="shrink-0 text-center text-base">Bienvenido Repositor</div>
 
-          <img
-            className="mx-auto h-35 w-35 object-contain"
-            src="/FOTO USUARIO.png"
-            alt=""
-          />
+        <img
+          className="mx-auto mt-8 h-35 w-35 shrink-0 object-contain"
+          src="/FOTO USUARIO.png"
+          alt=""
+        />
 
-          <label>
-            <span className="mb-2 block">Ingrese email o usuario</span>
-            <Input
-              fullWidth
-              value={emailOrUser}
-              onChange={(event) => setEmailOrUser(event.target.value)}
-              placeholder="Email o usuario"
-            />
+        <div className="mt-8 border border-gray-300 bg-white px-4 py-5 text-sm shadow-sm">
+          <label className="block">
+            <span className="mb-3 block">Ingrese email o usuario</span>
+            <div className="relative">
+              <img
+                className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 object-contain"
+                src="/ion_person.png"
+                alt=""
+              />
+              <Input
+                fullWidth
+                value={emailOrUser}
+                onChange={(event) => setEmailOrUser(event.target.value)}
+                placeholder="Usuario@fischer.com"
+                className="pl-10 text-left"
+              />
+            </div>
           </label>
 
-          <label>
-            <span className="mb-2 block">Ingrese contraseña</span>
-            <Input
-              fullWidth
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              placeholder="Contraseña"
-            />
+          <label className="mt-4 block">
+            <span className="mb-3 block">Ingrese contraseña</span>
+            <div className="relative">
+              <img
+                className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 object-contain"
+                src="/boxicons_lock-filled.png"
+                alt=""
+              />
+              <Input
+                fullWidth
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                placeholder="Contraseña"
+                className="pr-10 pl-10 text-left"
+              />
+              <button
+                type="button"
+                aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                onClick={() => setShowPassword((currentValue) => !currentValue)}
+                className="absolute top-1/2 right-3 flex h-6 w-6 -translate-y-1/2 items-center justify-center"
+              >
+                <img
+                  className={[
+                    "h-4 w-4 object-contain",
+                    showPassword ? "opacity-100" : "opacity-55",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
+                  src="/prime_eye.png"
+                  alt=""
+                />
+              </button>
+            </div>
           </label>
 
-          <div className="flex flex-col items-start gap-2">
+          <div className="mt-4 flex flex-col items-start gap-2">
             <Button variant="link" size="sm" onClick={() => alert("Mal ahí")}>
               ¿Olvidaste tu contraseña?
             </Button>
@@ -70,16 +104,17 @@ export default function LoginPage() {
               Ayuda con el log-in
             </Button>
           </div>
-
-          <Button
-            variant="secondary"
-            fullWidth
-            disabled={!emailOrUser || !password}
-            onClick={handleLogin}
-          >
-            Log-in
-          </Button>
         </div>
+
+        <Button
+          variant="secondary"
+          fullWidth
+          className="mt-4"
+          disabled={!emailOrUser || !password}
+          onClick={handleLogin}
+        >
+          Log in
+        </Button>
       </div>
     </div>
   );
