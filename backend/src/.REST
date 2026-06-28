@@ -39,16 +39,7 @@ Content-Type: application/json
   "id": 1
 }
 
-### Create a product
-POST http://localhost:4306/administrator/stock/product
-Content-Type: application/json
-
-{
-  "fischerCode": 616302,
-  "easySap": 1288445,
-  "name": "BST 10 DUOBLADE+TMF4.5X40",
-  "minimunStock": 20
-}
+### Create a product hay que runearlo con supertest porque aca no funcan las imagenes
 
 ### Get a product
 GET http://localhost:4306/administrator/stock/product

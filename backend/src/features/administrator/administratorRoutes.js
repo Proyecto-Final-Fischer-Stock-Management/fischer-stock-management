@@ -130,20 +130,20 @@ router.get("/stock/product", async (req, res) => {
   }
 });
 
-// Create a product --- TO FINISH
+// Create a product
 router.post(
   "/stock/product",
-  //upload.single("productPicture"),
+  upload.single("productPicture"),
   async (req, res) => {
     try {
       const { fischerCode, easySap, name, minimunStock } = req.body;
-      // const productPicture = req.file.buffer;
+      const productPicture = req.file.buffer;
       const result = await PCreationProcess(
-        fischerCode,
-        easySap,
+        Number(fischerCode),
+        Number(easySap),
         name,
-        minimunStock,
-        // productPicture (cuando lo pueda testear con otra cosa descomentar esto)
+        Number(minimunStock),
+        productPicture,
       );
       return res.status(201).send({ result });
     } catch (err) {
@@ -152,7 +152,6 @@ router.post(
           .status(400)
           .send({ message: "Complete the required fields" });
       }
-
       return res.status(503).send(err.message);
     }
   },

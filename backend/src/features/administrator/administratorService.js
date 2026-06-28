@@ -40,21 +40,11 @@ export async function PCreationProcess(
   easySap,
   name,
   minimunStock,
-  // productPicture, (cuando lo pueda testear con otra cosa descomentar esto)
+  productPicture,
 ) {
-  if (
-    !fischerCode ||
-    !easySap ||
-    !name ||
-    !minimunStock // || productPicture (cuando lo pueda testear con otra cosa descomentar esto)
-  ) {
+  if (!fischerCode || !easySap || !name || !minimunStock || !productPicture) {
     throw new Error("Required fields are incompleted");
   }
-  await CreateProduct(
-    fischerCode,
-    easySap,
-    name,
-    minimunStock, //productPicture (cuando lo pueda testear con otra cosa descomentar esto)
-  );
+  await CreateProduct(fischerCode, easySap, name, minimunStock, productPicture);
   return "Product successfully created";
 }
