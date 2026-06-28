@@ -7,31 +7,26 @@ export default function AdminHomePage() {
 
   return (
     <div className="min-h-screen bg-gray-200 px-4 py-6">
-      <div className="mx-auto flex min-h-[calc(100vh-48px)] w-full max-w-sm flex-col bg-[#F4F4F4] px-4 py-5">
-        <Link
-          to="/admin"
-          aria-label="Ir a pantalla principal"
-          className="block h-16 w-28"
-        >
+      <div className="mx-auto flex min-h-[calc(100vh-48px)] w-full max-w-sm flex-col bg-[#F4F4F4]">
+        <div className="bg-white px-4 pt-5 pb-3">
           <img
-            className="h-full w-full object-contain"
+            className="h-16 w-28 object-contain"
             src="/Logo Fischer  sin fondo.png"
-            alt="Fischer"
-          />
-        </Link>
-
-        <div className="-mx-4 mt-4 flex items-center border-y border-gray-200 bg-white px-1 py-2">
+            alt="Fischer"/>
+        </div>
+        <div className="flex items-center border-y border-gray-200 bg-white px-1 py-2">
           <Link
             to="/admin"
             aria-label="Volver"
             className="flex h-8 w-10 items-center justify-center"
           >
-            <img className="h-5 w-5" src="/ep_arrow-left-bold.png" alt="" />
+            <img className="h-4 w-4" src="/ep_arrow-left-bold.png" alt="" />
           </Link>
-          <div className="pl-3 text-sm">Pantalla principal - repositor</div>
+          <div className="text-sm">Pantalla principal - repositor</div>
         </div>
 
-        <div className="mt-4 flex flex-col gap-2">
+        <div className="px-4 py-4">
+        <div className="mt-2 flex flex-col gap-2">
           <div className="text-lg">¡Hola, Isabella!</div>
           <div className="text-sm">Ultimo check-in</div>
         </div>
@@ -50,6 +45,7 @@ export default function AdminHomePage() {
             onClick={() => navigate("/admin/catalog")}
           />
           <ButtonImage imageSrc="/Group 28.png" altText="Checkout" />
+        </div>
         </div>
       </div>
     </div>
