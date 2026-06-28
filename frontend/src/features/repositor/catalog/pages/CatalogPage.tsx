@@ -54,7 +54,7 @@ export default function CatalogPage() {
       <div className="mx-auto flex min-h-[calc(100vh-48px)] w-full max-w-sm flex-col bg-[#F4F4F4]">
         <div className="bg-white px-4 pt-5 pb-3">
           <img
-            className="h-8 w-24 object-contain"
+            className="h-16 w-28 object-contain"
             src="/Logo Fischer  sin fondo.png"
             alt="Fischer"
           />
