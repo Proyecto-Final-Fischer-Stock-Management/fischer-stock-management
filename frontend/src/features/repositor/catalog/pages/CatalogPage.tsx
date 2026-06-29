@@ -1,54 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button, ButtonLink } from "../../../../components/ui/Button";
 import Input from "../../../../components/ui/Input";
-
-type CatalogProduct = {
-  id: string;
-  name: string;
-  code: string;
-  boxes: number;
-  imageSrc: string;
-};
-
-const products: CatalogProduct[] = [
-  {
-    id: "1",
-    name: "Tarugo",
-    code: "Fhgkjxndnwaqvdd",
-    boxes: 2,
-    imageSrc: "/TARUGO.png",
-  },
-  {
-    id: "2",
-    name: "Tarugo",
-    code: "Fhgkjxndnwaqvdd",
-    boxes: 3,
-    imageSrc: "/Logo Fischer  sin fondo.png",
-  },
-  {
-    id: "3",
-    name: "Tarugo",
-    code: "Fhgkjxndnwaqvdd",
-    boxes: 5,
-    imageSrc: "/Logo Fischer  sin fondo.png",
-  },
-  {
-    id: "4",
-    name: "Tarugo",
-    code: "Fhgkjxndnwaqvdd",
-    boxes: 5,
-    imageSrc: "/Logo Fischer  sin fondo.png",
-  },
-  {
-    id: "5",
-    name: "Tarugo",
-    code: "Fhgkjxndnwaqvdd",
-    boxes: 1,
-    imageSrc: "/Logo Fischer  sin fondo.png",
-  },
-];
+import { catalogProducts } from "../data/catalogProducts";
 
 export default function CatalogPage() {
+  const { pathname } = useLocation();
+  const isRepositorRoute = pathname.startsWith("/repositor");
+  const catalogPath = isRepositorRoute ? "/repositor/catalog" : "/admin/catalog";
+  const homePath = isRepositorRoute ? "/repositor" : "/admin";
+  const orderPath = isRepositorRoute ? "/repositor/order" : "/admin/order";
+
   return (
     <div className="min-h-screen bg-gray-200 px-4 py-6">
       <div className="mx-auto flex min-h-[calc(100vh-48px)] w-full max-w-sm flex-col bg-[#F4F4F4]">
@@ -62,7 +23,7 @@ export default function CatalogPage() {
 
         <div className="flex items-center border-y border-gray-200 bg-white px-1 py-2">
           <Link
-            to="/admin"
+            to={homePath}
             aria-label="Volver"
             className="flex h-8 w-10 items-center justify-center"
           >
@@ -90,10 +51,10 @@ export default function CatalogPage() {
           <div className="text-sm font-medium">Productos</div>
 
           <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto pr-1">
-            {products.map((product) => (
+            {catalogProducts.map((product) => (
               <Link
                 key={product.id}
-                to={`/admin/catalog/${product.id}`}
+                to={`${catalogPath}/${product.id}`}
                 className="flex w-full items-center gap-3 border border-gray-300 bg-white p-2 text-left shadow-sm"
               >
                 <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white">
@@ -119,7 +80,7 @@ export default function CatalogPage() {
             ))}
           </div>
 
-          <ButtonLink to="/admin/order" variant="primary" fullWidth>
+          <ButtonLink to={orderPath} variant="primary" fullWidth>
             Ver carrito <span className="ml-auto">›</span>
           </ButtonLink>
         </div>
