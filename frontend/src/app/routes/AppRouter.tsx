@@ -4,6 +4,7 @@ import AdminHomePage from "../../features/admin/dashboard/pages/AdminHomePage";
 import LoginPage from "../../features/auth/pages/LoginPage";
 import CatalogPage from "../../features/repositor/catalog/pages/CatalogPage";
 import CheckInPage from "../../features/repositor/checkin/pages/CheckInPage";
+import ProductFormPage from "../../features/repositor/product-form/pages/ProductFormPage";
 
 function EmptyPage() {
   return null;
@@ -31,6 +32,7 @@ export function AppRouter() {
         <Route path="/repositor" element={<EmptyPage />} />
         <Route path="/repositor/catalog" element={<CatalogPage />} />
         <Route path="/repositor/order" element={<EmptyPage />} />
+        <Route path="/repositor/form" element={<ProductFormPage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/login" replace />} />

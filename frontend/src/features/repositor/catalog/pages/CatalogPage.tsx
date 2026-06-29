@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Button } from "../../../../components/ui/Button";
+import { Button, ButtonImage } from "../../../../components/ui/Button";
 import Input from "../../../../components/ui/Input";
 
 type CatalogProduct = {
@@ -16,7 +16,7 @@ const products: CatalogProduct[] = [
     name: "Tarugo",
     code: "Fhgkjxndnwaqvdd",
     boxes: 2,
-    imageSrc: "/Logo Fischer  sin fondo.png",
+    imageSrc: "/TARUGO.png",
   },
   {
     id: "2",
@@ -96,7 +96,7 @@ export default function CatalogPage() {
                 type="button"
                 className="flex w-full items-center gap-3 border border-gray-300 bg-white p-2 text-left shadow-sm"
               >
-                <div className="flex h-16 w-16 shrink-0 items-center justify-center border border-gray-200 bg-white">
+                <div className="flex h-16 w-16 shrink-0 items-center justify-center border rounded-lg border-gray-200 bg-white">
                   <img
                     src={product.imageSrc}
                     alt={product.name}
@@ -114,7 +114,8 @@ export default function CatalogPage() {
                   <div className="mt-2 truncate">Código: {product.code}</div>
                 </div>
 
-                <span className="px-1 text-xl leading-none">›</span>
+                <span className="px-1 text-xl leading-none">›
+                </span>
               </button>
             ))}
           </div>
