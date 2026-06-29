@@ -47,7 +47,7 @@ export default function LoginPage() {
             <div className="relative">
               <img
                 className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 object-contain"
-                src="/ion_person.png"
+                src="/persona anon.png"
                 alt=""
               />
               <Input
@@ -65,7 +65,7 @@ export default function LoginPage() {
             <div className="relative">
               <img
                 className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 object-contain"
-                src="/boxicons_lock-filled.png"
+                src="/candado.png"
                 alt=""
               />
               <Input
@@ -83,15 +83,10 @@ export default function LoginPage() {
                 className="absolute top-1/2 right-3 flex h-6 w-6 -translate-y-1/2 items-center justify-center"
               >
                 <img
-                  className={[
-                    "h-4 w-4 object-contain",
-                    showPassword ? "opacity-100" : "opacity-55",
-                  ]
-                    .filter(Boolean)
-                    .join(" ")}
-                  src="/prime_eye.png"
-                  alt=""
-                />
+                className="h-4 w-4 object-contain"
+                src={showPassword ? "/ojo.png" : "/ojo cerrado.png"}
+                alt=""
+/>
               </button>
             </div>
           </label>

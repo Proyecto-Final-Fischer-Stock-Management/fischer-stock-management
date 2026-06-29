@@ -73,8 +73,8 @@ export default function CatalogPage() {
 
         <div className="flex flex-1 flex-col gap-4 overflow-hidden px-4 py-4">
           <div className="relative">
-            <span className="pointer-events-none absolute top-1/2 left-3 h-3 w-3 -translate-y-1/2 rounded-full border border-gray-500">
-              <span className="absolute -right-1 -bottom-1 h-1.5 w-px rotate-45 bg-gray-500" />
+            <span className="pointer-events-none absolute top-1/2 left-3 h-3 w-3 -translate-y-1/2">
+            <img className="w-4 h-4" src="/lupa.png" alt="Lupa"/>
             </span>
             <Input
               fullWidth

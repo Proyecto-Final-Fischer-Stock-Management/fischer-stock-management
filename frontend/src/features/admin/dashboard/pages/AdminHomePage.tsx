@@ -20,7 +20,6 @@ export default function AdminHomePage() {
             aria-label="Volver"
             className="flex h-8 w-10 items-center justify-center"
           >
-            <img className="h-4 w-4" src="/ep_arrow-left-bold.png" alt="" />
           </Link>
           <div className="text-sm">Pantalla principal - repositor</div>
         </div>
