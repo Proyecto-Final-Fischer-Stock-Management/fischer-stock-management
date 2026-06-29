@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button, ButtonImage } from "../../../../components/ui/Button";
 import Input from "../../../../components/ui/Input";
+import { navigate } from "astro/virtual-modules/transitions-router.js";
 
 type CatalogProduct = {
   id: string;
@@ -120,7 +121,7 @@ export default function CatalogPage() {
             ))}
           </div>
 
-          <Button variant="primary" fullWidth>
+          <Button variant="primary" fullWidth onClick={() => navigate("/repositor/order")}>
             Ver carrito <span className="ml-auto">›</span>
           </Button>
         </div>
