@@ -37,6 +37,13 @@ export default function ProductFormPage() {
             <div className="mt-2">ID: {productId}</div>
           </div>
         </div>
+        <div className="px-4 py-4">
+        <div className=" flex flex-col gap-2">
+          <div className="text-sm">
+            Datos de relevamiento
+          </div>
+        </div>
+        </div>
       </div>
     </div>
   );
