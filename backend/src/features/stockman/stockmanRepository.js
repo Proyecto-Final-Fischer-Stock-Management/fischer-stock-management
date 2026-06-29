@@ -1,7 +1,7 @@
-import prisma from "../../../prisma/prisma";
+import prisma from "../../../prisma/prisma.js";
 
 export function GetByPlace(sector_id) {
   return prisma.product.findMany({
-    where: { sectors: { some: { id: sector_id } } },
+    where: {},
   });
 }

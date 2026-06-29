@@ -136,13 +136,12 @@ router.post(
   upload.single("productPicture"),
   async (req, res) => {
     try {
-      const { fischerCode, easySap, name, minimunStock } = req.body;
+      const { fischerCode, easySap, name, sector_id } = req.body;
       const productPicture = req.file.buffer;
       const result = await PCreationProcess(
         Number(fischerCode),
         Number(easySap),
         name,
-        Number(minimunStock),
         productPicture,
       );
       return res.status(201).send({ result });

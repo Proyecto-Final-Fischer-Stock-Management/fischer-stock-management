@@ -10,7 +10,7 @@ router.post("/check-in", (req, res) => {});
 
 router.get("/home/last-check-in", (req, res) => {});
 
-// Get the products that are where the stockman is
+// Get the products by the stockman location
 router.get("/catalog/products", async (req, res) => {
   try {
     const { sector_id } = req.body;

@@ -39,12 +39,11 @@ export async function PCreationProcess(
   fischerCode,
   easySap,
   name,
-  minimunStock,
   productPicture,
 ) {
-  if (!fischerCode || !easySap || !name || !minimunStock || !productPicture) {
+  if (!fischerCode || !easySap || !name || !productPicture) {
     throw new Error("Required fields are incompleted");
   }
-  await CreateProduct(fischerCode, easySap, name, minimunStock, productPicture);
+  await CreateProduct(fischerCode, easySap, name, productPicture);
   return "Product successfully created";
 }

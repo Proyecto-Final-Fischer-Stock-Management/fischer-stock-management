@@ -22,7 +22,8 @@ describe("Post Product", () => {
       .attach(
         "productPicture",
         path.join(__dirname, "../../testPhotos/mclarenParaTest.jpg"),
-      );
+      )
+      .field("sector_id", 1);
     console.log(response.text);
     assert.equal(response.statusCode, 201);
   });
