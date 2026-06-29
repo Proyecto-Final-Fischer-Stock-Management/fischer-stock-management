@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
-import { Button, ButtonImage } from "../../../../components/ui/Button";
+import { Button, ButtonLink } from "../../../../components/ui/Button";
 import Input from "../../../../components/ui/Input";
-import { navigate } from "astro/virtual-modules/transitions-router.js";
 
 type CatalogProduct = {
   id: string;
@@ -75,7 +74,7 @@ export default function CatalogPage() {
         <div className="flex flex-1 flex-col gap-4 overflow-hidden px-4 py-4">
           <div className="relative">
             <span className="pointer-events-none absolute top-1/2 left-3 h-3 w-3 -translate-y-1/2">
-            <img className="w-4 h-4" src="/lupa.png" alt="Lupa"/>
+              <img className="h-4 w-4" src="/lupa.png" alt="" />
             </span>
             <Input
               fullWidth
@@ -92,12 +91,12 @@ export default function CatalogPage() {
 
           <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto pr-1">
             {products.map((product) => (
-              <button
+              <Link
                 key={product.id}
-                type="button"
+                to={`/admin/catalog/${product.id}`}
                 className="flex w-full items-center gap-3 border border-gray-300 bg-white p-2 text-left shadow-sm"
               >
-                <div className="flex h-16 w-16 shrink-0 items-center justify-center border rounded-lg border-gray-200 bg-white">
+                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white">
                   <img
                     src={product.imageSrc}
                     alt={product.name}
@@ -115,15 +114,14 @@ export default function CatalogPage() {
                   <div className="mt-2 truncate">Código: {product.code}</div>
                 </div>
 
-                <span className="px-1 text-xl leading-none">›
-                </span>
-              </button>
+                <span className="px-1 text-xl leading-none">›</span>
+              </Link>
             ))}
           </div>
 
-          <Button variant="primary" fullWidth onClick={() => navigate("/repositor/order")}>
+          <ButtonLink to="/admin/order" variant="primary" fullWidth>
             Ver carrito <span className="ml-auto">›</span>
-          </Button>
+          </ButtonLink>
         </div>
       </div>
     </div>
