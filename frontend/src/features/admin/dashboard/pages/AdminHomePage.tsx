@@ -43,7 +43,11 @@ export default function AdminHomePage() {
             altText="Buscar productos"
             onClick={() => navigate("/admin/catalog")}
           />
-          <ButtonImage imageSrc="/Group 28.png" altText="Checkout" />
+          <ButtonImage 
+           imageSrc="/Group 28.png" 
+           altText="Checkout"
+           onClick={() => navigate("/repositor/check-in")}
+           />
         </div>
         </div>
       </div>
