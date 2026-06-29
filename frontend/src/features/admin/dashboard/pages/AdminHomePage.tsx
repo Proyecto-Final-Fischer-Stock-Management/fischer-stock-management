@@ -27,7 +27,7 @@ export default function AdminHomePage() {
         <div className="px-4 py-4">
         <div className="mt-2 flex flex-col gap-2">
           <div className="text-lg">¡Hola, Isabella!</div>
-          <div className="text-sm">Ultimo check-in</div>
+          <div className="text-sm">Último check-in</div>
         </div>
 
         <div className="mt-3 flex flex-col gap-2">

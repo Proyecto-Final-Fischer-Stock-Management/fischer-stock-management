@@ -20,7 +20,7 @@ export default function OrderPage() {
           >
             <img className="h-4 w-4" src="/ep_arrow-left-bold.png" alt="" />
           </Link>
-          <div className="text-sm">Carrito</div>
+          <div className="text-sm">Pedido sugerido</div>
         </div>
 
         <div className="px-4 py-4 text-sm">

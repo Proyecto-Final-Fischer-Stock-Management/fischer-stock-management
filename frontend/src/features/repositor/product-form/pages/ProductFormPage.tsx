@@ -22,10 +22,16 @@ export default function ProductFormPage() {
           >
             <img className="h-4 w-4" src="/ep_arrow-left-bold.png" alt="" />
           </Link>
-          <div className="text-sm">Detalle de producto</div>
+          <div className="text-sm">Formulario de relevamiento</div>
         </div>
-
-        <div className="flex flex-col gap-4 px-4 py-4 text-sm">
+        <div className="px-4 py-4">
+        <div className=" flex flex-col gap-2">
+          <div className="text-sm">
+            Información del producto
+          </div>
+        </div>
+        </div>
+        <div className="flex flex-col gap-4 px-4 text-sm">
           <div className="bg-white p-4 shadow-sm">
             <div className="font-medium">Producto seleccionado</div>
             <div className="mt-2">ID: {productId}</div>
