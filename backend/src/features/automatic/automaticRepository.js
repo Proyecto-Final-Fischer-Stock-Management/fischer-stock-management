@@ -1,4 +1,4 @@
-import prisma from "../../../prisma/prisma";
+import prisma from "../../../prisma/prisma.js";
 
 export function CreateStock(productId, sectorId, minimumStock) {
   return prisma.stock.create({

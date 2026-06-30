@@ -120,7 +120,6 @@ router.get("/stock/product", async (req, res) => {
         fischerCode: product.fischer_code,
         easySap: product.easy_sap,
         name: product.name,
-        minimunStock: product.minimun_stock,
         productPicture: product.product_picture,
       },
     });

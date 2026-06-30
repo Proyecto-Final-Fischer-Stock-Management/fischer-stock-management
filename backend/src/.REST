@@ -9,7 +9,7 @@ Content-Type: application/json
 
 # ----------------ADMINISTRATOR ROUTES--------------------------------
 
-### Get one users
+### Get one user
 GET http://localhost:4306/administrator/accounts/user
 Content-Type: application/json
 
@@ -41,33 +41,25 @@ Content-Type: application/json
 
 ### Create a product hay que runearlo con supertest porque aca no funcan las imagenes
 
-### Get a product
-GET http://localhost:4306/administrator/stock/product
-Content-Type: application/json
-
-{
-  "fischerCode": 676767
-}
-
 # ----------------STOCKMAN ROUTES--------------------------------
 
-### Get all products that sells in the place
-GET http://localhost:4306/stockman/catalog/products
+### Get all products that sells in the place ---- Falta la imagen de cada producto
+GET http://localhost:4306/stockman/catalog/stock
 Content-Type: application/json
 
 {
-  "sector_id": 1
+  "sectorId": 1
 }
 
 
 # ----------------AUTOMATIC ROUTES--------------------------------
 
-### Create stock
-POST http://localhost:4306/stockman/catalog/stock
+### Create stock -- Solo deja crear una vez (clave)
+POST http://localhost:4306/automatic/catalog/stock
 Content-Type: application/json
 
 {
-  "product_id":616302,
-  "sector_id":15,
-  "minimum_stock":20
+  "productId":616302,
+  "sectorId":1,
+  "minimumStock":20
 }

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { SCreationProcess } from "./automaticService";
+import { SCreationProcess } from "./automaticService.js";
 
 const router = Router();
 
@@ -7,9 +7,9 @@ const router = Router();
 router.post("/catalog/stock", async (req, res) => {
   try {
     const { productId, sectorId, minimumStock } = req.body;
-    const stock = await SCreationProcess;
+    const result = await SCreationProcess(productId, sectorId, minimumStock);
     return res.status(201).send({
-      stock,
+      result,
     });
   } catch (err) {
     res.status(503).send({
@@ -17,3 +17,5 @@ router.post("/catalog/stock", async (req, res) => {
     });
   }
 });
+
+export default router;

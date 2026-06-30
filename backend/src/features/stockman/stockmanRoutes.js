@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { PGettingManyProcess } from "./stockmanService.js";
+import { SGettingManyProcess } from "./stockmanService.js";
 
 const router = Router();
 
@@ -10,12 +10,12 @@ router.post("/check-in", (req, res) => {});
 
 router.get("/home/last-check-in", (req, res) => {});
 
-// Get the products by the stockman location
-router.get("/catalog/products", async (req, res) => {
+// Get the products (access stock) by the stockman location
+router.get("/catalog/stock", async (req, res) => {
   try {
-    const { sector_id } = req.body;
-    const products = await PGettingManyProcess(sector_id);
-    return res.status(200).send({ products });
+    const { sectorId } = req.body;
+    const result = await SGettingManyProcess(sectorId);
+    return res.status(200).send({ result });
   } catch (err) {
     return res.status(503).send({ message: err.message });
   }

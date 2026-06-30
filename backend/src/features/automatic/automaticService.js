@@ -1,6 +1,6 @@
-import { CreateStock } from "./automaticRepository";
+import { CreateStock } from "./automaticRepository.js";
 
 export async function SCreationProcess(productId, sectorId, minimumStock) {
-  await CreateStock(productId, sectorId, minimumStock);
-  return "Stock successfully created";
+  const stock = await CreateStock(productId, sectorId, minimumStock);
+  return { stock };
 }
