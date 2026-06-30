@@ -41,17 +41,34 @@ npm install -D vite typescript @vitejs/plugin-react tailwindcss @tailwindcss/vit
 
 ## Preparar backend
 
-El backend tiene arquitectura de carpetas y archivos, pero todavia no tiene `package.json` ni implementacion. Cuando quieras empezar a programarlo:
+El backend ya tiene `package.json` preparado para Node.js, Express, Prisma 7, Neon/Vercel, JWT y bcrypt. En una compu nueva:
 
 ```bash
 cd backend
-npm init -y
-npm install express cors dotenv jsonwebtoken bcrypt prisma @prisma/client
-npm install -D nodemon
-npx prisma generate
+npm install
+npm run prisma:generate
 ```
 
-No uses `npx prisma init` salvo que borres la carpeta `backend/prisma`, porque la arquitectura ya incluye `prisma/schema.prisma`.
+Si PowerShell bloquea `npm`, usa:
+
+```bash
+npm.cmd install
+npm.cmd run prisma:generate
+```
+
+No uses `npx prisma init` salvo que borres la carpeta `backend/prisma`, porque la arquitectura ya incluye `prisma/schema.prisma` y `prisma.config.ts`.
+
+Para correr migraciones contra Neon/Vercel:
+
+```bash
+npm run prisma:migrate
+```
+
+Para abrir Prisma Studio:
+
+```bash
+npm run prisma:studio
+```
 
 La explicacion completa de carpetas, archivos y conexiones esta separada en:
 
@@ -67,3 +84,10 @@ La explicacion completa de carpetas, archivos y conexiones esta separada en:
 
 - `backend/.env`: archivo local con secretos y configuracion real. Esta ignorado por Git.
 - `backend/.env.example`: plantilla segura para documentar que variables necesita el backend.
+
+Para Neon/Vercel:
+
+- `DATABASE_URL`: URL pooled/runtime. En Vercel puede corresponder a `POSTGRES_PRISMA_URL` o `POSTGRES_URL`.
+- `DIRECT_URL`: URL directa/no pooled para Prisma Migrate. En Vercel suele corresponder a `POSTGRES_URL_NON_POOLING`.
+
+Si no tenes `DIRECT_URL`, usa `POSTGRES_URL_NON_POOLING` si Vercel/Neon te la muestra. Si tampoco aparece, la configuracion actual puede usar `DATABASE_URL`, `POSTGRES_PRISMA_URL` o `POSTGRES_URL` como fallback.

@@ -1,0 +1,112 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Users {
+  id  Int @id @default(autoincrement())
+  complete_name  String
+  email String  @unique
+  role  Role
+  password  String
+  updates Updates[]
+  administrates  Users[]  @relation("manager")
+  administrated Users[] @relation("manager")
+  sendsto Sends[] @relation("sendsto")
+  recieves  Sends[]  @relation("recieves")
+  product  Product[]  @relation("manages")
+  sectors Sectors[] @relation("tours")
+  checkinR  CheckIn[] @relation("does")
+  checkinA  CheckIn[] @relation("monitors")
+}
+
+model Product {
+  fischer_code  Int  @id  @unique
+  easy_sap  Int @unique
+  stockout  Boolean @default(true)
+  name  String
+  product_picture Bytes
+  product_picture_type  String
+  updates Updates[]
+  stock Stock[]
+  users Users[] @relation("manages")
+}
+
+model CheckIn {
+  id  Int @id @default(autoincrement())
+  checkin_time  DateTime @default(now())
+  sector_id  Int
+  madein  Sectors @relation(fields: [sector_id], references: [id])
+  usersR  Users[] @relation("does")
+  usersA  Users[] @relation("monitors")
+}
+
+model Franchise {
+  id  Int @id @default(autoincrement())
+  name  String
+  branches_amount Int
+  branches  Branches[]
+}
+
+model Branches {
+  id  Int @id @default(autoincrement())
+  direction String
+  franchise_id  Int
+  has  Franchise  @relation(fields: [franchise_id], references: [id])
+  sectors Sectors[]
+}
+
+model Sectors {
+  id  Int @id @default(autoincrement())
+  sector_boss_email String
+  sector  Sector
+  branches_id Int
+  has Branches  @relation(fields:[branches_id], references: [id])
+  users Users[] @relation("tours")
+  getchecked  CheckIn[]
+  stock Stock[]
+}
+
+model Stock {
+  product_id  Int
+  sector_id Int
+  actual_stock  Int @default(0)
+  minimun_stock Int
+  get_product  Product  @relation(fields: [product_id], references: [fischer_code])
+  get_sector   Sectors   @relation(fields: [sector_id], references: [id])
+  @@id([product_id, sector_id])
+}
+
+model Sends {
+  stockman  Users @relation("sendsto", fields: [stockman_id], references: [id])
+  stockman_id Int
+  administrator Users @relation("recieves", fields: [administrator_id], references: [id])
+  administrator_id  Int
+  email_actual_stock  Int 
+  email_stockout  Boolean
+  email_sugerences  String
+  @@id([stockman_id, administrator_id])
+}
+
+model Updates {
+  user  Users @relation(fields:[user_id], references: [id])
+  user_id Int
+  product Product @relation(fields:[product_id], references: [fischer_code])
+  product_id Int
+  stockout  Boolean
+  actual_stock  Int
+  @@id([user_id, product_id])
+}
+
+enum Role {
+  Administrator
+  Stockman
+}
+
+enum Sector {
+  Pintureria
+  Ferreteria
+}
