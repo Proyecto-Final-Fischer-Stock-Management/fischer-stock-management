@@ -1,13 +1,9 @@
 import request from "supertest";
-import bcrypt from "bcrypt";
 import assert from "node:assert";
 import path from "node:path";
-import multer from "multer";
 import { fileURLToPath } from "node:url";
-import { describe, test, beforeEach, after } from "node:test";
+import { describe, test, beforeEach } from "node:test";
 import app from "../../../src/app.js";
-import prisma from "../../../prisma/prisma.js";
-import fs from "node:fs";
 
 describe("Post Product", () => {
   test("Crea producto si todo bien", async () => {
