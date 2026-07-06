@@ -23,7 +23,7 @@ export async function UCreationProcess(completeName, email, role, password) {
     throw new Error("Required fields incompleted");
   }
 
-  const hashedpassword = bcrypt.hashSync(password, 7);
+  const hashedpassword = bcrypt.hashSync(password, 12);
 
   await CreateUser(completeName, email, role, hashedpassword);
 

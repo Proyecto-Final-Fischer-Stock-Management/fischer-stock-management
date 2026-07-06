@@ -1,7 +1,7 @@
 import request from "supertest";
 import bcrypt from "bcrypt";
 import assert from "node:assert";
-import { describe, test, beforeEach, after } from "node:test";
+import { describe, test, beforeEach } from "node:test";
 import app from "../../../src/app.js";
 import prisma from "../../../prisma/prisma.js";
 

@@ -6,4 +6,8 @@ const app = express();
 app.use(express.json());
 app.use(router);
 
+app.get("/", (req, res) => {
+  res.json("Hellou");
+});
+
 export default app;
