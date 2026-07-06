@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../../../components/ui/Button";
 import Input from "../../../components/ui/Input";
 import { useAuth } from "../../../hooks/useAuth";
+import { loginRequest } from "../services/authApi";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -10,6 +11,8 @@ export default function LoginPage() {
   const [emailOrUser, setEmailOrUser] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated && authUser?.role === "admin") {
@@ -17,17 +20,24 @@ export default function LoginPage() {
     }
   }, [authUser?.role, isAuthenticated, navigate]);
 
-  const handleLogin = () => {
-    login(
-      {
-        id: "1",
-        firstName: "Isabella",
-        lastName: "Demo",
+  const handleLogin = async () => {
+    setErrorMessage("");
+    setIsSubmitting(true);
+
+    try {
+      const session = await loginRequest({
         email: emailOrUser,
-        role: "admin",
-      },
-      "token-provisorio",
-    );
+        password,
+      });
+
+      login(session.user, session.token);
+    } catch (error) {
+      setErrorMessage(
+        error instanceof Error ? error.message : "No se pudo iniciar sesion",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -53,7 +63,10 @@ export default function LoginPage() {
               <Input
                 fullWidth
                 value={emailOrUser}
-                onChange={(event) => setEmailOrUser(event.target.value)}
+                onChange={(event) => {
+                  setEmailOrUser(event.target.value);
+                  setErrorMessage("");
+                }}
                 placeholder="Usuario@fischer.com"
                 className="pl-10 text-left"
               />
@@ -72,7 +85,10 @@ export default function LoginPage() {
                 fullWidth
                 type={showPassword ? "text" : "password"}
                 value={password}
-                onChange={(event) => setPassword(event.target.value)}
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                  setErrorMessage("");
+                }}
                 placeholder="Contraseña"
                 className="pr-10 pl-10 text-left"
               />
@@ -91,6 +107,12 @@ export default function LoginPage() {
             </div>
           </label>
 
+          {errorMessage ? (
+            <div className="mt-4 border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+              {errorMessage}
+            </div>
+          ) : null}
+
           <div className="mt-4 flex flex-col items-start gap-2">
             <Button variant="link" size="sm" onClick={() => alert("Mal ahí")}>
               ¿Olvidaste tu contraseña?
@@ -105,10 +127,10 @@ export default function LoginPage() {
           variant="secondary"
           fullWidth
           className="mt-4"
-          disabled={!emailOrUser || !password}
+          disabled={!emailOrUser || !password || isSubmitting}
           onClick={handleLogin}
         >
-          Log in
+          {isSubmitting ? "Ingresando..." : "Log in"}
         </Button>
       </div>
     </div>
