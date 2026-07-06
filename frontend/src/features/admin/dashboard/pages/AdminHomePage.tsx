@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 import { Link, useNavigate } from "react-router-dom";
 import { ButtonImage } from "../../../../components/ui/Button";
 import ChInput from "../../../../components/ui/CheckInput";
@@ -7,14 +6,6 @@ export default function AdminHomePage() {
   const navigate = useNavigate();
 
   return (
-=======
-import { Link } from "react-router-dom";
-import { ButtonLink } from "../../../../components/ui/Button";
-
-export default function AdminHomePage()
-{
-    return (
->>>>>>> Stashed changes
     <div className="min-h-screen bg-gray-200 px-4 py-6">
       <div className="mx-auto flex min-h-[calc(100vh-48px)] w-full max-w-sm flex-col bg-[#F4F4F4]">
         <div className="bg-white px-4 pt-5 pb-3">
@@ -59,12 +50,7 @@ export default function AdminHomePage()
            />
         </div>
         </div>
-<<<<<<< Updated upstream
       </div>
     </div>
   );
-=======
-        </div>
-    )
->>>>>>> Stashed changes
 }
