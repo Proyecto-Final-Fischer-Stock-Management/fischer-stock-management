@@ -147,7 +147,7 @@ Estos tipos se conectan con pages, componentes y servicios API. No deberian cont
 - `frontend/src/features/admin/dashboard/components/StatsPanel.tsx`: estadisticas filtrables, quiebres y pedidos.
 - `frontend/src/features/admin/dashboard/components/VisitsPanel.tsx`: check-ins/check-outs con buscador de empleado.
 
-Se conecta con backend `statistics` y `checkins`.
+Se conecta con backend `administrator`, especialmente `GET /api/administrator/dashboard/stats` y `GET /api/administrator/dashboard/visits`.
 
 ### Admin stock
 
@@ -158,7 +158,9 @@ Se conecta con backend `statistics` y `checkins`.
 - `frontend/src/features/admin/stock/components/ProductForm.tsx`: formulario reutilizable.
 - `frontend/src/features/admin/stock/services/productsApi.ts`: llamadas a productos.
 
-Endpoints conectados: `GET /api/products`, `POST /api/products`, `PUT /api/products/:id`, `DELETE /api/products/:id`.
+Endpoints conectados actualmente: `GET /api/administrator/stock`, `GET /api/administrator/stock/products`, `POST /api/administrator/stock/products`, `DELETE /api/administrator/stock/products`.
+
+La ruta de modificar producto esta prevista en el backend pero comentada/inactiva: `PUT /api/administrator/stock/products`.
 
 ### Admin cuentas
 
@@ -168,20 +170,22 @@ Endpoints conectados: `GET /api/products`, `POST /api/products`, `PUT /api/produ
 - `frontend/src/features/admin/accounts/components/UserForm.tsx`: formulario reutilizable.
 - `frontend/src/features/admin/accounts/services/usersApi.ts`: llamadas a usuarios.
 
-Endpoints conectados: `GET /api/users`, `POST /api/users`, `PUT /api/users/:id`, `DELETE /api/users/:id`.
+Endpoints conectados actualmente: `GET /api/administrator/accounts`, `GET /api/administrator/accounts/users`, `POST /api/administrator/accounts/users`, `DELETE /api/administrator/accounts/users`.
+
+La ruta de modificar usuario esta prevista en el backend pero comentada/inactiva: `PUT /api/administrator/accounts/users`.
 
 ### Repositor check-in
 
 - `frontend/src/features/repositor/checkin/pages/CheckInPage.tsx`: seleccion de cadena, sucursal y sector.
 - `frontend/src/features/repositor/checkin/services/checkinsApi.ts`: guarda check-in/check-out.
 
-Endpoints conectados: `POST /api/checkins/check-in`, `POST /api/checkins/check-out`.
+Endpoints conectados actualmente: `GET /api/stockman/check-in/franchises`, `GET /api/stockman/check-in/branches`, `GET /api/stockman/check-in/sectors`, `POST /api/stockman/check-in`.
 
 ### Repositor inicio
 
 - `frontend/src/features/repositor/home/pages/RepositorHomePage.tsx`: muestra ultima cadena, sucursal, sector, check-out y acceso al catalogo.
 
-Se conecta con `AuthProvider` y `checkinsApi`.
+Se conecta con `AuthProvider` y `checkinsApi`. Endpoint principal: `GET /api/stockman/home/last-check-in`.
 
 ### Repositor catalogo
 
@@ -189,14 +193,14 @@ Se conecta con `AuthProvider` y `checkinsApi`.
 - `frontend/src/features/repositor/catalog/components/CatalogProductCard.tsx`: producto con imagen, nombre y codigo.
 - `frontend/src/features/repositor/catalog/services/catalogApi.ts`: consulta productos disponibles.
 
-Endpoint conectado: `GET /api/products`.
+Endpoint conectado: `GET /api/stockman/catalog/products`.
 
 ### Repositor formulario producto
 
 - `frontend/src/features/repositor/product-form/pages/ProductFormPage.tsx`: info del producto y formulario.
 - `frontend/src/features/repositor/product-form/components/StockReportForm.tsx`: stock actual, quiebre, cantidad y observaciones.
 
-Se conecta con estado del pedido y `ordersApi`.
+Se conecta con estado del pedido y `ordersApi`. Endpoint principal para agregar/enviar un producto al pedido: `POST /api/stockman/order/product`.
 
 ### Repositor pedido
 
@@ -204,4 +208,6 @@ Se conecta con estado del pedido y `ordersApi`.
 - `frontend/src/features/repositor/order/components/OrderItemList.tsx`: modificar/eliminar items antes de enviar.
 - `frontend/src/features/repositor/order/services/ordersApi.ts`: manda el pedido al backend.
 
-Endpoints conectados: `GET /api/orders/my`, `POST /api/orders`, `PUT /api/orders/:id`, `DELETE /api/orders/:id`, `POST /api/emails/order`.
+Endpoints conectados actualmente: `GET /api/stockman/order/product`, `GET /api/stockman/order/products`, `DELETE /api/stockman/order/product`, `POST /api/stockman/order/send`.
+
+La ruta de modificar producto del pedido esta prevista en el backend pero comentada/inactiva: `PUT /api/stockman/order/product`.

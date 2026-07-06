@@ -1,0 +1,65 @@
+### Login
+POST http://localhost:4306/auth/login
+Content-Type: application/json
+
+{
+  "email": "testmail@gmail.com",
+  "password": "123123123"
+}
+
+# ----------------ADMINISTRATOR ROUTES--------------------------------
+
+### Get one user
+GET http://localhost:4306/administrator/accounts/user
+Content-Type: application/json
+
+{
+  "id": 1
+}
+
+### Get all users
+GET http://localhost:4306/administrator/accounts/users/1
+
+### Create a user
+POST http://localhost:4306/administrator/accounts/user
+Content-Type: application/json
+
+{
+  "completeName": "Persona de Test",
+  "email": "testmail@gmail.com",
+  "role": "Administrator",
+  "password": "123123123"
+}
+
+### Delete a user
+DELETE http://localhost:4306/administrator/accounts/user
+Content-Type: application/json
+
+{
+  "id": 1
+}
+
+### Create a product hay que runearlo con supertest porque aca no funcan las imagenes
+
+# ----------------STOCKMAN ROUTES--------------------------------
+
+### Get all products that sells in the place ---- Falta la imagen de cada producto
+GET http://localhost:4306/stockman/catalog/stock
+Content-Type: application/json
+
+{
+  "sectorId": 1
+}
+
+
+# ----------------AUTOMATIC ROUTES--------------------------------
+
+### Create stock -- Solo deja crear una vez (clave)
+POST http://localhost:4306/automatic/catalog/stock
+Content-Type: application/json
+
+{
+  "productId":616302,
+  "sectorId":1,
+  "minimumStock":20
+}
