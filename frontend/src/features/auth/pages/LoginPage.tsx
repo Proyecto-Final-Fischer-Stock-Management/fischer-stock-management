@@ -43,7 +43,9 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-gray-200 px-4 py-6">
       <div className="mx-auto flex min-h-[calc(100vh-48px)] w-full max-w-sm flex-col bg-[#F4F4F4] px-4 py-8">
-        <div className="shrink-0 text-center text-base">Bienvenido Repositor</div>
+        <div className="shrink-0 text-center text-base">
+          Bienvenido Repositor
+        </div>
 
         <img
           className="mx-auto mt-8 h-35 w-35 shrink-0 object-contain"
@@ -94,15 +96,17 @@ export default function LoginPage() {
               />
               <button
                 type="button"
-                aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                aria-label={
+                  showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
+                }
                 onClick={() => setShowPassword((currentValue) => !currentValue)}
                 className="absolute top-1/2 right-3 flex h-6 w-6 -translate-y-1/2 items-center justify-center"
               >
                 <img
-                className="h-4 w-4 object-contain"
-                src={showPassword ? "/ojo.png" : "/ojo cerrado.png"}
-                alt=""
-/>
+                  className="h-4 w-4 object-contain"
+                  src={showPassword ? "/ojo.png" : "/ojo cerrado.png"}
+                  alt=""
+                />
               </button>
             </div>
           </label>

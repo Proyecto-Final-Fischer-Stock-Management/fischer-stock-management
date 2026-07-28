@@ -26,12 +26,9 @@ const roleMap: Record<BackendRole, UserRole> = {
 };
 
 function toAuthUser(user: LoginResponse["result"]["user"]): AuthUser {
-  const [firstName = user.completeName, ...restOfName] = user.completeName.split(" ");
-
   return {
     id: String(user.id),
-    firstName,
-    lastName: restOfName.join(" "),
+    completeName: user.completeName,
     email: user.email,
     role: roleMap[user.role],
   };
