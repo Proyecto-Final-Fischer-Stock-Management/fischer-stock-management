@@ -3,6 +3,7 @@ import administratorRoutes from "./features/administrator/administratorRoutes.js
 import authRoutes from "./features/auth/authRoutes.js";
 import stockmanRoutes from "./features/stockman/stockmanRoutes.js";
 import automaticRoutes from "./features/automatic/automaticRoutes.js";
+import healthRoute from "./utils/health.js";
 
 const router = Router();
 
@@ -10,5 +11,6 @@ router.use("/auth", authRoutes);
 router.use("/administrator", administratorRoutes);
 router.use("/stockman", stockmanRoutes);
 router.use("/automatic", automaticRoutes);
+router.use("/health", healthRoute);
 
 export default router;

@@ -1,3 +1,6 @@
+### Health check
+GET http://localhost:4306/health/health
+
 ### Login
 POST http://localhost:4306/auth/login
 Content-Type: application/json
