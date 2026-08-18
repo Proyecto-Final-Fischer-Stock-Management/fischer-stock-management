@@ -24,11 +24,14 @@ export async function apiRequest<TResponse>(
     ...options,
     headers: {
       Accept: "application/json",
-      ...(body instanceof FormData ? {} : { "Content-Type": "application/json" }),
+      ...(body instanceof FormData
+        ? {}
+        : { "Content-Type": "application/json" }),
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...headers,
     },
-    body: body instanceof FormData ? body : body ? JSON.stringify(body) : undefined,
+    body:
+      body instanceof FormData ? body : body ? JSON.stringify(body) : undefined,
   });
 
   const contentType = response.headers.get("content-type");
