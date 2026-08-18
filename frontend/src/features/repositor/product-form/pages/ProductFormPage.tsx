@@ -1,19 +1,43 @@
 import { useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Button, ButtonLink } from "../../../../components/ui/Button";
 import Input from "../../../../components/ui/Input";
 import { catalogProducts } from "../../catalog/data/catalogProducts";
+import { addProductToCart } from "../../order/cartStorage";
 
 export default function ProductFormPage() {
   const { productId } = useParams();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const [hasStockBreak, setHasStockBreak] = useState<"yes" | "no" | null>(null);
+  const [orderBoxes, setOrderBoxes] = useState("");
+  const [cartMessage, setCartMessage] = useState("");
+  const [wasAddedToCart, setWasAddedToCart] = useState(false);
   const isRepositorRoute = pathname.startsWith("/repositor");
   const catalogPath = isRepositorRoute ? "/repositor/catalog" : "/admin/catalog";
   const orderPath = isRepositorRoute ? "/repositor/order" : "/admin/order";
   const product =
     catalogProducts.find((currentProduct) => currentProduct.id === productId) ??
     catalogProducts[0];
+  const boxesToOrder = Number.parseInt(orderBoxes, 10);
+
+  function getBoxesToOrder() {
+    return Number.isNaN(boxesToOrder) || boxesToOrder < 1 ? product.boxes : boxesToOrder;
+  }
+
+  function handleSubmitReport() {
+    if (!wasAddedToCart) {
+      addProductToCart(product, getBoxesToOrder());
+    }
+
+    navigate(orderPath);
+  }
+
+  function handleAddToCart() {
+    addProductToCart(product, getBoxesToOrder());
+    setCartMessage("Producto sumado al carrito.");
+    setWasAddedToCart(true);
+  }
 
   return (
     <div className="min-h-screen bg-gray-200 px-4 py-6">
@@ -117,6 +141,14 @@ export default function ProductFormPage() {
                   <Input
                     className="min-w-0 flex-1 border-r-0 text-left"
                     placeholder="Ingrese cantidad"
+                    min={1}
+                    type="number"
+                    value={orderBoxes}
+                    onChange={(event) => {
+                      setOrderBoxes(event.target.value);
+                      setCartMessage("");
+                      setWasAddedToCart(false);
+                    }}
                   />
                   <div className="flex w-16 items-center justify-center border border-gray-300 bg-gray-50 text-xs">
                     Cajas
@@ -129,8 +161,26 @@ export default function ProductFormPage() {
                 <textarea className="h-12 w-full resize-none border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
               </label>
 
-              <Button variant="secondary" fullWidth className="mt-5">
-                Enviar formulario
+              <Button
+                variant="secondary"
+                fullWidth
+                className="mt-5"
+                onClick={handleAddToCart}
+              >
+                <span className="mr-auto">Sumar al carrito</span>
+                <span>›</span>
+              </Button>
+              {cartMessage ? (
+                <div className="mt-2 text-xs text-blue-700">{cartMessage}</div>
+              ) : null}
+
+              <Button
+                variant="primary"
+                fullWidth
+                className="mt-3"
+                onClick={handleSubmitReport}
+              >
+                Enviar formulario <span className="ml-auto">›</span>
               </Button>
 
               <div className="mt-4 grid grid-cols-2 gap-3">
