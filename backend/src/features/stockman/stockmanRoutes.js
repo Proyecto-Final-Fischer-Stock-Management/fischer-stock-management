@@ -11,10 +11,10 @@ router.post("/check-in", (req, res) => {});
 router.get("/home/last-check-in", (req, res) => {});
 
 // Get the products (access stock) by the stockman location
-router.get("/catalog/stock", async (req, res) => {
+router.get("/catalog/stock/:sectorId", async (req, res) => {
   try {
-    const { sectorId } = req.body;
-    const result = await SGettingManyProcess(sectorId);
+    const { sectorId } = req.params;
+    const result = await SGettingManyProcess(Number(sectorId));
     return res.status(200).send({ result });
   } catch (err) {
     return res.status(503).send({ message: err.message });
