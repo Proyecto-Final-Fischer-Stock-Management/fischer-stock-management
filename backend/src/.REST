@@ -46,18 +46,13 @@ Content-Type: application/json
 
 # ----------------STOCKMAN ROUTES--------------------------------
 
-### Get all products that sells in the place ---- Falta la imagen de cada producto
-GET http://localhost:4306/stockman/catalog/stock
-Content-Type: application/json
-
-{
-  "sectorId": 1
-}
+### Get all products by place ---- Falta la imagen de cada producto
+GET http://localhost:4306/stockman/catalog/stock/1
 
 
 # ----------------AUTOMATIC ROUTES--------------------------------
 
-### Create stock -- Solo deja crear una vez (clave)
+### Create stock -- Solo deja crear una vez de cada uno (clave)
 POST http://localhost:4306/automatic/catalog/stock
 Content-Type: application/json
 

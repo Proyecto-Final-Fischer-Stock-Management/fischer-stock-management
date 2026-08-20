@@ -14,7 +14,7 @@ router.get("/home/last-check-in", (req, res) => {});
 router.get("/catalog/stock/:sectorId", async (req, res) => {
   try {
     const { sectorId } = req.params;
-    const result = await SGettingManyProcess(sectorId);
+    const result = await SGettingManyProcess(Number(sectorId));
     return res.status(200).send({ result });
   } catch (err) {
     return res.status(503).send({ message: err.message });
