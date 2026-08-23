@@ -8,8 +8,8 @@ export type AuthUser = {
 };
 
 export type AuthContextValue = {
-  user: AuthUser | null;
-  token: string | null;
+  user: AuthUser;
+  token: string;
   isAuthenticated: boolean;
   login: (user: AuthUser, token: string) => void;
   logout: () => void;

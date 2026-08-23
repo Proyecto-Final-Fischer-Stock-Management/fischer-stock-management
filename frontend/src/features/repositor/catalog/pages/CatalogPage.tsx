@@ -1,4 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useAuth } from "../../../../hooks/useAuth";
+import { GetStock, type StockProduct } from "../services/catalogApi";
 import { Button, ButtonLink } from "../../../../components/ui/Button";
 import Input from "../../../../components/ui/Input";
 import { catalogProducts } from "../data/catalogProducts";
@@ -6,9 +9,23 @@ import { catalogProducts } from "../data/catalogProducts";
 export default function CatalogPage() {
   const { pathname } = useLocation();
   const isRepositorRoute = pathname.startsWith("/repositor");
-  const catalogPath = isRepositorRoute ? "/repositor/catalog" : "/admin/catalog";
+  const catalogPath = isRepositorRoute
+    ? "/repositor/catalog"
+    : "/admin/catalog";
   const homePath = isRepositorRoute ? "/repositor" : "/admin";
   const orderPath = isRepositorRoute ? "/repositor/order" : "/admin/order";
+  const { token } = useAuth();
+  const [stock, setStock] = useState<StockProduct[]>([]);
+  useEffect(() => {
+    if (!token) return;
+
+    async function loadStock() {
+      const response = await GetStock(1, token); // CAMBIAR EL 1 POR EL NUMERO DEL SECTOR CUANDO HAYA CHECK IN
+      setStock(response.result);
+    }
+
+    loadStock();
+  }, [token]);
 
   return (
     <div className="min-h-screen bg-gray-200 px-4 py-6">

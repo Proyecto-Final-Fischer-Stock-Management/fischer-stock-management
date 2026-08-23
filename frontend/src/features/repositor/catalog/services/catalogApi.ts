@@ -1,6 +1,6 @@
 import { apiRequest } from "../../../../services/apiClient";
 
-type StockProduct = {
+export type StockProduct = {
   productId: number;
   sectorId: number;
   actualStock: number;
