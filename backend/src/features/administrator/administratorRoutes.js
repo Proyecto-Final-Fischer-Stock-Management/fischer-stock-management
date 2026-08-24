@@ -147,7 +147,7 @@ router.post(
       );
       return res.status(201).send({ result });
     } catch (err) {
-      if (err.message === "Required fields are incompleted") {
+      if (err.message === "Required fields are uncompleted") {
         return res
           .status(400)
           .send({ message: "Complete the required fields" });

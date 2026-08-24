@@ -4,14 +4,11 @@ import { useAuth } from "../../../../hooks/useAuth";
 import { GetStock, type StockProduct } from "../services/catalogApi";
 import { Button, ButtonLink } from "../../../../components/ui/Button";
 import Input from "../../../../components/ui/Input";
-import { catalogProducts } from "../data/catalogProducts";
 
 export default function CatalogPage() {
   const { pathname } = useLocation();
   const isRepositorRoute = pathname.startsWith("/repositor");
-  const catalogPath = isRepositorRoute
-    ? "/repositor/catalog"
-    : "/admin/catalog";
+  const catalogPath = "/repositor/catalog";
   const homePath = isRepositorRoute ? "/repositor" : "/admin";
   const orderPath = isRepositorRoute ? "/repositor/order" : "/admin/order";
   const { token } = useAuth();
@@ -68,28 +65,30 @@ export default function CatalogPage() {
           <div className="text-sm font-medium">Productos</div>
 
           <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto pr-1">
-            {catalogProducts.map((product) => (
+            {stock.map((product) => (
               <Link
-                key={product.id}
-                to={`${catalogPath}/${product.id}`}
+                key={product.productId}
+                to={`${catalogPath}/${product.productId}`}
                 className="flex w-full items-center gap-3 border border-gray-300 bg-white p-2 text-left shadow-sm"
               >
                 <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white">
                   <img
-                    src={product.imageSrc}
-                    alt={product.name}
+                    src={product.getProduct.productPicture}
+                    alt={product.getProduct.name}
                     className="max-h-12 max-w-12 object-contain"
                   />
                 </div>
 
                 <div className="min-w-0 flex-1 text-sm">
                   <div className="flex items-center gap-2">
-                    <span>{product.name}</span>
+                    <span>{product.getProduct.name}</span>
                     <span className="bg-blue-100 px-2 py-0.5 text-xs text-blue-700">
-                      {product.boxes} Cajas
+                      {product.actualStock} Cajas
                     </span>
                   </div>
-                  <div className="mt-2 truncate">Código: {product.code}</div>
+                  <div className="mt-2 truncate">
+                    Código: {product.getProduct.fischerCode}
+                  </div>
                 </div>
 
                 <span className="px-1 text-xl leading-none">›</span>

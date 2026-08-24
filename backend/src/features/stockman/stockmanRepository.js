@@ -12,6 +12,8 @@ export function GetByPlace(sectorId) {
           name: true,
           easy_sap: true,
           stockout: true,
+          product_picture: true,
+          product_picture_type: true,
         },
       },
     },

@@ -10,6 +10,8 @@ export type StockProduct = {
     name: string;
     easySap: number;
     stockout: boolean;
+    productPicture: string;
+    productPictureType: string;
   };
 };
 
