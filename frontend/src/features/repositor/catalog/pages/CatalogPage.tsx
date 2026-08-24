@@ -1,16 +1,14 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useAuth } from "../../../../hooks/useAuth";
-import { GetStock, type StockProduct } from "../services/catalogApi";
-import { Button, ButtonLink } from "../../../../components/ui/Button";
-import Input from "../../../../components/ui/Input";
+import { useAuth } from "../../../../hooks/useAuth.ts";
+import { GetStock, type StockProduct } from "../services/catalogApi.ts";
+import { Button, ButtonLink } from "../../../../components/ui/Button.tsx";
+import Input from "../../../../components/ui/Input.tsx";
 
 export default function CatalogPage() {
-  const { pathname } = useLocation();
-  const isRepositorRoute = pathname.startsWith("/repositor");
   const catalogPath = "/repositor/catalog";
-  const homePath = isRepositorRoute ? "/repositor" : "/admin";
-  const orderPath = isRepositorRoute ? "/repositor/order" : "/admin/order";
+  const homePath = "/repositor";
+  const orderPath = "/repositor/order";
   const { token } = useAuth();
   const [stock, setStock] = useState<StockProduct[]>([]);
   useEffect(() => {

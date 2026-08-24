@@ -1,4 +1,4 @@
-import { apiRequest } from "../../../../services/apiClient";
+import { apiRequest } from "../../../../services/apiClient.ts";
 
 export type StockProduct = {
   productId: number;

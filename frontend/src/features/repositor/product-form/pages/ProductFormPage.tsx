@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Button, ButtonLink } from "../../../../components/ui/Button";
+import { useAuth } from "../../../../hooks/useAuth.ts";
 import Input from "../../../../components/ui/Input";
-import { catalogProducts } from "../../catalog/data/catalogProducts";
 import { addProductToCart } from "../../order/cartStorage";
 
 export default function ProductFormPage() {
@@ -16,9 +16,8 @@ export default function ProductFormPage() {
   const isRepositorRoute = pathname.startsWith("/repositor");
   const catalogPath = isRepositorRoute ? "/repositor/catalog" : "/admin/catalog";
   const orderPath = isRepositorRoute ? "/repositor/order" : "/admin/order";
-  const product =
-    catalogProducts.find((currentProduct) => currentProduct.id === productId) ??
-    catalogProducts[0];
+  const { token } = useAuth();
+  const product = 
   const boxesToOrder = Number.parseInt(orderBoxes, 10);
 
   function getBoxesToOrder() {
