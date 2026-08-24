@@ -5,6 +5,7 @@ export type StockProduct = {
   sectorId: number;
   actualStock: number;
   minimunStock: number;
+  unitsPerCage: number;
   getProduct: {
     fischerCode: number;
     name: string;
@@ -12,6 +13,10 @@ export type StockProduct = {
     stockout: boolean;
     productPicture: string;
     productPictureType: string;
+  };
+  getPlace: {
+    sector: number;
+    sectorBossEmail: number;
   };
 };
 

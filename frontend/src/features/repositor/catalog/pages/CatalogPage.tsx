@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../../hooks/useAuth.ts";
 import { GetStock, type StockProduct } from "../services/catalogApi.ts";
@@ -7,20 +7,27 @@ import Input from "../../../../components/ui/Input.tsx";
 
 export default function CatalogPage() {
   const catalogPath = "/repositor/catalog";
-  const homePath = "/repositor";
+  const role = useAuth();
+  const homePath = role ? "/repositor" : "/admin";
   const orderPath = "/repositor/order";
   const { token } = useAuth();
+  const navigate = useNavigate();
   const [stock, setStock] = useState<StockProduct[]>([]);
   useEffect(() => {
-    if (!token) return;
+    if (!token) {
+      navigate(homePath);
+      return;
+    }
+
+    const authToken = token;
 
     async function loadStock() {
-      const response = await GetStock(1, token); // CAMBIAR EL 1 POR EL NUMERO DEL SECTOR CUANDO HAYA CHECK IN
+      const response = await GetStock(1, authToken); // CAMBIAR EL 1 POR EL NUMERO DEL SECTOR CUANDO HAYA CHECK IN
       setStock(response.result);
     }
 
     loadStock();
-  }, [token]);
+  }, [homePath, navigate, token]);
 
   return (
     <div className="min-h-screen bg-gray-200 px-4 py-6">
@@ -67,6 +74,7 @@ export default function CatalogPage() {
               <Link
                 key={product.productId}
                 to={`${catalogPath}/${product.productId}`}
+                state={{ product }}
                 className="flex w-full items-center gap-3 border border-gray-300 bg-white p-2 text-left shadow-sm"
               >
                 <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white">

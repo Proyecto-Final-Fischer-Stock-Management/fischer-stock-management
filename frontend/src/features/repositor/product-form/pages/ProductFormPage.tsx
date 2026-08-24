@@ -1,27 +1,36 @@
 import { useState } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button, ButtonLink } from "../../../../components/ui/Button";
-import { useAuth } from "../../../../hooks/useAuth.ts";
+import type { StockProduct } from "../../catalog/services/catalogApi.ts";
 import Input from "../../../../components/ui/Input";
 import { addProductToCart } from "../../order/cartStorage";
+type ProductNavigationState = {
+  product: StockProduct;
+};
 
 export default function ProductFormPage() {
-  const { productId } = useParams();
-  const { pathname } = useLocation();
+  const { pathname, state } = useLocation();
+  const navigationState = state as ProductNavigationState | undefined;
   const navigate = useNavigate();
+  if (!navigationState?.product) {
+    return <div>Producto no disponible.</div>;
+  }
+  const product = navigationState.product;
   const [hasStockBreak, setHasStockBreak] = useState<"yes" | "no" | null>(null);
   const [orderBoxes, setOrderBoxes] = useState("");
   const [cartMessage, setCartMessage] = useState("");
   const [wasAddedToCart, setWasAddedToCart] = useState(false);
   const isRepositorRoute = pathname.startsWith("/repositor");
-  const catalogPath = isRepositorRoute ? "/repositor/catalog" : "/admin/catalog";
+  const catalogPath = isRepositorRoute
+    ? "/repositor/catalog"
+    : "/admin/catalog";
   const orderPath = isRepositorRoute ? "/repositor/order" : "/admin/order";
-  const { token } = useAuth();
-  const product = 
   const boxesToOrder = Number.parseInt(orderBoxes, 10);
 
   function getBoxesToOrder() {
-    return Number.isNaN(boxesToOrder) || boxesToOrder < 1 ? product.boxes : boxesToOrder;
+    return Number.isNaN(boxesToOrder) || boxesToOrder < 1
+      ? product.actualStock
+      : boxesToOrder;
   }
 
   function handleSubmitReport() {
@@ -66,23 +75,23 @@ export default function ProductFormPage() {
             <div className="flex gap-3 border border-gray-300 bg-white p-3 shadow-sm">
               <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white">
                 <img
-                  src={product.imageSrc}
-                  alt={product.name}
+                  src={product.getProduct.productPicture}
+                  alt={product.getProduct.name}
                   className="max-h-16 max-w-16 object-contain"
                 />
               </div>
 
               <div className="min-w-0 flex-1">
                 <div className="flex items-start justify-between gap-2">
-                  <div className="font-medium">{product.name}</div>
+                  <div className="font-medium">{product.getProduct.name}</div>
                   <div className="flex h-7 w-20 shrink-0 items-center justify-between border border-gray-300 bg-white px-2 text-xs">
-                    <span>{product.units}</span>
-                    <span className="text-[10px] text-gray-500">Unid.</span>
+                    <span>{product.unitsPerCage}</span>
+                    <span className="text-[10px] text-gray-500">U/b</span>
                   </div>
                 </div>
                 <div className="mt-3 leading-tight">
-                  <div>Código: {product.code}</div>
-                  <div>Categoría: {product.category}</div>
+                  <div>Código: {product.getProduct.fischerCode}</div>
+                  <div>Categoría: {product.getPlace.sector}</div>
                 </div>
               </div>
             </div>
@@ -112,7 +121,9 @@ export default function ProductFormPage() {
                     onClick={() => setHasStockBreak("yes")}
                     className={[
                       "h-8 border-r border-gray-300 text-sm",
-                      hasStockBreak === "yes" ? "bg-blue-600 text-white" : "bg-white",
+                      hasStockBreak === "yes"
+                        ? "bg-blue-600 text-white"
+                        : "bg-white",
                     ]
                       .filter(Boolean)
                       .join(" ")}
@@ -124,7 +135,9 @@ export default function ProductFormPage() {
                     onClick={() => setHasStockBreak("no")}
                     className={[
                       "h-8 text-sm",
-                      hasStockBreak === "no" ? "bg-blue-600 text-white" : "bg-white",
+                      hasStockBreak === "no"
+                        ? "bg-blue-600 text-white"
+                        : "bg-white",
                     ]
                       .filter(Boolean)
                       .join(" ")}
