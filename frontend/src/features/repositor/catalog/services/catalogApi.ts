@@ -1,10 +1,11 @@
-import { apiRequest } from "../../../../services/apiClient";
+import { apiRequest } from "../../../../services/apiClient.ts";
 
 export type StockProduct = {
   productId: number;
   sectorId: number;
   actualStock: number;
   minimunStock: number;
+  unitsPerCage: number;
   getProduct: {
     fischerCode: number;
     name: string;
@@ -12,6 +13,10 @@ export type StockProduct = {
     stockout: boolean;
     productPicture: string;
     productPictureType: string;
+  };
+  getPlace: {
+    sector: number;
+    sectorBossEmail: number;
   };
 };
 

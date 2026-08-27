@@ -6,8 +6,13 @@ const router = Router();
 // Post a stock (product and place information)
 router.post("/catalog/stock", async (req, res) => {
   try {
-    const { productId, sectorId, minimumStock } = req.body;
-    const result = await SCreationProcess(productId, sectorId, minimumStock);
+    const { productId, sectorId, minimumStock, unitsPerCage } = req.body;
+    const result = await SCreationProcess(
+      productId,
+      sectorId,
+      minimumStock,
+      unitsPerCage,
+    );
     return res.status(201).send({
       result,
     });

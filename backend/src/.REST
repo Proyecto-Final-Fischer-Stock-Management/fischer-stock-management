@@ -48,6 +48,8 @@ Content-Type: application/json
 
 ### Get all products by place ---- Falta la imagen de cada producto
 GET http://localhost:4306/stockman/catalog/stock/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6IlN0b2NrbWFuIiwiaWF0IjoxNzg3Njk3NTg0LCJleHAiOjE3ODc3MDExODR9.1MyD4tdkwOn4ySC1y_cXAeyho8xG6PQgzC7wq9jbOnM
+
 
 
 # ----------------AUTOMATIC ROUTES--------------------------------

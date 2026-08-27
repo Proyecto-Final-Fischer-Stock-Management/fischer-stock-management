@@ -4,7 +4,6 @@ import ChInput from "../../../../components/ui/CheckInput";
 
 export default function RepositorHomePage() {
   const navigate = useNavigate();
-
   return (
     <div className="min-h-screen bg-gray-200 px-4 py-6">
       <div className="mx-auto flex min-h-[calc(100vh-48px)] w-full max-w-sm flex-col bg-[#F4F4F4]">
@@ -32,9 +31,21 @@ export default function RepositorHomePage() {
           </div>
 
           <div className="mt-3 flex flex-col gap-2">
-            <ChInput text="Sucursal:" contenido="Blablabla" imagen="/ubicacion.png" />
-            <ChInput text="Cadena:" contenido="Blablabla" imagen="/ubicacion.png" />
-            <ChInput text="Sector:" contenido="Blablabla" imagen="/ubicacion.png" />
+            <ChInput
+              text="Sucursal:"
+              contenido="Blablabla"
+              imagen="/ubicacion.png"
+            />
+            <ChInput
+              text="Cadena:"
+              contenido="Blablabla"
+              imagen="/ubicacion.png"
+            />
+            <ChInput
+              text="Sector:"
+              contenido="Blablabla"
+              imagen="/ubicacion.png"
+            />
           </div>
 
           <div className="mt-4 text-sm">Accesos rapidos</div>

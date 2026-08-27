@@ -15,17 +15,17 @@ export default function AuthMiddleWare(req, res, next) {
     return res.status(401).send({
       message: "Invalid authorization header",
     });
+  }
 
-    try {
-      const payload = jwt.verify(token, process.env.JWT_SECRET);
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
 
-      req.user = payload;
+    req.user = payload;
 
-      next();
-    } catch (err) {
-      return res.status(401).send({
-        message: err.message,
-      });
-    }
+    next();
+  } catch (err) {
+    return res.status(401).send({
+      message: err.message,
+    });
   }
 }

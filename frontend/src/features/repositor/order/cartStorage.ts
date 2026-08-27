@@ -1,4 +1,4 @@
-import type { CatalogProduct } from "../catalog/data/catalogProducts";
+import type { StockProduct } from "../catalog/services/catalogApi";
 
 export type CartItem = {
   productId: string;
@@ -34,9 +34,11 @@ export function clearCart() {
   window.localStorage.removeItem(CART_STORAGE_KEY);
 }
 
-export function addProductToCart(product: CatalogProduct, boxes: number) {
+export function addProductToCart(product: StockProduct, boxes: number) {
   const cart = loadCart();
-  const existingItem = cart.find((item) => item.productId === product.id);
+  const existingItem = cart.find(
+    (item) => item.productId === String(product.productId),
+  );
   const addedAt = new Date().toISOString();
 
   if (existingItem) {
@@ -49,11 +51,11 @@ export function addProductToCart(product: CatalogProduct, boxes: number) {
   const nextCart = [
     ...cart,
     {
-      productId: product.id,
-      name: product.name,
-      code: product.code,
+      productId: String(product.productId),
+      name: product.getProduct.name,
+      code: String(product.getProduct.fischerCode),
       boxes,
-      imageSrc: product.imageSrc,
+      imageSrc: product.getProduct.productPicture,
       addedAt,
     },
   ];
