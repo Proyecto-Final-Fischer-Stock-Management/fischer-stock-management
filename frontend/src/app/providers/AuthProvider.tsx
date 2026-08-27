@@ -16,6 +16,7 @@ type AuthProviderProps = {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const savedToken = localStorage.getItem("auth_token");
@@ -25,6 +26,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setToken(savedToken);
       setUser(JSON.parse(savedUser));
     }
+
+    setIsLoading(false);
   }, []);
 
   const value = useMemo<AuthContextValue>(
@@ -32,6 +35,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       user,
       token,
       isAuthenticated: Boolean(user && token),
+      isLoading,
       login: (nextUser, nextToken) => {
         setUser(nextUser);
         setToken(nextToken);
@@ -45,7 +49,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         localStorage.removeItem("auth_user");
       },
     }),
-    [user, token],
+    [user, token, isLoading],
   );
 
   return <AuthContext value={value}>{children}</AuthContext>;
