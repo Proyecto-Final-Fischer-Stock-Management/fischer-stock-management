@@ -46,14 +46,14 @@ El backend ya tiene `package.json` preparado para Node.js, Express, Prisma 7, Ne
 ```bash
 cd backend
 npm install
-npm run prisma:generate
+npx prisma generate
 ```
 
 Si PowerShell bloquea `npm`, usa:
 
 ```bash
 npm.cmd install
-npm.cmd run prisma:generate
+npx.cmd run prisma generate
 ```
 
 No uses `npx prisma init` salvo que borres la carpeta `backend/prisma`, porque la arquitectura ya incluye `prisma/schema.prisma` y `prisma.config.ts`.
@@ -61,13 +61,13 @@ No uses `npx prisma init` salvo que borres la carpeta `backend/prisma`, porque l
 Para correr migraciones contra Neon/Vercel:
 
 ```bash
-npm run prisma:migrate
+npm run prisma migrate
 ```
 
 Para abrir Prisma Studio:
 
 ```bash
-npm run prisma:studio
+npm run prisma studio
 ```
 
 La explicacion completa de carpetas, archivos y conexiones esta separada en:
