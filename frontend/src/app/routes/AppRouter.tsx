@@ -7,6 +7,7 @@ import CheckInPage from "../../features/repositor/checkin/pages/CheckInPage";
 import OrderPage from "../../features/repositor/order/pages/OrderPage";
 import ProductFormPage from "../../features/repositor/product-form/pages/ProductFormPage";
 import RepositorHomePage from "../../features/repositor/home/pages/RepositorHomePage";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 export function AppRouter() {
   return (
@@ -14,7 +15,7 @@ export function AppRouter() {
       <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/login" element={<LoginPage />} />
 
-      <Route /*element={<ProtectedRoute allowedRoles={["admin"]} />}*/>
+      <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
         <Route path="/admin" element={<AdminHomePage />} />
         <Route path="/admin/catalog" element={<CatalogPage />} />
         <Route path="/admin/catalog/:productId" element={<ProductFormPage />} />
@@ -45,11 +46,14 @@ export function AppRouter() {
         />
       </Route>
 
-      <Route /*element={<ProtectedRoute allowedRoles={["repositor"]} />}*/>
+      <Route element={<ProtectedRoute allowedRoles={["repositor"]} />}>
         <Route path="/repositor/check-in" element={<CheckInPage />} />
         <Route path="/repositor" element={<RepositorHomePage />} />
         <Route path="/repositor/catalog" element={<CatalogPage />} />
-        <Route path="/repositor/catalog/:productId" element={<ProductFormPage />} />
+        <Route
+          path="/repositor/catalog/:productId"
+          element={<ProductFormPage />}
+        />
         <Route path="/repositor/form" element={<ProductFormPage />} />
         <Route path="/repositor/order" element={<OrderPage />} />
       </Route>
