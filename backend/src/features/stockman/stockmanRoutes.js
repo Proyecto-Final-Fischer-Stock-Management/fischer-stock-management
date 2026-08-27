@@ -6,9 +6,16 @@ const router = Router();
 router.get("/check-in/franchises", (req, res) => {});
 router.get("/check-in/branches", (req, res) => {});
 router.get("/check-in/sectors", (req, res) => {});
-router.post("/check-in", (req, res) => {});
 
-router.get("/home/last-check-in", (req, res) => {});
+// Check in
+router.post("/check-in", (req, res) => {
+  try {
+  } catch (err) {
+    return res.status(503).send({ message: err.message });
+  }
+});
+
+router.get("/last-check-in", (req, res) => {});
 
 // Get the products (access stock) by the stockman location
 router.get("/catalog/stock/:sectorId", async (req, res) => {

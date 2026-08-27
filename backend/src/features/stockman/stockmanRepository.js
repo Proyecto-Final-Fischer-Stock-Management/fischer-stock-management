@@ -16,6 +16,12 @@ export function GetByPlace(sectorId) {
           product_picture_type: true,
         },
       },
+      get_sector: {
+        select: {
+          sector: true,
+          sector_boss_email: true,
+        },
+      },
     },
   });
 }

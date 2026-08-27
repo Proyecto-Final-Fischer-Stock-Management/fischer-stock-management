@@ -86,7 +86,7 @@ export default function ProductFormPage() {
                   <div className="font-medium">{product.getProduct.name}</div>
                   <div className="flex h-7 w-20 shrink-0 items-center justify-between border border-gray-300 bg-white px-2 text-xs">
                     <span>{product.unitsPerCage}</span>
-                    <span className="text-[10px] text-gray-500">U/b</span>
+                    <span className="text-[10px] text-gray-500">Unit/box</span>
                   </div>
                 </div>
                 <div className="mt-3 leading-tight">

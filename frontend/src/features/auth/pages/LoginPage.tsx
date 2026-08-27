@@ -55,7 +55,7 @@ export default function LoginPage() {
 
         <div className="mt-8 border border-gray-300 bg-white px-4 py-5 text-sm shadow-sm">
           <label className="block">
-            <span className="mb-3 block">Ingrese email o usuario</span>
+            <span className="mb-3 block">Ingrese email</span>
             <div className="relative">
               <img
                 className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 object-contain"

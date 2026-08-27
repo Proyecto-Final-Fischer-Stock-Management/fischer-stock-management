@@ -21,5 +21,9 @@ export async function SGettingManyProcess(sectorId) {
 
       productPictureType: item.get_product.product_picture_type,
     },
+    getPlace: {
+      sector: item.get_sector.sector,
+      bossEmail: item.get_sector.sector_boss_email,
+    },
   }));
 }

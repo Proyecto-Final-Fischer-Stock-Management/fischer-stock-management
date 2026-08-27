@@ -6,8 +6,8 @@ POST http://localhost:4306/auth/login
 Content-Type: application/json
 
 {
-  "email": "testadmin@gmail.com",
-  "password": "321321321"
+  "email": "testmail@gmail.com",
+  "password": "123123123"
 }
 
 # ----------------ADMINISTRATOR ROUTES--------------------------------
@@ -48,7 +48,7 @@ Content-Type: application/json
 
 ### Get all products by place ---- Falta la imagen de cada producto
 GET http://localhost:4306/stockman/catalog/stock/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6IlN0b2NrbWFuIiwiaWF0IjoxNzg3Njk3NTg0LCJleHAiOjE3ODc3MDExODR9.1MyD4tdkwOn4ySC1y_cXAeyho8xG6PQgzC7wq9jbOnM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6IlN0b2NrbWFuIiwiaWF0IjoxNzg3ODUxMjI1LCJleHAiOjE3ODc4NTEzNDV9.tV-UTHX0IhkvJUhIMXN5YxjTRoesy4cG-BtpcnHz9dI
 
 
 

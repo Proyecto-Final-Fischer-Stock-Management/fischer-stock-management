@@ -15,7 +15,7 @@ export type StockProduct = {
     productPictureType: string;
   };
   getPlace: {
-    sector: number;
+    sector: string;
     sectorBossEmail: number;
   };
 };
