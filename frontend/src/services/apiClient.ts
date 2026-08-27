@@ -40,6 +40,9 @@ export async function apiRequest<TResponse>(
     : await response.text();
 
   if (!response.ok) {
+    if (response.status === 401) {
+      window.dispatchEvent(new Event("auth:logout"));
+    }
     const message =
       typeof payload === "object" && payload !== null && "message" in payload
         ? String(payload.message)

@@ -30,6 +30,21 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setIsLoading(false);
   }, []);
 
+  useEffect(() => {
+    const handleAuthLogout = () => {
+      setUser(null);
+      setToken(null);
+      localStorage.removeItem("auth_token");
+      localStorage.removeItem("auth_user");
+    };
+
+    window.addEventListener("auth:logout", handleAuthLogout);
+
+    return () => {
+      window.removeEventListener("auth:logout", handleAuthLogout);
+    };
+  });
+
   const value = useMemo<AuthContextValue>(
     () => ({
       user,
