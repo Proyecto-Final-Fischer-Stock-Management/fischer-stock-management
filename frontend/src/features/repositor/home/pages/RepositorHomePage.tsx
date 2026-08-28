@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ButtonImage } from "../../../../components/ui/Button";
 import ChInput from "../../../../components/ui/CheckInput";
 
@@ -16,12 +16,7 @@ export default function RepositorHomePage() {
         </div>
 
         <div className="flex items-center border-y border-gray-200 bg-white px-1 py-2">
-          <Link
-            to="/repositor"
-            aria-label="Pantalla principal"
-            className="flex h-8 w-10 items-center justify-center"
-          />
-          <div className="text-sm">Pantalla principal - repositor</div>
+          <div className="ml-10 text-sm">Pantalla principal - repositor</div>
         </div>
 
         <div className="px-4 py-4">

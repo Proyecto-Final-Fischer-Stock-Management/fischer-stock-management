@@ -1,2 +1,2 @@
 // Token expiration time
-export const expireTokenTime = "2m";
+export const expireTokenTime = "5m";
