@@ -3,9 +3,7 @@ import { SGettingManyProcess } from "./stockmanService.js";
 
 const router = Router();
 
-router.get("/check-in/franchises", (req, res) => {});
-router.get("/check-in/branches", (req, res) => {});
-router.get("/check-in/sectors", (req, res) => {});
+router.get("/check-in/info", (req, res) => {});
 
 // Check in
 router.post("/check-in", (req, res) => {

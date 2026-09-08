@@ -1,4 +1,6 @@
-import { GetByPlace } from "./stockmanRepository.js";
+import { GetByPlace, CheckIn } from "./stockmanRepository.js";
+
+export async function name(params) {}
 
 export async function SGettingManyProcess(sectorId) {
   const stock = await GetByPlace(sectorId);
