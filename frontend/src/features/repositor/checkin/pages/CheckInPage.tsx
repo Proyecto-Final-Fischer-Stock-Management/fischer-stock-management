@@ -1,4 +1,10 @@
+import { useLocation } from "react-router-dom";
+import { ButtonLink } from "../../../../components/ui/Button";
+
 export default function CheckInPage() {
+    const { pathname } = useLocation();
+    const isRepositorRoute = pathname.startsWith("/repositor");
+    const orderPath = isRepositorRoute ? "/repositor/order" : "/admin/order";
     return (
         <div className="min-h-screen bg-gray-200 px-4 py-6">
             <div className="mx-auto flex min-h-[calc(100vh-48px)] w-full max-w-sm flex-col bg-[#F4F4F4] px-4 py-8">
@@ -18,6 +24,9 @@ export default function CheckInPage() {
                         Información de la visita
                     </div>
                     </div>
+                    <ButtonLink to={orderPath} variant="primary" fullWidth>
+                        Iniciar visita <span className="ml-auto">›</span>
+                    </ButtonLink>
                 </div>
              </div>
         </div>
