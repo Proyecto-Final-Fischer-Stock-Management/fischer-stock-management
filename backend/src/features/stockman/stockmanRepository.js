@@ -4,7 +4,7 @@ export function CheckIn(franchise, branch, sector) {
   // Comparas un sector id que tenga misma franquicia, sucursal y sector que las que el usuario puso y eso es lo que devuelve
   return prisma.sectors.findUnique({
     where: {
-      has: {},
+      sector: sector,
     },
   });
 }
