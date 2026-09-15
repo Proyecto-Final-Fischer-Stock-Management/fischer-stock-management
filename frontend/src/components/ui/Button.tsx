@@ -25,7 +25,7 @@ type ButtonLinkProps = LinkProps & {
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    "rounded-md border border-blue-600 bg-blue-600 text-white hover:bg-blue-700",
+    "rounded-md border border-fischer bg-fischer text-white hover:bg-red-500",
   secondary:
     "border border-gray-300 bg-white text-gray-900 shadow-sm hover:bg-gray-50",
   ghost:
