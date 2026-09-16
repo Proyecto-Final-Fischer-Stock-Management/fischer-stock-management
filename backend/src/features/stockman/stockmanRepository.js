@@ -1,10 +1,37 @@
 import prisma from "../../../prisma/prisma.js";
 
-export function CheckIn(franchise, branch, sector) {
-  // Comparas un sector id que tenga misma franquicia, sucursal y sector que las que el usuario puso y eso es lo que devuelve
-  return prisma.sectors.findUnique({
+export function GetAllCheckInInfo() {
+  return prisma.sectors.findMany({
+    include: {
+      has_branch: {
+        include: {
+          has_franchise: true,
+        },
+      },
+    },
+  });
+}
+
+export function PostCheckIn(sectorId, stockmanId) {
+  return prisma.checkIn.create({
+    data: {
+      sector_id: sectorId,
+      usersR: {
+        connect: {
+          id: stockmanId,
+        },
+      },
+    },
+  });
+}
+
+export function GetLastCheckIn(stockmanId) {
+  return prisma.checkIn.findFirst({
     where: {
-      sector: sector,
+      usersR: stockmanId,
+    },
+    orderBy: {
+      checkin_time: "desc",
     },
   });
 }

@@ -1,25 +1,45 @@
 import { Router } from "express";
-import { SGettingManyProcess } from "./stockmanService.js";
+import * as service from "./stockmanService.js";
 
 const router = Router();
 
-router.get("/check-in/info", (req, res) => {});
-
-// Check in
-router.post("/check-in", (req, res) => {
+// get all places and details info --- A TESTEAR
+router.get("/check-in/info", async (req, res) => {
   try {
+    const info = await service.GettingPlaceInfo();
+    return res.status(200).send({ info });
   } catch (err) {
     return res.status(503).send({ message: err.message });
   }
 });
 
-router.get("/last-check-in", (req, res) => {});
+// Check in register --- A TESTEAR
+router.post("/check-in", async (req, res) => {
+  try {
+    const { sectorId, stockmanId } = req.body;
+    const result = await service.PostingCheckIn(sectorId, stockmanId);
+    return res.status(201).send({ result });
+  } catch (err) {
+    return res.status(503).send({ message: err.message });
+  }
+});
+
+// Get the last check that I made --- A TESTEAR
+router.get("/my-check-in", async (req, res) => {
+  try {
+    const { stockmanId } = req.params;
+    const info = await service.GettingLastCheckIn(stockmanId);
+    return res.status(200).send({ info });
+  } catch (err) {
+    return res.status(503).send({ message: err.message });
+  }
+});
 
 // Get the products (access stock) by the stockman location
 router.get("/catalog/stock/:sectorId", async (req, res) => {
   try {
     const { sectorId } = req.params;
-    const result = await SGettingManyProcess(Number(sectorId));
+    const result = await service.SGettingManyProcess(Number(sectorId));
     return res.status(200).send({ result });
   } catch (err) {
     return res.status(503).send({ message: err.message });

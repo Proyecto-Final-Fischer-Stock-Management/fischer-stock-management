@@ -1,9 +1,22 @@
-import { GetByPlace, CheckIn } from "./stockmanRepository.js";
+import * as repository from "./stockmanRepository.js";
 
-export async function name(params) {}
+export async function GettingPlaceInfo() {
+  const info = repository.GetAllCheckInInfo();
+  return info;
+}
+
+export async function PostingCheckIn(sectorId, stockmanId) {
+  await repository.PostCheckIn(sectorId, stockmanId);
+  return "Check in successfully posted";
+}
+
+export async function GettingLastCheckIn(stockmanId) {
+  const info = await repository.GetLastCheckIn(stockmanId);
+  return info;
+}
 
 export async function SGettingManyProcess(sectorId) {
-  const stock = await GetByPlace(sectorId);
+  const stock = await repository.GetByPlace(sectorId);
 
   return stock.map((item) => ({
     productId: item.product_id,
