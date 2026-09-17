@@ -46,6 +46,25 @@ Content-Type: application/json
 
 # ----------------STOCKMAN ROUTES--------------------------------
 
+### Get places information
+GET http://localhost:4306/stockman/check-in/info/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6IlN0b2NrbWFuIiwiaWF0IjoxNzg5Njg0NTM0LCJleHAiOjE3ODk2ODQ4MzR9.D-KP94tUTm_XqBeNJr291LOd-ExG4vrIiSke8wUmTik
+
+### Post the check in
+POST http://localhost:4306/stockman/check-in
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6IlN0b2NrbWFuIiwiaWF0IjoxNzg5Njg0NTM0LCJleHAiOjE3ODk2ODQ4MzR9.D-KP94tUTm_XqBeNJr291LOd-ExG4vrIiSke8wUmTik
+Content-Type: application/json
+
+{
+  "sectorId": 1,
+  "stockmanId": 2
+}
+
+### See my last check-in
+GET http://localhost:4306/stockman/my-check-in/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6IlN0b2NrbWFuIiwiaWF0IjoxNzg5Njg0NTM0LCJleHAiOjE3ODk2ODQ4MzR9.D-KP94tUTm_XqBeNJr291LOd-ExG4vrIiSke8wUmTik
+
+
 ### Get all products by place ---- Falta la imagen de cada producto
 GET http://localhost:4306/stockman/catalog/stock/1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6IlN0b2NrbWFuIiwiaWF0IjoxNzg3ODUxMjI1LCJleHAiOjE3ODc4NTEzNDV9.tV-UTHX0IhkvJUhIMXN5YxjTRoesy4cG-BtpcnHz9dI

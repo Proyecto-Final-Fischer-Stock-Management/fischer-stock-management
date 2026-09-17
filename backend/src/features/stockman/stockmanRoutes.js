@@ -3,7 +3,7 @@ import * as service from "./stockmanService.js";
 
 const router = Router();
 
-// get all places and details info --- A TESTEAR
+// get all places and details info
 router.get("/check-in/info", async (req, res) => {
   try {
     const info = await service.GettingPlaceInfo();
@@ -13,7 +13,7 @@ router.get("/check-in/info", async (req, res) => {
   }
 });
 
-// Check in register --- A TESTEAR
+// Check in register
 router.post("/check-in", async (req, res) => {
   try {
     const { sectorId, stockmanId } = req.body;
@@ -24,11 +24,11 @@ router.post("/check-in", async (req, res) => {
   }
 });
 
-// Get the last check that I made --- A TESTEAR
-router.get("/my-check-in", async (req, res) => {
+// Get the last check that I made
+router.get("/my-check-in/:stockmanId", async (req, res) => {
   try {
     const { stockmanId } = req.params;
-    const info = await service.GettingLastCheckIn(stockmanId);
+    const info = await service.GettingLastCheckIn(Number(stockmanId));
     return res.status(200).send({ info });
   } catch (err) {
     return res.status(503).send({ message: err.message });

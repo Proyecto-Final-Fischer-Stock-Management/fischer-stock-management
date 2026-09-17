@@ -28,10 +28,25 @@ export function PostCheckIn(sectorId, stockmanId) {
 export function GetLastCheckIn(stockmanId) {
   return prisma.checkIn.findFirst({
     where: {
-      usersR: stockmanId,
+      usersR: {
+        some: {
+          id: stockmanId,
+        },
+      },
     },
     orderBy: {
       checkin_time: "desc",
+    },
+    include: {
+      madein: {
+        include: {
+          has_branch: {
+            include: {
+              has_franchise: true,
+            },
+          },
+        },
+      },
     },
   });
 }
