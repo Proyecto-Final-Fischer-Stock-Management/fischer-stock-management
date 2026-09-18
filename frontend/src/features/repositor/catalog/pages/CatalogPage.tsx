@@ -48,7 +48,7 @@ export default function CatalogPage() {
           >
             <img className="h-4 w-4" src="/ep_arrow-left-bold.png" alt="" />
           </Link>
-          <div className="text-sm">Catálogo de producto</div>
+          <div className="text-sm">Catálogo de productos</div>
         </div>
 
         <div className="flex flex-1 flex-col gap-4 overflow-hidden px-4 py-4">

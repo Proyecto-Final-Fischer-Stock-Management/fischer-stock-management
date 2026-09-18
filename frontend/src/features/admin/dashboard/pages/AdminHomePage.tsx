@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ButtonLink } from "../../../../components/ui/Button";
+import { useAuth } from "../../../../hooks/useAuth";
 
 const rankingTabs = ["Mas vendido", "Mas quiebres", "Mas pedidos"];
 
@@ -31,6 +32,7 @@ const activity = [
 ];
 
 export default function AdminHomePage() {
+  const { logout } = useAuth();
   return (
     <div className="min-h-screen bg-gray-200 px-4 py-6">
       <div className="mx-auto flex min-h-[calc(100vh-48px)] w-full max-w-sm flex-col bg-[#F4F4F4]">
@@ -49,6 +51,12 @@ export default function AdminHomePage() {
             className="flex h-8 w-10 items-center justify-center"
           />
           <div className="text-sm">Pantalla Principal - Admin</div>
+          <button
+            onClick={logout}
+            className="flex justify-center items-center ml-20 bg-red-600 text-sm text-white h-7 w-18 rounded-xs"
+          >
+            Log out
+          </button>
         </div>
 
         <div className="flex flex-1 flex-col gap-4 px-4 py-4 text-sm">
@@ -117,7 +125,9 @@ export default function AdminHomePage() {
                     <div className="text-xs font-medium">{item.name}</div>
                     <div className="truncate text-[11px]">{item.detail}</div>
                   </div>
-                  <div className="shrink-0 text-[10px] text-gray-500">{item.time}</div>
+                  <div className="shrink-0 text-[10px] text-gray-500">
+                    {item.time}
+                  </div>
                 </div>
               ))}
             </div>

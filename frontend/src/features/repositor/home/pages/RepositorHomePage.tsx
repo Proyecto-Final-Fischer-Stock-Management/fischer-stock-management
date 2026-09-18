@@ -1,8 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { ButtonImage } from "../../../../components/ui/Button";
+import { useAuth } from "../../../../hooks/useAuth";
+
 import ChInput from "../../../../components/ui/CheckInput";
 
 export default function RepositorHomePage() {
+  const { logout } = useAuth();
   const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-gray-200 px-4 py-6">
@@ -17,28 +20,34 @@ export default function RepositorHomePage() {
 
         <div className="flex items-center border-y border-gray-200 bg-white px-1 py-2">
           <div className="ml-10 text-sm">Pantalla principal - repositor</div>
+          <button
+            onClick={logout}
+            className="flex justify-center items-center ml-18 bg-red-600 text-sm text-white h-7 w-18 rounded-xs"
+          >
+            Log out
+          </button>
         </div>
 
         <div className="px-4 py-4">
           <div className="mt-2 flex flex-col gap-2">
-            <div className="text-lg">Hola, Isabella</div>
+            <div className="text-lg">Hola, Joaquín</div>
             <div className="text-sm">Ultimo check-in</div>
           </div>
 
           <div className="mt-3 flex flex-col gap-2">
             <ChInput
               text="Sucursal:"
-              contenido="Blablabla"
+              contenido="Zapiola 2134"
               imagen="/ubicacion.png"
             />
             <ChInput
               text="Cadena:"
-              contenido="Blablabla"
+              contenido="Sodimac"
               imagen="/ubicacion.png"
             />
             <ChInput
               text="Sector:"
-              contenido="Blablabla"
+              contenido="Ferreteria"
               imagen="/ubicacion.png"
             />
           </div>

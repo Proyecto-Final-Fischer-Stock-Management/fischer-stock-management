@@ -7,7 +7,9 @@ export default function OrderPage() {
   const { pathname } = useLocation();
   const [items, setItems] = useState(() => loadCart());
   const isRepositorRoute = pathname.startsWith("/repositor");
-  const catalogPath = isRepositorRoute ? "/repositor/catalog" : "/admin/catalog";
+  const catalogPath = isRepositorRoute
+    ? "/repositor/catalog"
+    : "/admin/catalog";
   const totalBoxes = items.reduce((total, item) => total + item.boxes, 0);
   const orderDate = useMemo(
     () =>
@@ -123,7 +125,7 @@ export default function OrderPage() {
             </Button>
             {items.length > 0 ? (
               <Button variant="ghost" fullWidth onClick={handleClearCart}>
-                Vaciar carrito
+                Vaciar lista
               </Button>
             ) : null}
           </div>

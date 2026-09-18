@@ -25,13 +25,14 @@ GET http://localhost:4306/administrator/accounts/users/1
 
 ### Create a user
 POST http://localhost:4306/administrator/accounts/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6IlN0b2NrbWFuIiwiaWF0IjoxNzg5NjkwMzE1LCJleHAiOjE3ODk2OTA2MTV9.OXH-IETCKACLF2ZEJMb9Ou1sq5A2htdS4ml0rNGqbwY
 Content-Type: application/json
 
 {
-  "completeName": "Persona de Test",
-  "email": "testmail@gmail.com",
+  "completeName": "Lola Dominguez",
+  "email": "testadmin@gmail.com",
   "role": "Administrator",
-  "password": "123123123"
+  "password": "123412341234"
 }
 
 ### Delete a user
