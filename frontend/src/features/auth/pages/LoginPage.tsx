@@ -45,13 +45,9 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-gray-200 px-4 py-6">
       <div className="mx-auto flex min-h-[calc(100vh-48px)] w-full max-w-sm flex-col bg-[#F4F4F4] px-4 py-8">
-        <div className="shrink-0 text-center text-base">Bienvenido</div>
+        <div className="shrink-0 text-center text-2xl pt-10 pb-15">Bienvenido</div>
 
-        <img
-          className="mx-auto mt-8 h-35 w-35 shrink-0 object-contain"
-          src="/FOTO USUARIO.png"
-          alt=""
-        />
+
 
         <div className="mt-8 border border-gray-300 bg-white px-4 py-5 text-sm shadow-sm">
           <label className="block">
@@ -126,9 +122,9 @@ export default function LoginPage() {
             </Button>
           </div>
         </div>
-
+        <div className="pt-6">
         <Button
-          variant="secondary"
+          variant="primary"
           fullWidth
           className="mt-4"
           disabled={!emailOrUser || !password || isSubmitting}
@@ -136,6 +132,7 @@ export default function LoginPage() {
         >
           {isSubmitting ? "Ingresando..." : "Log in"}
         </Button>
+        </div>
       </div>
     </div>
   );

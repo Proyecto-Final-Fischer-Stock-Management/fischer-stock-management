@@ -36,10 +36,10 @@ export default function AdminHomePage() {
   return (
     <div className="min-h-screen bg-gray-200 px-4 py-6">
       <div className="mx-auto flex min-h-[calc(100vh-48px)] w-full max-w-sm flex-col bg-[#F4F4F4]">
-        <div className="bg-white px-4 pt-5 pb-3">
+        <div className="bg-red-600 px-4 pt-10 pb-4">
           <img
-            className="h-16 w-28 object-contain"
-            src="/Logo Fischer  sin fondo.png"
+            className="h-6 w-18 object-contain"
+            src="/fischerLog.png"
             alt="Fischer"
           />
         </div>
@@ -67,15 +67,15 @@ export default function AdminHomePage() {
               className="h-12 justify-between rounded-sm px-4 text-xs"
               fullWidth
             >
-              Añadir stock <span className="text-xl leading-none">›</span>
+              Visualizar stock <span className="text-xl leading-none"></span>
             </ButtonLink>
             <ButtonLink
               to="/admin/accounts/create"
               variant="secondary"
-              className="h-12 justify-between rounded-sm px-4 text-xs"
+              className="h-12 justify-between rounded-sm px-4 text-xs hover-bg-red-200"
               fullWidth
             >
-              Crear cuenta <span className="text-xl leading-none">›</span>
+              Visualizar cuentas <span className="text-xl leading-none"></span>
             </ButtonLink>
           </div>
 

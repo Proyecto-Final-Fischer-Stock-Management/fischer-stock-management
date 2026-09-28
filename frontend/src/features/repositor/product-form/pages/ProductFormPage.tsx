@@ -50,10 +50,10 @@ export default function ProductFormPage() {
   return (
     <div className="min-h-screen bg-gray-200 px-4 py-6">
       <div className="mx-auto flex min-h-[calc(100vh-48px)] w-full max-w-sm flex-col bg-[#F4F4F4]">
-        <div className="bg-white px-4 pt-5 pb-3">
+        <div className="bg-red-600 px-4 pt-10 pb-4">
           <img
-            className="h-16 w-28 object-contain"
-            src="/Logo Fischer  sin fondo.png"
+            className="h-6 w-18 object-contain"
+            src="/fischerLog.png"
             alt="Fischer"
           />
         </div>
@@ -122,7 +122,7 @@ export default function ProductFormPage() {
                     className={[
                       "h-8 border-r border-gray-300 text-sm",
                       hasStockBreak === "yes"
-                        ? "bg-blue-600 text-white"
+                        ? "bg-red-600 text-white"
                         : "bg-white",
                     ]
                       .filter(Boolean)
@@ -136,7 +136,7 @@ export default function ProductFormPage() {
                     className={[
                       "h-8 text-sm",
                       hasStockBreak === "no"
-                        ? "bg-blue-600 text-white"
+                        ? "bg-red-600 text-white"
                         : "bg-white",
                     ]
                       .filter(Boolean)
@@ -170,7 +170,7 @@ export default function ProductFormPage() {
 
               <label className="mt-3 block">
                 <span className="mb-2 block">Sugerencias / observaciones</span>
-                <textarea className="h-12 w-full resize-none border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                <textarea className="h-12 w-full resize-none border border-gray-300 bg-white px-3 py-2 text-sm focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none" />
               </label>
 
               <Button
