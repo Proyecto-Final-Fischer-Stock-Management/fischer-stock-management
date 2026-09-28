@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../../../components/ui/Button";
 import Input from "../../../components/ui/Input";
 import { useAuth } from "../../../hooks/useAuth";
+import { clearLastCheckIn } from "../../repositor/checkin/checkinStorage";
 import { loginRequest } from "../services/authApi";
 
 export default function LoginPage() {
@@ -18,7 +19,7 @@ export default function LoginPage() {
     if (isAuthenticated && authUser?.role === "admin") {
       navigate("/admin", { replace: true });
     } else if (isAuthenticated && authUser?.role === "repositor") {
-      navigate("/repositor", { replace: true });
+      navigate("/repositor/check-in", { replace: true });
     }
   }, [authUser?.role, isAuthenticated, navigate]);
 
@@ -31,6 +32,10 @@ export default function LoginPage() {
         email: emailOrUser,
         password,
       });
+
+      if (session.user.role === "repositor") {
+        clearLastCheckIn();
+      }
 
       login(session.user, session.token);
     } catch (error) {
@@ -137,3 +142,4 @@ export default function LoginPage() {
     </div>
   );
 }
+

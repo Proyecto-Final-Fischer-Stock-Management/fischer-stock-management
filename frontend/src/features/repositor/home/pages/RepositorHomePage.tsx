@@ -1,71 +1,88 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ButtonImage } from "../../../../components/ui/Button";
+import { Button } from "../../../../components/ui/Button";
 import { useAuth } from "../../../../hooks/useAuth";
-
-import ChInput from "../../../../components/ui/CheckInput";
+import { loadLastCheckIn, type RepositorCheckIn } from "../../checkin/checkinStorage";
 
 export default function RepositorHomePage() {
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const [lastCheckIn] = useState<RepositorCheckIn | null>(() => loadLastCheckIn());
+
+  useEffect(() => {
+    if (!lastCheckIn) {
+      navigate("/repositor/check-in", { replace: true });
+    }
+  }, [lastCheckIn, navigate]);
+
+  if (!lastCheckIn) {
+    return null;
+  }
+
   return (
     <div className="min-h-screen bg-gray-200 px-4 py-6">
       <div className="mx-auto flex min-h-[calc(100vh-48px)] w-full max-w-sm flex-col bg-[#F4F4F4]">
-        <div className="bg-red-600 px-4 pt-10 pb-4">
-          <img
-            className="h-6 w-18 object-contain"
-            src="/fischerLog.png"
-            alt="Fischer"
-          />
+        <div className="bg-red-600 px-6 pt-7 pb-6 text-white">
+          <div className="flex items-center justify-between text-sm text-black">
+            <span>9:41</span>
+            <span className="text-xs">▮▮▮ ᯤ ▭</span>
+          </div>
+          <img className="mt-4 h-8 w-28 object-contain" src="/fischerLog.png" alt="Fischer" />
         </div>
 
-        <div className="flex items-center border-y border-gray-200 bg-white px-1 py-2">
-          <div className="ml-10 text-sm">Pantalla principal - repositor</div>
-          <button
+        <div className="border-b border-gray-300 bg-white px-7 py-4 text-center text-sm">
+          Pantalla principal - repositor
+        </div>
+
+        <main className="flex flex-1 flex-col px-6 py-6 text-sm text-black">
+          <div>Bienvenido de nuevo</div>
+
+          <section className="mt-6 overflow-hidden rounded-sm border border-gray-300 bg-white shadow-sm">
+            <div className="border-b border-gray-300 px-4 py-4 text-center">
+              Ultimo Check in
+            </div>
+            <div className="border-b border-gray-300 px-4 py-5 text-center">
+              Sucursal: {lastCheckIn.branch}
+            </div>
+            <div className="border-b border-gray-300 px-4 py-5 text-center">
+              Cadena: {lastCheckIn.chain}
+            </div>
+            <div className="px-4 py-5 text-center">Sector: {lastCheckIn.sector}</div>
+          </section>
+
+          <div className="mt-7 flex flex-col gap-4">
+            <button
+              type="button"
+              onClick={() => navigate("/repositor/check-in")}
+              className="flex h-15 items-center gap-7 rounded-sm border border-gray-300 bg-white px-5 text-left shadow-sm transition-colors hover:bg-gray-50"
+            >
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-violet-100 text-2xl text-black">
+                ↪
+              </span>
+              <span>Check Out</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => navigate("/repositor/catalog")}
+              className="flex h-15 items-center gap-7 rounded-sm border border-gray-300 bg-white px-5 text-left shadow-sm transition-colors hover:bg-gray-50"
+            >
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-violet-100 text-2xl text-black">
+                ⌕
+              </span>
+              <span>Buscar producto</span>
+            </button>
+          </div>
+
+          <Button
+            variant="ghost"
+            size="sm"
+            className="mt-auto self-center text-gray-500"
             onClick={logout}
-            className="flex justify-center items-center ml-18 bg-red-600 text-sm text-white h-7 w-18 rounded-xs"
           >
             Log out
-          </button>
-        </div>
-
-        <div className="px-4 py-4">
-          <div className="mt-2 flex flex-col gap-2">
-            <div className="text-lg">Hola, Joaquín</div>
-            <div className="text-sm">Ultimo check-in</div>
-          </div>
-
-          <div className="mt-3 flex flex-col gap-2">
-            <ChInput
-              text="Sucursal:"
-              contenido="Zapiola 2134"
-              imagen="/ubicacion.png"
-            />
-            <ChInput
-              text="Cadena:"
-              contenido="Sodimac"
-              imagen="/ubicacion.png"
-            />
-            <ChInput
-              text="Sector:"
-              contenido="Ferreteria"
-              imagen="/ubicacion.png"
-            />
-          </div>
-
-          <div className="mt-4 text-sm">Accesos rapidos</div>
-          <div className="mt-3 grid grid-cols-2 gap-3">
-            <ButtonImage
-              imageSrc="/Group 29.png"
-              altText="Buscar productos"
-              onClick={() => navigate("/repositor/catalog")}
-            />
-            <ButtonImage
-              imageSrc="/Group 28.png"
-              altText="Check-out"
-              onClick={() => navigate("/repositor/check-in")}
-            />
-          </div>
-        </div>
+          </Button>
+        </main>
       </div>
     </div>
   );
