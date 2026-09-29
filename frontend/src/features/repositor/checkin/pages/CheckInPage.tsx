@@ -3,9 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../../../../components/ui/Button";
 import { saveLastCheckIn } from "../checkinStorage";
 
+//cambiar por la info del backend de fecha y hora
 const visitDate = "20/05/26";
 const visitTime = "09:41 AM";
 
+//cambiar por la info del backend de la cadena, sucursal y sector
 const chains = ["Easy", "Sodimac", "Carrefour", "Coto"];
 const branches = ["Easy Vicente Lopez", "Sucursal Centro", "Sucursal Norte"];
 const sectors = ["Ferreteria", "Herramientas", "Construccion"];
@@ -75,10 +77,8 @@ export default function CheckInPage() {
   return (
     <div className="min-h-screen bg-gray-200 px-4 py-6">
       <div className="mx-auto flex min-h-[calc(100vh-48px)] w-full max-w-sm flex-col bg-[#F4F4F4]">
-        <div className="bg-red-600 px-6 pt-7 pb-6 text-white">
-          <div className="flex items-center justify-between text-sm text-black">f
-          </div>
-          <img className="mt-4 h-6 w-18 object-contain" src="/fischerLog.png" alt="Fischer" />
+        <div className="bg-red-600 px-4 pt-10 pb-4 text-white">
+          <img className="h-6 w-18 object-contain" src="/fischerLog.png" alt="Fischer" />
         </div>
 
         <main className="flex flex-1 flex-col px-6 py-12 text-black">
