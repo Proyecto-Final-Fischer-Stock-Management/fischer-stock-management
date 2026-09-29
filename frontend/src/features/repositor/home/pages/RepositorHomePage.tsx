@@ -22,12 +22,8 @@ export default function RepositorHomePage() {
   return (
     <div className="min-h-screen bg-gray-200 px-4 py-6">
       <div className="mx-auto flex min-h-[calc(100vh-48px)] w-full max-w-sm flex-col bg-[#F4F4F4]">
-        <div className="bg-red-600 px-6 pt-7 pb-6 text-white">
-          <div className="flex items-center justify-between text-sm text-black">
-            <span>9:41</span>
-            <span className="text-xs">▮▮▮ ᯤ ▭</span>
-          </div>
-          <img className="mt-4 h-8 w-28 object-contain" src="/fischerLog.png" alt="Fischer" />
+        <div className="bg-red-600 px-4 pt-10 pb-4 text-white">
+          <img className="h-6 w-18 object-contain" src="/fischerLog.png" alt="Fischer" />
         </div>
 
         <div className="border-b border-gray-300 bg-white px-7 py-4 text-center text-sm">
@@ -56,9 +52,11 @@ export default function RepositorHomePage() {
               onClick={() => navigate("/repositor/check-in")}
               className="flex h-15 items-center gap-7 rounded-sm border border-gray-300 bg-white px-5 text-left shadow-sm transition-colors hover:bg-gray-50"
             >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-violet-100 text-2xl text-black">
-                ↪
-              </span>
+              <img 
+              className="flex h-10 w-10 shrink-0 items-center justify-center"
+              src="CheckOut.png"
+              alt="Check out"
+              />
               <span>Check Out</span>
             </button>
 
@@ -67,9 +65,11 @@ export default function RepositorHomePage() {
               onClick={() => navigate("/repositor/catalog")}
               className="flex h-15 items-center gap-7 rounded-sm border border-gray-300 bg-white px-5 text-left shadow-sm transition-colors hover:bg-gray-50"
             >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-violet-100 text-2xl text-black">
-                ⌕
-              </span>
+              <img 
+              className="flex h-10 w-10 shrink-0 items-center justify-center"
+              src="Lupa2.png"
+              alt="Buscar"
+              />
               <span>Buscar producto</span>
             </button>
           </div>
