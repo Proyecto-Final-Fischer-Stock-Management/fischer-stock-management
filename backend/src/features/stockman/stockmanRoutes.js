@@ -46,13 +46,4 @@ router.get("/catalog/stock/:sectorId", async (req, res) => {
   }
 });
 
-// Post the products that the stockman wants to modify
-router.post("/order/product", (req, res) => {});
-
-// get the all the products that the stockman had selected
-router.get("/order/products", (req, res) => {});
-router.put("/order/product", (req, res) => {});
-router.delete("/order/product", (req, res) => {});
-router.post("/order", (req, res) => {});
-
 export default router;
