@@ -76,3 +76,5 @@ export function GetByPlace(sectorId) {
     },
   });
 }
+
+export function SendOrder(params) {}

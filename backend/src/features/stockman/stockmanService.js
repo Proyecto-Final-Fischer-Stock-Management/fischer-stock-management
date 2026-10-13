@@ -42,3 +42,5 @@ export async function SGettingManyProcess(sectorId) {
     },
   }));
 }
+
+export async function SendingOrder(updatedStock, stockOut, timeOfSend) {}
