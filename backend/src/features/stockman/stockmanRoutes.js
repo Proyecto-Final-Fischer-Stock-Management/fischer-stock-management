@@ -50,8 +50,13 @@ router.get("/catalog/stock/:sectorId", async (req, res) => {
 router.put("/sendorder", async (req, res) => {
   try {
     const { updatedStock, stockOut, timeOfSend, franchise } = req.body;
-    const result = await service.SendingOrder(updatedStock, stockOut);
-    return res.status(202).send({ message: err.message });
+    const result = await service.SendingOrder(
+      updatedStock,
+      stockOut,
+      timeOfSend,
+      franchise,
+    );
+    return res.status(202).send({ result });
   } catch (err) {
     return res.status(503).send({ message: err.message });
   }
