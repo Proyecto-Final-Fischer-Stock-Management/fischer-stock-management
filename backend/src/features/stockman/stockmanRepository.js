@@ -77,4 +77,27 @@ export function GetByPlace(sectorId) {
   });
 }
 
-export function SendOrder(params) {}
+export function SendOrder(
+  stockId,
+  updatedStock,
+  stockOut,
+  timeOfSend,
+  franchise,
+) {
+  return prisma.stock.update({
+    where: {
+      product_id: stockId,
+    },
+    data: {
+      updated_stock: updatedStock,
+      update_time: timeOfSend,
+      get_product: {
+        update: {
+          data: {
+            stockout: stockOut,
+          },
+        },
+      },
+    },
+  });
+}

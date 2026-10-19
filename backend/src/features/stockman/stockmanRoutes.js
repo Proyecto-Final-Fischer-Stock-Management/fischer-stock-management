@@ -49,8 +49,9 @@ router.get("/catalog/stock/:sectorId", async (req, res) => {
 // Modify the product's information
 router.put("/sendorder", async (req, res) => {
   try {
-    const { updatedStock, stockOut, timeOfSend, franchise } = req.body;
+    const { stockId, updatedStock, stockOut, timeOfSend, franchise } = req.body;
     const result = await service.SendingOrder(
+      stockId,
       updatedStock,
       stockOut,
       timeOfSend,

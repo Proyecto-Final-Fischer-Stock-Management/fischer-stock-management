@@ -44,8 +44,18 @@ export async function SGettingManyProcess(sectorId) {
 }
 
 export async function SendingOrder(
+  stockId,
   updatedStock,
   stockOut,
   timeOfSend,
   franchise,
-) {}
+) {
+  await repository.SendOrder(
+    stockId,
+    updatedStock,
+    stockOut,
+    timeOfSend,
+    franchise,
+  );
+  return "Order succesfully sent";
+}
