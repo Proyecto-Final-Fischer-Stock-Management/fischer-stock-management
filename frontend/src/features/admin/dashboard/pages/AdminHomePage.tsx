@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { ButtonLink } from "../../../../components/ui/Button";
 import { useAuth } from "../../../../hooks/useAuth";
 
-const rankingTabs = ["Mas vendido", "Mas quiebres", "Mas pedidos"];
+const rankingTabs = ["Mas quiebres", "Mas pedidos"];
 
 const activity = [
   {
@@ -62,7 +62,7 @@ export default function AdminHomePage() {
         <div className="flex flex-1 flex-col gap-4 px-4 py-4 text-sm">
           <div className="grid grid-cols-2 gap-3">
             <ButtonLink
-              to="/admin/stock/create"
+              to="/admin/stock"
               variant="secondary"
               className="h-12 justify-between rounded-sm px-4 text-xs"
               fullWidth
@@ -70,7 +70,7 @@ export default function AdminHomePage() {
               Visualizar stock <span className="text-xl leading-none"></span>
             </ButtonLink>
             <ButtonLink
-              to="/admin/accounts/create"
+              to="/admin/accounts"
               variant="secondary"
               className="h-12 justify-between rounded-sm px-4 text-xs hover-bg-red-200"
               fullWidth

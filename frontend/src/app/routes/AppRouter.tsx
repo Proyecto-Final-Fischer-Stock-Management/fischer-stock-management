@@ -8,6 +8,8 @@ import OrderPage from "../../features/repositor/order/pages/OrderPage";
 import ProductFormPage from "../../features/repositor/product-form/pages/ProductFormPage";
 import RepositorHomePage from "../../features/repositor/home/pages/RepositorHomePage";
 import { ProtectedRoute } from "./ProtectedRoute";
+import AccountsPage from "../../features/admin/accounts/pages/AccountsPage";
+import StockPage from "../../features/admin/stock/pages/StockPage";
 
 export function AppRouter() {
   return (
@@ -20,10 +22,8 @@ export function AppRouter() {
         <Route path="/admin/catalog" element={<CatalogPage />} />
         <Route path="/admin/catalog/:productId" element={<ProductFormPage />} />
         <Route path="/admin/order" element={<OrderPage />} />
-        <Route
-          path="/admin/stock"
-          element={<AdminPlaceholderPage title="Añadir stock" />}
-        />
+        <Route path="/admin/accounts" element={<AccountsPage />} />
+        <Route path="/admin/stock" element={<StockPage />} />
         <Route
           path="/admin/stock/create"
           element={<AdminPlaceholderPage title="Añadir stock" />}
@@ -33,12 +33,8 @@ export function AppRouter() {
           element={<AdminPlaceholderPage title="Editar stock" />}
         />
         <Route
-          path="/admin/accounts"
-          element={<AdminPlaceholderPage title="Crear cuenta" />}
-        />
-        <Route
           path="/admin/accounts/create"
-          element={<AdminPlaceholderPage title="Crear cuenta" />}
+          element={<AdminPlaceholderPage title="Editar stock" />}
         />
         <Route
           path="/admin/accounts/:userId/edit"
