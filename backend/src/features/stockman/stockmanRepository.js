@@ -91,6 +91,7 @@ export function SendOrder(
     data: {
       updated_stock: updatedStock,
       update_time: timeOfSend,
+      update_place: franchise,
       get_product: {
         update: {
           data: {
