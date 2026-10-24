@@ -25,7 +25,11 @@ model Users {
 
 model Product {
   fischer_code         Int       @id @unique
-  easy_sap             Int       @unique
+  easy_sap             String    @unique
+  sodimac_sku          String    @unique
+  carrfour_ean         Int       @unique
+  anonima_codint       Int       @unique
+  hipertehuelche_code  String    @unique
   stockout             Boolean   @default(true)
   name                 String
   product_picture      Bytes
