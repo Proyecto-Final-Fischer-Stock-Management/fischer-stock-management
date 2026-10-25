@@ -47,6 +47,24 @@ export function DeleteUser(id) {
   });
 }
 
+export function GetAllProducts() {
+  return prisma.product.findMany({
+    select: {
+      fischer_code: true,
+      name: true,
+      product_picture: true,
+    },
+  });
+}
+
+export function GetOneProduct(fischerCode) {
+  return prisma.product.findUnique({
+    where: {
+      fischer_code: fischerCode,
+    },
+  });
+}
+
 export function CreateProduct(fischerCode, easySap, name, productPicture) {
   return prisma.product.create({
     data: {
@@ -54,6 +72,14 @@ export function CreateProduct(fischerCode, easySap, name, productPicture) {
       easy_sap: easySap,
       name: name,
       product_picture: productPicture,
+    },
+  });
+}
+
+export function DeleteProduct(fischerCode) {
+  return prisma.product.delete({
+    where: {
+      fischer_code: fischerCode,
     },
   });
 }

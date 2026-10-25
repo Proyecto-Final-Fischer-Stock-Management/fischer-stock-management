@@ -28,7 +28,10 @@ export async function SGettingManyProcess(sectorId) {
       fischerCode: item.get_product.fischer_code,
       name: item.get_product.name,
       easySap: item.get_product.easy_sap,
-      stockout: item.get_product.stockout,
+      sodimacSku: item.get_product.sodimac_sku,
+      carrefourEan: item.get_product.carrefour_ean,
+      anonimaCodInt: item.get_product.anonima_codint,
+      hipertehuelcheCode: item.get_product.hipertehuelche_code,
 
       productPicture: item.get_product.product_picture
         ? item.get_product.product_picture.toString("base64")

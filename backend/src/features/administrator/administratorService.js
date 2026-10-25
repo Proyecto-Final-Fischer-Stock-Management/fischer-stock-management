@@ -29,6 +29,16 @@ export async function UDeletionProcess(id) {
   return "User successfully deleted";
 }
 
+export async function PGettingAllProcess() {
+  const information = await repository.GetAllProducts();
+  return information;
+}
+
+export async function PGettingOneProcess(fischerCode) {
+  const information = await repository.GetOneProduct(fischerCode);
+  return information;
+}
+
 export async function PCreationProcess(
   fischerCode,
   easySap,
@@ -40,4 +50,9 @@ export async function PCreationProcess(
   }
   await repository.CreateProduct(fischerCode, easySap, name, productPicture);
   return "Product successfully created";
+}
+
+export async function PDeletionProcess(fischerCode) {
+  await repository.DeleteProduct(fischerCode);
+  return "Product successfully deleted";
 }

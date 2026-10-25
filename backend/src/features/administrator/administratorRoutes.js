@@ -1,12 +1,6 @@
 import { Router } from "express";
 import multer from "multer";
-import {
-  UGettingOneProcess,
-  UCreationProcess,
-  UDeletionProcess,
-  UGettingAllProcess,
-  PCreationProcess,
-} from "./administratorService.js";
+import * as service from "./administratorService.js";
 
 const router = Router();
 
@@ -22,7 +16,7 @@ router.get("/accounts/user", async (req, res) => {
   try {
     const { id } = req.body;
 
-    const user = await UGettingOneProcess(id);
+    const user = await service.UGettingOneProcess(id);
 
     return res.status(200).send({
       user,
@@ -38,7 +32,7 @@ router.get("/accounts/user", async (req, res) => {
 router.get("/accounts/users/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const users = await UGettingAllProcess(id);
+    const users = await service.UGettingAllProcess(id);
     return res.status(200).send({
       users,
     });
@@ -54,7 +48,12 @@ router.post("/accounts/user", async (req, res) => {
   try {
     const { completeName, email, role, password } = req.body;
 
-    const result = await UCreationProcess(completeName, email, role, password);
+    const result = await service.UCreationProcess(
+      completeName,
+      email,
+      role,
+      password,
+    );
 
     return res.status(201).send({ result });
   } catch (err) {
@@ -76,7 +75,7 @@ router.delete("/accounts/user", async (req, res) => {
   try {
     const { id } = req.body;
 
-    const result = await UDeletionProcess(id);
+    const result = await service.UDeletionProcess(id);
 
     return res.status(200).send({ result });
   } catch (err) {
@@ -86,46 +85,24 @@ router.delete("/accounts/user", async (req, res) => {
   }
 });
 
-// Get all products --- TO FINISH
+// Get all products --- TO TEST
 router.get("/stock/products", async (req, res) => {
   try {
-    const products = await prisma.product.findMany({
-      select: {
-        fischer_code: true,
-        easy_sap: true,
-        name: true,
-        product_picture: true,
-      },
-    });
-    return res.status(200).send({
-      products: products,
-    });
+    const info = await service.PGettingAllProcess();
+    return res.status(200).send({ info });
   } catch (err) {
-    console.log(err.message);
-    res.sendStatus(503);
+    res.status(503).send({ message: err.message });
   }
 });
 
-// Get one product --- TO FINISH
+// Get one product --- TO TEST
 router.get("/stock/product", async (req, res) => {
   try {
     const { fischerCode } = req.body;
-    const product = await prisma.product.findUnique({
-      where: {
-        fischer_code: fischerCode,
-      },
-    });
-    return res.status(200).send({
-      product: {
-        fischerCode: product.fischer_code,
-        easySap: product.easy_sap,
-        name: product.name,
-        productPicture: product.product_picture,
-      },
-    });
+    const info = await service.PGettingOneProcess(fischerCode);
+    return res.status(200).send({ info });
   } catch (err) {
-    console.log(err.message);
-    res.sendStatus(503);
+    res.status(503).send({ message: err.message });
   }
 });
 
@@ -138,7 +115,7 @@ router.post(
       const { fischerCode, easySap, name, sector_id, productPictureType } =
         req.body;
       const productPicture = req.file.buffer;
-      const result = await PCreationProcess(
+      const result = await service.PCreationProcess(
         Number(fischerCode),
         Number(easySap),
         name,
@@ -158,15 +135,12 @@ router.post(
 );
 // router.put("/stock/product", async (req, res) => {});
 
-// Delete a product --- TO FINISH
+// Delete a product --- TO TEST
 router.delete("/stock/product", async (req, res) => {
   try {
     const { fischerCode } = req.body;
-    const product = await prisma.product.delete({
-      where: {
-        fischer_code: fischerCode,
-      },
-    });
+    const result = await service.PDeletionProcess;
+    return res.status(202).send(result);
   } catch (err) {
     return res.status(503).send({
       message: err.message,
