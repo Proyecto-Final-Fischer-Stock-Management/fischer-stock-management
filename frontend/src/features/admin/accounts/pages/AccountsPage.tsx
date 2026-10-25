@@ -1,32 +1,54 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { ButtonLink } from "../../../../components/ui/Button";
+import AdminListLayout from "../../components/AdminListLayout";
+import { FilterButtons, SearchField, UserIcon } from "../../components/AdminListControls";
+import { demoAccounts, normalizeSearch, type DemoAccount } from "../../data/demoData";
+import UserList from "../components/UserList";
+
+const roles = ["Administrador", "Repositor"] as const;
 
 export default function AccountsPage() {
+  const [users, setUsers] = useState(demoAccounts);
+  const [search, setSearch] = useState("");
+  const [selectedRole, setSelectedRole] = useState<(typeof roles)[number]>("Administrador");
+  const [notice, setNotice] = useState("");
+  const query = normalizeSearch(search);
+  const visibleUsers = users.filter((user) => normalizeSearch(user.name).includes(query));
+
+  function deleteUser(user: DemoAccount) {
+    if (!window.confirm(`¿Eliminar la cuenta de ejemplo de ${user.name}?`)) return;
+    setUsers((current) => current.filter((item) => item.id !== user.id));
+    setNotice(`Se eliminó la cuenta de ejemplo de ${user.name} de esta vista.`);
+  }
+
   return (
-    <div className="min-h-screen bg-gray-200 px-4 py-6">
-      <div className="mx-auto flex min-h-[calc(100vh-48px)] w-full max-w-sm flex-col bg-[#F4F4F4]">
-        <div className="bg-red-600 px-4 pt-10 pb-4">
-          <img
-            className="h-6 w-18 object-contain"
-            src="/fischerLog.png"
-            alt="Fischer"
-          />
-        </div>
-
-        <div className="flex items-center border-y border-gray-200 bg-white px-1 py-2">
-          <Link
-            to="/admin"
-            aria-label="Volver a pantalla principal"
-            className="flex h-8 w-10 items-center justify-center"
-          >
-            <img className="h-4 w-4" src="/ep_arrow-left-bold.png" alt="" />
-          </Link>
-          <div className="text-sm"></div>
-        </div>
-
-        <div className="flex flex-1 items-center justify-center px-4 text-center text-sm text-gray-500">
-          Pantalla pendiente de contenido. Visualizar cuentas
-        </div>
+    <AdminListLayout title="Cuentas de usuarios">
+      <div className="flex flex-col gap-3">
+        <SearchField label="Buscar cuenta por nombre o apellido" value={search} onChange={setSearch} />
+        <ButtonLink to="/admin/accounts/create" fullWidth className="min-h-11 gap-3 rounded-sm text-xs font-semibold">
+          <UserIcon add />
+          Crear usuario
+        </ButtonLink>
       </div>
-    </div>
+      <section aria-label="Filtros de usuarios" className="flex flex-col gap-3">
+        <p className="text-xs">Filtrar por:</p>
+        <FilterButtons label="Rol del usuario" options={roles} selected={selectedRole} onSelect={setSelectedRole} />
+      </section>
+      <p className="text-xs" role="status">
+        Total de cuentas: <span className="text-red-600">{users.length}</span>
+        {query && <span className="ml-2 text-gray-500">Resultados: {visibleUsers.length}</span>}
+      </p>
+      <div>
+        {visibleUsers.length > 0 ? (
+          <UserList users={visibleUsers} onDelete={deleteUser} />
+        ) : (
+          <p className="rounded-sm border border-gray-300 bg-white px-4 py-6 text-center text-xs text-gray-500">
+            {query ? "No se encontraron cuentas con ese nombre o apellido." : "No hay cuentas para mostrar."}
+          </p>
+        )}
+      </div>
+      <p role="status" className="text-xs text-gray-600">{notice}</p>
+      <p className="mt-auto text-[11px] text-gray-500">Datos de ejemplo. Los cambios de esta vista son temporales.</p>
+    </AdminListLayout>
   );
 }

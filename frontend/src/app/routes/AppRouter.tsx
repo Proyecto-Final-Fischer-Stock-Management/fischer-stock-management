@@ -26,19 +26,19 @@ export function AppRouter() {
         <Route path="/admin/stock" element={<StockPage />} />
         <Route
           path="/admin/stock/create"
-          element={<AdminPlaceholderPage title="Añadir stock" />}
+          element={<AdminPlaceholderPage title="Crear producto" backTo="/admin/stock" />}
         />
         <Route
           path="/admin/stock/:productId/edit"
-          element={<AdminPlaceholderPage title="Editar stock" />}
+          element={<AdminPlaceholderPage title="Editar producto" backTo="/admin/stock" />}
         />
         <Route
           path="/admin/accounts/create"
-          element={<AdminPlaceholderPage title="Editar stock" />}
+          element={<AdminPlaceholderPage title="Crear usuario" backTo="/admin/accounts" />}
         />
         <Route
           path="/admin/accounts/:userId/edit"
-          element={<AdminPlaceholderPage title="Editar cuenta" />}
+          element={<AdminPlaceholderPage title="Editar cuenta" backTo="/admin/accounts" />}
         />
       </Route>
 

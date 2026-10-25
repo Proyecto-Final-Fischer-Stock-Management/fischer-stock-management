@@ -2,9 +2,10 @@ import { Link } from "react-router-dom";
 
 type AdminPlaceholderPageProps = {
   title: string;
+  backTo?: string;
 };
 
-export default function AdminPlaceholderPage({ title }: AdminPlaceholderPageProps) {
+export default function AdminPlaceholderPage({ title, backTo = "/admin" }: AdminPlaceholderPageProps) {
   return (
     <div className="min-h-screen bg-gray-200 px-4 py-6">
       <div className="mx-auto flex min-h-[calc(100vh-48px)] w-full max-w-sm flex-col bg-[#F4F4F4]">
@@ -18,8 +19,8 @@ export default function AdminPlaceholderPage({ title }: AdminPlaceholderPageProp
 
         <div className="flex items-center border-y border-gray-200 bg-white px-1 py-2">
           <Link
-            to="/admin"
-            aria-label="Volver a pantalla principal"
+            to={backTo}
+            aria-label="Volver al listado"
             className="flex h-8 w-10 items-center justify-center"
           >
             <img className="h-4 w-4" src="/ep_arrow-left-bold.png" alt="" />
