@@ -11,7 +11,7 @@ export default function AdminListLayout({ title, children }: AdminListLayoutProp
     <div className="min-h-screen bg-gray-200 sm:px-4 sm:py-6">
       <div className="mx-auto flex min-h-screen w-full max-w-sm flex-col bg-[#F4F4F4] sm:min-h-[calc(100vh-48px)]">
         <header className="bg-[#E60000] px-5 pt-10 pb-5">
-          <img className="h-7 w-auto object-contain" src="/fischerLog.png" alt="Fischer" />
+          <img className="h-6 w-18 object-contain" src="/fischerLog.png" alt="Fischer" />
         </header>
         <nav aria-label="Navegación de administración" className="flex items-center border-y border-gray-200 bg-white px-1 py-1">
           <Link

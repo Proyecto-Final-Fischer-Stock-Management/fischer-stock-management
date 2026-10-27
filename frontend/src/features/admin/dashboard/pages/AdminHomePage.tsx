@@ -12,7 +12,7 @@ const activity = [
     status: "ok",
   },
   {
-    name: "Pepa Gonzales",
+    name: "Pepa Gonzalez",
     detail: "Check Out en sucursal Centro",
     time: "08:45 AM Hoy",
     status: "out",
