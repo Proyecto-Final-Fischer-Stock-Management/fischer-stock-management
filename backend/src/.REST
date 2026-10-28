@@ -6,8 +6,8 @@ POST http://localhost:4306/auth/login
 Content-Type: application/json
 
 {
-  "email": "testmail@gmail.com",
-  "password": "123123123"
+  "email": "loladoming@gmail.com",
+  "password": "123412341234"
 }
 
 # ----------------ADMINISTRATOR ROUTES--------------------------------

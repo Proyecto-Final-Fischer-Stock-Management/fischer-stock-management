@@ -133,6 +133,7 @@ router.post(
     }
   },
 );
+
 // router.put("/stock/product", async (req, res) => {});
 
 // Delete a product --- TO TEST
