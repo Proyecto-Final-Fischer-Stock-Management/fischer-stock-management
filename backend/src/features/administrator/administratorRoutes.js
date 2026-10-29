@@ -112,16 +112,29 @@ router.post(
   upload.single("productPicture"),
   async (req, res) => {
     try {
-      const { fischerCode, easySap, name, sector_id, productPictureType } =
-        req.body;
+      const {
+        fischerCode,
+        easySap,
+        sodimacSku,
+        carrefourEan,
+        anonimaCodInt,
+        hipertehuelcheCode,
+        name,
+        productPictureType,
+      } = req.body;
       const productPicture = req.file.buffer;
-      const result = await service.PCreationProcess(
+      const product = [
         Number(fischerCode),
-        Number(easySap),
+        easySap,
+        sodimacSku,
+        Number(carrefourEan),
+        Number(anonimaCodInt),
+        hipertehuelcheCode,
         name,
         productPicture,
         productPictureType,
-      );
+      ];
+      const result = await service.PCreationProcess(product);
       return res.status(201).send({ result });
     } catch (err) {
       if (err.message === "Required fields are uncompleted") {

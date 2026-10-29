@@ -65,13 +65,29 @@ export function GetOneProduct(fischerCode) {
   });
 }
 
-export function CreateProduct(fischerCode, easySap, name, productPicture) {
+export function CreateProduct(product) {
+  const {
+    fischerCode,
+    easySap,
+    sodimacSku,
+    carrefourEan,
+    anonimaCodInt,
+    hipertehuelcheCode,
+    name,
+    productPicture,
+    productPictureType,
+  } = product;
   return prisma.product.create({
     data: {
       fischer_code: fischerCode,
       easy_sap: easySap,
+      sodimac_sku: sodimacSku,
+      carrefour_ean: carrefourEan,
+      anonima_codint: anonimaCodInt,
+      hipertehuelche_code: hipertehuelcheCode,
       name: name,
       product_picture: productPicture,
+      product_picture_type: productPictureType,
     },
   });
 }
