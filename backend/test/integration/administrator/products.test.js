@@ -13,7 +13,7 @@ describe("Post Product", () => {
       .post("/administrator/stock/product")
       .set(
         "Authorization",
-        `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluaXN0cmF0b3IiLCJpYXQiOjE3OTM2NDM1NjUsImV4cCI6MTc5MzY0NDc2NX0.Is83QqbywqDpJOP0Vq9QqbMhHAVbuCraUzAtHgGUUQc`,
+        `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluaXN0cmF0b3IiLCJpYXQiOjE3OTM2NDU1MTQsImV4cCI6MTc5MzY0NjcxNH0.wLvDSJRCs8vlm0BbxVBHRdMLKQYKZp3v1uibg8EuudQ`,
       )
       .field("fischerCode", 616302)
       .field("easySap", 1288445)
