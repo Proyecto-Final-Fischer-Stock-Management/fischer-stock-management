@@ -123,17 +123,17 @@ router.post(
         productPictureType,
       } = req.body;
       const productPicture = req.file.buffer;
-      const product = [
-        Number(fischerCode),
+      const product = {
+        fischerCode: Number(fischerCode),
         easySap,
         sodimacSku,
-        Number(carrefourEan),
-        Number(anonimaCodInt),
+        carrefourEan: Number(carrefourEan),
+        anonimaCodInt: Number(anonimaCodInt),
         hipertehuelcheCode,
         name,
         productPicture,
         productPictureType,
-      ];
+      };
       const result = await service.PCreationProcess(product);
       return res.status(201).send({ result });
     } catch (err) {

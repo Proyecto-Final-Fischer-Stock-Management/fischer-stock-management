@@ -79,7 +79,7 @@ POST http://localhost:4306/automatic/catalog/stock
 Content-Type: application/json
 
 {
-  "productId":579630,
+  "productId":666666,
   "sectorId":1,
   "minimumStock":4,
   "unitsPerCage":20

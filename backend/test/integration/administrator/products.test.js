@@ -13,7 +13,7 @@ describe("Post Product", () => {
       .post("/administrator/stock/product")
       .set(
         "Authorization",
-        `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluaXN0cmF0b3IiLCJpYXQiOjE3OTMyMzc2NjEsImV4cCI6MTc5MzIzODg2MX0.OdpaEYcBgTWxz61nEOzBpgYFvDdikPLTPdnO1pr4EBg`,
+        `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluaXN0cmF0b3IiLCJpYXQiOjE3OTM2NDM1NjUsImV4cCI6MTc5MzY0NDc2NX0.Is83QqbywqDpJOP0Vq9QqbMhHAVbuCraUzAtHgGUUQc`,
       )
       .field("fischerCode", 616302)
       .field("easySap", 1288445)
@@ -27,7 +27,7 @@ describe("Post Product", () => {
         "productPicture",
         path.join(__dirname, "../../testPhotos/mclarenParaTest.jpg"),
       )
-      .field("productPictureType", ".png");
+      .field("productPictureType", "image/jpeg");
     console.log(response.text);
     assert.equal(response.statusCode, 201);
   });
