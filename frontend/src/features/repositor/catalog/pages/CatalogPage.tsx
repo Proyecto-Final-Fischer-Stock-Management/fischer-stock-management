@@ -9,6 +9,11 @@ import {
 import { Button, ButtonLink } from "../../../../components/ui/Button.tsx";
 import Input from "../../../../components/ui/Input.tsx";
 
+type ProductImageData = {
+  blob: Blob;
+  url: string;
+};
+
 export default function CatalogPage() {
   const catalogPath = "/repositor/catalog";
   const role = useAuth();
@@ -17,9 +22,9 @@ export default function CatalogPage() {
   const { token } = useAuth();
   const navigate = useNavigate();
   const [stock, setStock] = useState<StockProduct[]>([]);
-  const [productImages, setProductImages] = useState<Record<number, string>>(
-    {},
-  );
+  const [productImages, setProductImages] = useState<
+  Record<number, ProductImageData>
+>({});
   useEffect(() => {
     if (!token) {
       navigate(homePath);
@@ -40,57 +45,67 @@ export default function CatalogPage() {
     if (!token || stock.length === 0) {
       return;
     }
-
+  
     let cancelled = false;
     let createdUrls: string[] = [];
-
+  
+    const authToken = token;
+  
     async function loadImages() {
       const results = await Promise.all(
         stock.map(async (product) => {
           try {
-            const imageUrl = await GetProductImage(
+            const imageBlob = await GetProductImage(
               product.getProduct.fischerCode,
-              token!,
+              authToken,
             );
-
+  
+            const imageUrl = URL.createObjectURL(imageBlob);
+  
             return {
               productId: product.productId,
-              imageUrl,
+              blob: imageBlob,
+              url: imageUrl,
             };
           } catch (error) {
             console.error(
               `Error cargando imagen del producto ${product.productId}`,
               error,
             );
-
+  
             return null;
           }
         }),
       );
-
-      const validResults = results.filter((result) => result !== null);
-
-      createdUrls = validResults.map((result) => result.imageUrl);
-
+  
+      const validResults = results.filter(
+        (result) => result !== null,
+      );
+  
+      createdUrls = validResults.map((result) => result.url);
+  
       if (cancelled) {
         createdUrls.forEach((url) => URL.revokeObjectURL(url));
         return;
       }
-
-      const images: Record<number, string> = {};
-
+  
+      const images: Record<number, ProductImageData> = {};
+  
       validResults.forEach((result) => {
-        images[result.productId] = result.imageUrl;
+        images[result.productId] = {
+          blob: result.blob,
+          url: result.url,
+        };
       });
-
+  
       setProductImages(images);
     }
-
+  
     loadImages();
-
+  
     return () => {
       cancelled = true;
-
+  
       createdUrls.forEach((url) => URL.revokeObjectURL(url));
     };
   }, [stock, token]);
@@ -140,15 +155,18 @@ export default function CatalogPage() {
               <Link
                 key={product.productId}
                 to={`${catalogPath}/${product.productId}`}
-                state={{ product }}
+                state={{
+                  product,
+                  imageBlob: productImages[product.productId]?.blob,
+                }}
                 className="flex w-full items-center gap-3 border border-gray-300 bg-white p-2 text-left shadow-sm"
               >
                 <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white">
-                  <img
-                    src={productImages[product.productId]}
-                    alt={product.getProduct.name}
-                    className="max-h-12 max-w-12 object-contain"
-                  />
+                <img
+                  src={productImages[product.productId]?.url}
+                  alt={product.getProduct.name}
+                  className="max-h-12 max-w-12 object-contain"
+                />
                 </div>
 
                 <div className="min-w-0 flex-1 text-sm">

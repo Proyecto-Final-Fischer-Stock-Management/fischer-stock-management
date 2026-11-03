@@ -29,12 +29,14 @@ export async function GetStock(sectorId: number, token: string) {
   });
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:4306";
+
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL ?? "http://localhost:4306";
 
 export async function GetProductImage(
   fischerCode: number,
   token: string,
-): Promise<string> {
+): Promise<Blob> {
   const response = await fetch(
     `${API_BASE_URL}/stockman/catalog/product/${fischerCode}/image`,
     {
@@ -51,5 +53,6 @@ export async function GetProductImage(
 
   const imageBlob = await response.blob();
 
-  return URL.createObjectURL(imageBlob);
+  return imageBlob;
 }
+

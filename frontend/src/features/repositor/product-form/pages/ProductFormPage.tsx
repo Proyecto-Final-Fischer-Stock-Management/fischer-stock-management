@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button, ButtonLink } from "../../../../components/ui/Button";
 import type { StockProduct } from "../../catalog/services/catalogApi.ts";
@@ -6,20 +6,49 @@ import Input from "../../../../components/ui/Input";
 import { addProductToCart } from "../../order/cartStorage";
 type ProductNavigationState = {
   product: StockProduct;
+  imageBlob?: Blob;
 };
 
 export default function ProductFormPage() {
   const { pathname, state } = useLocation();
-  const navigationState = state as ProductNavigationState | undefined;
+
+  const navigationState = state as
+    | ProductNavigationState
+    | undefined;
+
   const navigate = useNavigate();
-  if (!navigationState?.product) {
-    return <div>Producto no disponible.</div>;
-  }
-  const product = navigationState.product;
-  const [hasStockBreak, setHasStockBreak] = useState<"yes" | "no" | null>(null);
+
+  const product = navigationState?.product;
+  const imageBlob = navigationState?.imageBlob;
+
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+  const [hasStockBreak, setHasStockBreak] = useState<
+    "yes" | "no" | null
+  >(null);
+
   const [orderBoxes, setOrderBoxes] = useState("");
   const [cartMessage, setCartMessage] = useState("");
   const [wasAddedToCart, setWasAddedToCart] = useState(false);
+
+  useEffect(() => {
+    if (!imageBlob) {
+      setImageUrl(null);
+      return;
+    }
+
+    const temporaryUrl = URL.createObjectURL(imageBlob);
+
+    setImageUrl(temporaryUrl);
+
+    return () => {
+      URL.revokeObjectURL(temporaryUrl);
+    };
+  }, [imageBlob]);
+
+  if (!product) {
+    return <div>Producto no disponible.</div>;
+  }
   const isRepositorRoute = pathname.startsWith("/repositor");
   const catalogPath = isRepositorRoute
     ? "/repositor/catalog"
@@ -74,11 +103,11 @@ export default function ProductFormPage() {
             <h2 className="mb-3 font-medium">Información del producto</h2>
             <div className="flex gap-3 border border-gray-300 bg-white p-3 shadow-sm">
               <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white">
-                <img
-                  src={product.getProduct.productPicture}
-                  alt={product.getProduct.name}
-                  className="max-h-16 max-w-16 object-contain"
-                />
+              <img
+                src={imageUrl ?? undefined}
+                alt={product.getProduct.name}
+                className="max-h-16 max-w-16 object-contain"
+              />
               </div>
 
               <div className="min-w-0 flex-1">
