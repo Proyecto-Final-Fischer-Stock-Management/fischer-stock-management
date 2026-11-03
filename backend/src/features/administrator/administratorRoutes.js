@@ -106,6 +106,29 @@ router.get("/stock/product", async (req, res) => {
   }
 });
 
+// Get product image
+router.get("/stock/product/:fischerCode/image", async (req, res) => {
+  try {
+    const { fischerCode } = req.params;
+
+    const product = await service.PGettingOneProcess(Number(fischerCode));
+
+    if (!product || !product.product_picture) {
+      return res.status(404).send({
+        message: "Product image not found",
+      });
+    }
+
+    res.set("Content-Type", product.product_picture_type);
+
+    return res.status(200).send(product.product_picture);
+  } catch (err) {
+    return res.status(503).send({
+      message: err.message,
+    });
+  }
+});
+
 // Create a product
 router.post(
   "/stock/product",

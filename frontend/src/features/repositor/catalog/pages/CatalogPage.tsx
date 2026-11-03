@@ -1,7 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../../hooks/useAuth.ts";
-import { GetStock, type StockProduct } from "../services/catalogApi.ts";
+import {
+  GetStock,
+  GetProductImage,
+  type StockProduct,
+} from "../services/catalogApi.ts";
 import { Button, ButtonLink } from "../../../../components/ui/Button.tsx";
 import Input from "../../../../components/ui/Input.tsx";
 
@@ -13,6 +17,9 @@ export default function CatalogPage() {
   const { token } = useAuth();
   const navigate = useNavigate();
   const [stock, setStock] = useState<StockProduct[]>([]);
+  const [productImages, setProductImages] = useState<Record<number, string>>(
+    {},
+  );
   useEffect(() => {
     if (!token) {
       navigate(homePath);
@@ -28,6 +35,65 @@ export default function CatalogPage() {
 
     loadStock();
   }, [homePath, navigate, token]);
+
+  useEffect(() => {
+    if (!token || stock.length === 0) {
+      return;
+    }
+
+    let cancelled = false;
+    let createdUrls: string[] = [];
+
+    async function loadImages() {
+      const results = await Promise.all(
+        stock.map(async (product) => {
+          try {
+            const imageUrl = await GetProductImage(
+              product.getProduct.fischerCode,
+              token!,
+            );
+
+            return {
+              productId: product.productId,
+              imageUrl,
+            };
+          } catch (error) {
+            console.error(
+              `Error cargando imagen del producto ${product.productId}`,
+              error,
+            );
+
+            return null;
+          }
+        }),
+      );
+
+      const validResults = results.filter((result) => result !== null);
+
+      createdUrls = validResults.map((result) => result.imageUrl);
+
+      if (cancelled) {
+        createdUrls.forEach((url) => URL.revokeObjectURL(url));
+        return;
+      }
+
+      const images: Record<number, string> = {};
+
+      validResults.forEach((result) => {
+        images[result.productId] = result.imageUrl;
+      });
+
+      setProductImages(images);
+    }
+
+    loadImages();
+
+    return () => {
+      cancelled = true;
+
+      createdUrls.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [stock, token]);
 
   return (
     <div className="min-h-screen bg-gray-200 px-4 py-6">
@@ -79,7 +145,7 @@ export default function CatalogPage() {
               >
                 <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white">
                   <img
-                    src={product.getProduct.productPicture}
+                    src={productImages[product.productId]}
                     alt={product.getProduct.name}
                     className="max-h-12 max-w-12 object-contain"
                   />

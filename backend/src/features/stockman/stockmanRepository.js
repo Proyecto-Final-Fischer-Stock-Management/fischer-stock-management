@@ -66,8 +66,6 @@ export function GetByPlace(sectorId) {
           carrefour_ean: true,
           anonima_codint: true,
           hipertehuelche_code: true,
-          product_picture: true,
-          product_picture_type: true,
         },
       },
       get_sector: {
@@ -102,6 +100,18 @@ export function SendOrder(
           },
         },
       },
+    },
+  });
+}
+
+export function GetProductImage(fischerCode) {
+  return prisma.product.findUnique({
+    where: {
+      fischer_code: fischerCode,
+    },
+    select: {
+      product_picture: true,
+      product_picture_type: true,
     },
   });
 }
