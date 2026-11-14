@@ -133,13 +133,14 @@ router.post(
     }
   },
 );
+
 // router.put("/stock/product", async (req, res) => {});
 
 // Delete a product --- TO TEST
 router.delete("/stock/product", async (req, res) => {
   try {
     const { fischerCode } = req.body;
-    const result = await service.PDeletionProcess;
+    const result = await service.PDeletionProcess(fischerCode);
     return res.status(202).send(result);
   } catch (err) {
     return res.status(503).send({

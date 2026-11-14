@@ -45,6 +45,27 @@ Content-Type: application/json
 
 ### Create a product hay que runearlo con supertest porque aca no funcan las imagenes
 
+### Get all products
+GET http://localhost:4306/administrator/stock/products
+
+### Get a product
+GET http://localhost:4306/administrator/stock/product
+Authorization: Bearer
+Content-Type: application/json
+
+{
+  "fischerCode": 1
+}
+
+### Delete a producut
+DELETE http://localhost:4306/administrator/stock/product
+Authorization: Bearer
+Content-Type: application/json
+
+{
+  "fischerCode": 1
+}
+
 # ----------------STOCKMAN ROUTES--------------------------------
 
 ### Get places information
@@ -66,7 +87,7 @@ GET http://localhost:4306/stockman/my-check-in/2
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6IlN0b2NrbWFuIiwiaWF0IjoxNzg5Njg0NTM0LCJleHAiOjE3ODk2ODQ4MzR9.D-KP94tUTm_XqBeNJr291LOd-ExG4vrIiSke8wUmTik
 
 
-### Get all products by place ---- Falta la imagen de cada producto
+### Get all products by place
 GET http://localhost:4306/stockman/catalog/stock/1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6IlN0b2NrbWFuIiwiaWF0IjoxNzg3ODUxMjI1LCJleHAiOjE3ODc4NTEzNDV9.tV-UTHX0IhkvJUhIMXN5YxjTRoesy4cG-BtpcnHz9dI
 
