@@ -106,22 +106,58 @@ router.get("/stock/product", async (req, res) => {
   }
 });
 
+// Get product image
+router.get("/stock/product/:fischerCode/image", async (req, res) => {
+  try {
+    const { fischerCode } = req.params;
+
+    const product = await service.PGettingOneProcess(Number(fischerCode));
+
+    if (!product || !product.product_picture) {
+      return res.status(404).send({
+        message: "Product image not found",
+      });
+    }
+
+    res.set("Content-Type", product.product_picture_type);
+
+    return res.status(200).send(product.product_picture);
+  } catch (err) {
+    return res.status(503).send({
+      message: err.message,
+    });
+  }
+});
+
 // Create a product
 router.post(
   "/stock/product",
   upload.single("productPicture"),
   async (req, res) => {
     try {
-      const { fischerCode, easySap, name, sector_id, productPictureType } =
-        req.body;
+      const {
+        fischerCode,
+        easySap,
+        sodimacSku,
+        carrefourEan,
+        anonimaCodInt,
+        hipertehuelcheCode,
+        name,
+        productPictureType,
+      } = req.body;
       const productPicture = req.file.buffer;
-      const result = await service.PCreationProcess(
-        Number(fischerCode),
-        Number(easySap),
+      const product = {
+        fischerCode: Number(fischerCode),
+        easySap,
+        sodimacSku,
+        carrefourEan: Number(carrefourEan),
+        anonimaCodInt: Number(anonimaCodInt),
+        hipertehuelcheCode,
         name,
         productPicture,
         productPictureType,
-      );
+      };
+      const result = await service.PCreationProcess(product);
       return res.status(201).send({ result });
     } catch (err) {
       if (err.message === "Required fields are uncompleted") {

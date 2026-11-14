@@ -39,16 +39,11 @@ export async function PGettingOneProcess(fischerCode) {
   return information;
 }
 
-export async function PCreationProcess(
-  fischerCode,
-  easySap,
-  name,
-  productPicture,
-) {
-  if (!fischerCode || !easySap || !name || !productPicture) {
+export async function PCreationProcess(product) {
+  if (!product) {
     throw new Error("Required fields are incompleted");
   }
-  await repository.CreateProduct(fischerCode, easySap, name, productPicture);
+  await repository.CreateProduct(product);
   return "Product successfully created";
 }
 

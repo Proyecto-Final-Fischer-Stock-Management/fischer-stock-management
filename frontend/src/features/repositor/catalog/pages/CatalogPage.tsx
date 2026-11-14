@@ -1,9 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../../hooks/useAuth.ts";
-import { GetStock, type StockProduct } from "../services/catalogApi.ts";
+import {
+  GetStock,
+  GetProductImage,
+  type StockProduct,
+} from "../services/catalogApi.ts";
 import { Button, ButtonLink } from "../../../../components/ui/Button.tsx";
 import Input from "../../../../components/ui/Input.tsx";
+
+type ProductImageData = {
+  blob: Blob;
+  url: string;
+};
 
 export default function CatalogPage() {
   const catalogPath = "/repositor/catalog";
@@ -13,6 +22,9 @@ export default function CatalogPage() {
   const { token } = useAuth();
   const navigate = useNavigate();
   const [stock, setStock] = useState<StockProduct[]>([]);
+  const [productImages, setProductImages] = useState<
+  Record<number, ProductImageData>
+>({});
   useEffect(() => {
     if (!token) {
       navigate(homePath);
@@ -29,10 +41,79 @@ export default function CatalogPage() {
     loadStock();
   }, [homePath, navigate, token]);
 
+  useEffect(() => {
+    if (!token || stock.length === 0) {
+      return;
+    }
+  
+    let cancelled = false;
+    let createdUrls: string[] = [];
+  
+    const authToken = token;
+  
+    async function loadImages() {
+      const results = await Promise.all(
+        stock.map(async (product) => {
+          try {
+            const imageBlob = await GetProductImage(
+              product.getProduct.fischerCode,
+              authToken,
+            );
+  
+            const imageUrl = URL.createObjectURL(imageBlob);
+  
+            return {
+              productId: product.productId,
+              blob: imageBlob,
+              url: imageUrl,
+            };
+          } catch (error) {
+            console.error(
+              `Error cargando imagen del producto ${product.productId}`,
+              error,
+            );
+  
+            return null;
+          }
+        }),
+      );
+  
+      const validResults = results.filter(
+        (result) => result !== null,
+      );
+  
+      createdUrls = validResults.map((result) => result.url);
+  
+      if (cancelled) {
+        createdUrls.forEach((url) => URL.revokeObjectURL(url));
+        return;
+      }
+  
+      const images: Record<number, ProductImageData> = {};
+  
+      validResults.forEach((result) => {
+        images[result.productId] = {
+          blob: result.blob,
+          url: result.url,
+        };
+      });
+  
+      setProductImages(images);
+    }
+  
+    loadImages();
+  
+    return () => {
+      cancelled = true;
+  
+      createdUrls.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [stock, token]);
+
   return (
     <div className="min-h-screen bg-gray-200 px-4 py-6">
       <div className="mx-auto flex min-h-[calc(100vh-48px)] w-full max-w-sm flex-col bg-[#F4F4F4]">
-        <div className="bg-red-600 px-4 pt-10 pb-4">
+        <div className="bg-red-600 px-5 pt-10 pb-5">
           <img
             className="h-6 w-18 object-contain"
             src="/fischerLog.png"
@@ -74,15 +155,18 @@ export default function CatalogPage() {
               <Link
                 key={product.productId}
                 to={`${catalogPath}/${product.productId}`}
-                state={{ product }}
+                state={{
+                  product,
+                  imageBlob: productImages[product.productId]?.blob,
+                }}
                 className="flex w-full items-center gap-3 border border-gray-300 bg-white p-2 text-left shadow-sm"
               >
                 <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white">
-                  <img
-                    src={product.getProduct.productPicture}
-                    alt={product.getProduct.name}
-                    className="max-h-12 max-w-12 object-contain"
-                  />
+                <img
+                  src={productImages[product.productId]?.url}
+                  alt={product.getProduct.name}
+                  className="max-h-12 max-w-12 object-contain"
+                />
                 </div>
 
                 <div className="min-w-0 flex-1 text-sm">

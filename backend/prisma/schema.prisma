@@ -27,7 +27,7 @@ model Product {
   fischer_code         Int       @id @unique
   easy_sap             String    @unique
   sodimac_sku          String    @unique
-  carrfour_ean         Int       @unique
+  carrefour_ean        Int       @unique
   anonima_codint       Int       @unique
   hipertehuelche_code  String    @unique
   stockout             Boolean   @default(true)

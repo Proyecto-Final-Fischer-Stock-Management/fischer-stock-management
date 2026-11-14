@@ -63,4 +63,27 @@ router.put("/sendorder", async (req, res) => {
   }
 });
 
+// Get product image
+router.get("/catalog/product/:fischerCode/image", async (req, res) => {
+  try {
+    const { fischerCode } = req.params;
+
+    const product = await service.GettingProductImage(Number(fischerCode));
+
+    if (!product || !product.product_picture) {
+      return res.status(404).send({
+        message: "Product image not found",
+      });
+    }
+
+    res.set("Content-Type", product.product_picture_type);
+
+    return res.status(200).send(product.product_picture);
+  } catch (err) {
+    return res.status(503).send({
+      message: err.message,
+    });
+  }
+});
+
 export default router;

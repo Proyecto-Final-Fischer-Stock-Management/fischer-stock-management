@@ -6,8 +6,8 @@ POST http://localhost:4306/auth/login
 Content-Type: application/json
 
 {
-  "email": "testmail@gmail.com",
-  "password": "123123123"
+  "email": "loladoming@gmail.com",
+  "password": "123412341234"
 }
 
 # ----------------ADMINISTRATOR ROUTES--------------------------------
@@ -100,8 +100,9 @@ POST http://localhost:4306/automatic/catalog/stock
 Content-Type: application/json
 
 {
-  "productId":579630,
+  "productId":616302,
   "sectorId":1,
+  "actualStock": 20,
   "minimumStock":4,
   "unitsPerCage":20
 }

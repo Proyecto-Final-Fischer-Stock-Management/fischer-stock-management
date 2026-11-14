@@ -1,24 +1,7 @@
 import request from "supertest";
-import bcrypt from "bcrypt";
 import assert from "node:assert";
-import { describe, test, beforeEach } from "node:test";
+import { describe, test } from "node:test";
 import app from "../../../src/app.js";
-import prisma from "../../../prisma/prisma.js";
-
-beforeEach(async () => {
-  await prisma.users.deleteMany();
-
-  const hashedpass = await bcrypt.hash("123123123", 24);
-
-  await prisma.users.create({
-    data: {
-      email: "testmail@gmail.com",
-      complete_name: "Persona de Test",
-      role: "Administrator",
-      password: hashedpass,
-    },
-  });
-});
 
 describe("POST login", () => {
   test("devuelve token si todo bien", async () => {

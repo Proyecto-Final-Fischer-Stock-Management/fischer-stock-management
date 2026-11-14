@@ -32,12 +32,6 @@ export async function SGettingManyProcess(sectorId) {
       carrefourEan: item.get_product.carrefour_ean,
       anonimaCodInt: item.get_product.anonima_codint,
       hipertehuelcheCode: item.get_product.hipertehuelche_code,
-
-      productPicture: item.get_product.product_picture
-        ? item.get_product.product_picture.toString("base64")
-        : null,
-
-      productPictureType: item.get_product.product_picture_type,
     },
     getPlace: {
       sector: item.get_sector.sector,
@@ -61,4 +55,10 @@ export async function SendingOrder(
     franchise,
   );
   return "Order succesfully sent";
+}
+
+export async function GettingProductImage(fischerCode) {
+  const product = await repository.GetProductImage(fischerCode);
+
+  return product;
 }
