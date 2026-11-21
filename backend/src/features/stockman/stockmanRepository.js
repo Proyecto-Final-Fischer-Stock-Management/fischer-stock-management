@@ -4,6 +4,10 @@ export function GetAllCheckInInfo() {
   return prisma.sectors.findMany({
     include: {
       has_branch: {
+        select: {
+          direction: true,
+          franchise_id: true,
+        },
         include: {
           has_franchise: true,
         },
