@@ -5,7 +5,6 @@ export type CartItem = {
   name: string;
   code: string;
   boxes: number;
-  imageSrc: string;
   addedAt: string;
 };
 
@@ -55,11 +54,35 @@ export function addProductToCart(product: StockProduct, boxes: number) {
       name: product.getProduct.name,
       code: String(product.getProduct.fischerCode),
       boxes,
-      imageSrc: product.getProduct.productPicture,
       addedAt,
     },
   ];
 
   saveCart(nextCart);
   return nextCart;
+}
+
+const API_BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:4306";
+
+export async function GetProductImage(
+  fischerCode: number,
+  token: string,
+): Promise<Blob> {
+  const response = await fetch(
+    `${API_BASE_URL}/stockman/catalog/product/${fischerCode}/image`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error("No se pudo obtener la imagen del producto");
+  }
+
+  const imageBlob = await response.blob();
+
+  return imageBlob;
 }

@@ -23,9 +23,9 @@ export async function SGettingManyProcess(sectorId) {
     sectorId: item.sector_id,
     actualStock: item.actual_stock,
     minimunStock: item.minimun_stock,
+    unitsPerCage: item.units_per_cage,
 
     getProduct: {
-      fischerCode: item.get_product.fischer_code,
       name: item.get_product.name,
       easySap: item.get_product.easy_sap,
       sodimacSku: item.get_product.sodimac_sku,
@@ -41,14 +41,16 @@ export async function SGettingManyProcess(sectorId) {
 }
 
 export async function SendingOrder(
-  stockId,
+  productId,
+  sectorId,
   updatedStock,
   stockOut,
   timeOfSend,
   franchise,
 ) {
   await repository.SendOrder(
-    stockId,
+    productId,
+    sectorId,
     updatedStock,
     stockOut,
     timeOfSend,

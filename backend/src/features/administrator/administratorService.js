@@ -2,7 +2,8 @@ import bcrypt from "bcrypt";
 import * as repository from "./administratorRepository.js";
 
 export async function UGettingOneProcess(id) {
-  const information = await repository.GetAnUser(id);
+  const parsedId = parseInt(id);
+  const information = await repository.GetAnUser(parsedId);
   return information;
 }
 

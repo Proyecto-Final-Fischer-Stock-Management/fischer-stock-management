@@ -8,7 +8,7 @@ type ProtectedRouteProps = {
 
 export function ProtectedRoute({ allowedRoles }: ProtectedRouteProps) {
   const { isAuthenticated, isLoading, user } = useAuth();
-  const homePath = user?.role ? "/repositor" : "/admin";
+  const homePath = user?.role === "repositor" ? "/repositor" : "/admin";
 
   if (isLoading) {
     return null;

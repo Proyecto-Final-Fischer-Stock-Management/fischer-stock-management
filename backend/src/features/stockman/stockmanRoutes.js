@@ -16,7 +16,8 @@ router.get("/check-in/info", async (req, res) => {
 // Check in register
 router.post("/check-in", async (req, res) => {
   try {
-    const { sectorId, stockmanId } = req.body;
+    const { sectorId } = req.body;
+    const stockmanId = req.user.id;
     const result = await service.PostingCheckIn(sectorId, stockmanId);
     return res.status(201).send({ result });
   } catch (err) {
@@ -25,9 +26,9 @@ router.post("/check-in", async (req, res) => {
 });
 
 // Get the last check that I made
-router.get("/my-check-in/:stockmanId", async (req, res) => {
+router.get("/my-check-in", async (req, res) => {
   try {
-    const { stockmanId } = req.params;
+    const stockmanId = req.user.id;
     const info = await service.GettingLastCheckIn(Number(stockmanId));
     return res.status(200).send({ info });
   } catch (err) {
@@ -49,9 +50,17 @@ router.get("/catalog/stock/:sectorId", async (req, res) => {
 // Modify the product's information
 router.put("/sendorder", async (req, res) => {
   try {
-    const { stockId, updatedStock, stockOut, timeOfSend, franchise } = req.body;
+    const {
+      productId,
+      sectorId,
+      updatedStock,
+      stockOut,
+      timeOfSend,
+      franchise,
+    } = req.body;
     const result = await service.SendingOrder(
-      stockId,
+      productId,
+      sectorId,
       updatedStock,
       stockOut,
       timeOfSend,

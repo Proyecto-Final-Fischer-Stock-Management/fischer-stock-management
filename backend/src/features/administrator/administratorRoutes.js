@@ -6,15 +6,27 @@ const router = Router();
 
 const upload = multer({
   storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024,
+  },
+  fileFilter: (req, file, callback) => {
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+
+    if (!allowedTypes.includes(file.mimetype)) {
+      return callback(new Error("Invalid image format"));
+    }
+
+    callback(null, true);
+  },
 });
 
 router.get("/dashboard/stats", (req, res) => {});
 router.get("/dashboard/visits", (req, res) => {});
 
 // Get one user
-router.get("/accounts/user", async (req, res) => {
+router.get("/accounts/user/:id", async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.params;
 
     const user = await service.UGettingOneProcess(id);
 
@@ -96,9 +108,9 @@ router.get("/stock/products", async (req, res) => {
 });
 
 // Get one product --- TO TEST
-router.get("/stock/product", async (req, res) => {
+router.get("/stock/product/:fischerCode", async (req, res) => {
   try {
-    const { fischerCode } = req.body;
+    const { fischerCode } = Number(req.params.fischerCode);
     const info = await service.PGettingOneProcess(fischerCode);
     return res.status(200).send({ info });
   } catch (err) {
@@ -135,6 +147,11 @@ router.post(
   upload.single("productPicture"),
   async (req, res) => {
     try {
+      if (!req.file) {
+        return res.status(400).json({
+          message: "Product image is required",
+        });
+      }
       const {
         fischerCode,
         easySap,

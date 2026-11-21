@@ -56,10 +56,16 @@ export function GetByPlace(sectorId) {
     where: {
       sector_id: sectorId,
     },
+    select: {
+      product_id: true,
+      sector_id: true,
+      actual_stock: true,
+      minimun_stock: true,
+      units_per_cage: true,
+    },
     include: {
       get_product: {
         select: {
-          fischer_code: true,
           name: true,
           easy_sap: true,
           sodimac_sku: true,
@@ -79,7 +85,8 @@ export function GetByPlace(sectorId) {
 }
 
 export function SendOrder(
-  stockId,
+  productId,
+  sectorId,
   updatedStock,
   stockOut,
   timeOfSend,
@@ -87,7 +94,10 @@ export function SendOrder(
 ) {
   return prisma.stock.update({
     where: {
-      product_id: stockId,
+      product_id_sector_id: {
+        product_id: productId,
+        sector_id: sectorId,
+      },
     },
     data: {
       updated_stock: updatedStock,
@@ -95,9 +105,7 @@ export function SendOrder(
       update_place: franchise,
       get_product: {
         update: {
-          data: {
-            stockout: stockOut,
-          },
+          stockout: stockOut,
         },
       },
     },

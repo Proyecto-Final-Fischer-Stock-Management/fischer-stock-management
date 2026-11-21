@@ -1,5 +1,5 @@
 ### Health check
-GET http://localhost:4306/health/health
+GET http://localhost:4306/health/check
 
 ### Login
 POST http://localhost:4306/auth/login
@@ -13,12 +13,8 @@ Content-Type: application/json
 # ----------------ADMINISTRATOR ROUTES--------------------------------
 
 ### Get one user
-GET http://localhost:4306/administrator/accounts/user
+GET http://localhost:4306/administrator/accounts/user/1
 Content-Type: application/json
-
-{
-  "id": 4
-}
 
 ### Get all users
 GET http://localhost:4306/administrator/accounts/users/1
@@ -49,13 +45,8 @@ Content-Type: application/json
 GET http://localhost:4306/administrator/stock/products
 
 ### Get a product
-GET http://localhost:4306/administrator/stock/product
+GET http://localhost:4306/administrator/stock/product/1
 Authorization: Bearer
-Content-Type: application/json
-
-{
-  "fischerCode": 1
-}
 
 ### Delete a producut
 DELETE http://localhost:4306/administrator/stock/product
