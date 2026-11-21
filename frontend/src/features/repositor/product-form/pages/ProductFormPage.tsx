@@ -12,9 +12,7 @@ type ProductNavigationState = {
 export default function ProductFormPage() {
   const { pathname, state } = useLocation();
 
-  const navigationState = state as
-    | ProductNavigationState
-    | undefined;
+  const navigationState = state as ProductNavigationState | undefined;
 
   const navigate = useNavigate();
 
@@ -23,9 +21,7 @@ export default function ProductFormPage() {
 
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
-  const [hasStockBreak, setHasStockBreak] = useState<
-    "yes" | "no" | null
-  >(null);
+  const [hasStockBreak, setHasStockBreak] = useState<"yes" | "no" | null>(null);
 
   const [orderBoxes, setOrderBoxes] = useState("");
   const [cartMessage, setCartMessage] = useState("");
@@ -57,9 +53,7 @@ export default function ProductFormPage() {
   const boxesToOrder = Number.parseInt(orderBoxes, 10);
 
   function getBoxesToOrder() {
-    return Number.isNaN(boxesToOrder) || boxesToOrder < 1
-      ? product.actualStock
-      : boxesToOrder;
+    return Number.isNaN(boxesToOrder) || boxesToOrder < 1 ? 0 : boxesToOrder;
   }
 
   function handleSubmitReport() {
@@ -103,11 +97,11 @@ export default function ProductFormPage() {
             <h2 className="mb-3 font-medium">Información del producto</h2>
             <div className="flex gap-3 border border-gray-300 bg-white p-3 shadow-sm">
               <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white">
-              <img
-                src={imageUrl ?? undefined}
-                alt={product.getProduct.name}
-                className="max-h-16 max-w-16 object-contain"
-              />
+                <img
+                  src={imageUrl ?? undefined}
+                  alt={product.getProduct.name}
+                  className="max-h-16 max-w-16 object-contain"
+                />
               </div>
 
               <div className="min-w-0 flex-1">
