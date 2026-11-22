@@ -5,10 +5,9 @@ export function GetAllCheckInInfo() {
     include: {
       has_branch: {
         select: {
+          id: true,
           direction: true,
           franchise_id: true,
-        },
-        include: {
           has_franchise: true,
         },
       },

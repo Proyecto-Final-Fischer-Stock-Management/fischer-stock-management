@@ -8,6 +8,7 @@ import {
 } from "../services/catalogApi.ts";
 import { Button, ButtonLink } from "../../../../components/ui/Button.tsx";
 import Input from "../../../../components/ui/Input.tsx";
+import { ApiError } from "../../../../services/apiClient.ts";
 
 type ProductImageData = {
   blob: Blob;
@@ -16,41 +17,100 @@ type ProductImageData = {
 
 export default function CatalogPage() {
   const catalogPath = "/repositor/catalog";
-  const role = useAuth();
-  const homePath = role ? "/repositor" : "/admin";
+  const auth = useAuth();
+  const homePath = auth.user?.role ? "/repositor" : "/admin";
   const orderPath = "/repositor/order";
   const { token } = useAuth();
   const navigate = useNavigate();
   const [stock, setStock] = useState<StockProduct[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [productImages, setProductImages] = useState<
-  Record<number, ProductImageData>
->({});
+    Record<number, ProductImageData>
+  >({});
+
   useEffect(() => {
     if (!token) {
+      setStock([]);
+      setProductImages({});
+      setError("No hay una sesión activa.");
+      setIsLoading(false);
       navigate(homePath);
       return;
     }
 
+    let cancelled = false;
     const authToken = token;
 
     async function loadStock() {
-      const response = await GetStock(1, authToken); // CAMBIAR EL 1 POR EL NUMERO DEL SECTOR CUANDO HAYA CHECK IN
-      setStock(response.result);
+      try {
+        setIsLoading(true);
+        setError(null);
+
+        // Limpiamos los productos anteriores mientras cargamos los nuevos.
+        setStock([]);
+        setProductImages({});
+
+        const response = await GetStock(1, authToken);
+        // CAMBIAR EL 1 POR EL NUMERO DEL SECTOR CUANDO HAYA CHECK IN
+
+        if (!cancelled) {
+          setStock(response.result);
+        }
+      } catch (err) {
+        if (cancelled) return;
+
+        console.error("Error cargando el catálogo:", err);
+
+        setStock([]);
+        setProductImages({});
+
+        if (err instanceof ApiError) {
+          switch (err.status) {
+            case 401:
+              setError("Tu sesión expiró. Iniciá sesión nuevamente.");
+              break;
+
+            case 403:
+              setError("No tenés permisos para acceder al catálogo.");
+              break;
+
+            default:
+              setError(
+                err.status >= 500
+                  ? "El servidor tuvo un problema. Intentá nuevamente más tarde."
+                  : err.message,
+              );
+          }
+        } else {
+          setError(
+            "No se pudo conectar con el servidor. Verificá tu conexión e intentá nuevamente.",
+          );
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
+      }
     }
 
     loadStock();
+
+    return () => {
+      cancelled = true;
+    };
   }, [homePath, navigate, token]);
 
   useEffect(() => {
     if (!token || stock.length === 0) {
       return;
     }
-  
+
     let cancelled = false;
     let createdUrls: string[] = [];
-  
+
     const authToken = token;
-  
+
     async function loadImages() {
       const results = await Promise.all(
         stock.map(async (product) => {
@@ -59,9 +119,9 @@ export default function CatalogPage() {
               product.getProduct.fischerCode,
               authToken,
             );
-  
+
             const imageUrl = URL.createObjectURL(imageBlob);
-  
+
             return {
               productId: product.productId,
               blob: imageBlob,
@@ -72,40 +132,38 @@ export default function CatalogPage() {
               `Error cargando imagen del producto ${product.productId}`,
               error,
             );
-  
+
             return null;
           }
         }),
       );
-  
-      const validResults = results.filter(
-        (result) => result !== null,
-      );
-  
+
+      const validResults = results.filter((result) => result !== null);
+
       createdUrls = validResults.map((result) => result.url);
-  
+
       if (cancelled) {
         createdUrls.forEach((url) => URL.revokeObjectURL(url));
         return;
       }
-  
+
       const images: Record<number, ProductImageData> = {};
-  
+
       validResults.forEach((result) => {
         images[result.productId] = {
           blob: result.blob,
           url: result.url,
         };
       });
-  
+
       setProductImages(images);
     }
-  
+
     loadImages();
-  
+
     return () => {
       cancelled = true;
-  
+
       createdUrls.forEach((url) => URL.revokeObjectURL(url));
     };
   }, [stock, token]);
@@ -151,39 +209,51 @@ export default function CatalogPage() {
           <div className="text-sm font-medium">Productos</div>
 
           <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto pr-1">
-            {stock.map((product) => (
-              <Link
-                key={product.productId}
-                to={`${catalogPath}/${product.productId}`}
-                state={{
-                  product,
-                  imageBlob: productImages[product.productId]?.blob,
-                }}
-                className="flex w-full items-center gap-3 border border-gray-300 bg-white p-2 text-left shadow-sm"
-              >
-                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white">
-                <img
-                  src={productImages[product.productId]?.url}
-                  alt={product.getProduct.name}
-                  className="max-h-12 max-w-12 object-contain"
-                />
-                </div>
-
-                <div className="min-w-0 flex-1 text-sm">
-                  <div className="flex items-center gap-2">
-                    <span>{product.getProduct.name}</span>
-                    <span className="bg-blue-100 px-2 py-0.5 text-xs text-blue-700">
-                      {product.actualStock} Cajas
-                    </span>
+            {isLoading ? (
+              <p className="text-center text-sm text-gray-500">
+                Cargando productos...
+              </p>
+            ) : error ? (
+              <p className="text-center text-sm text-red-600">{error}</p>
+            ) : stock.length === 0 ? (
+              <p className="text-center text-sm text-gray-500">
+                No hay productos disponibles.
+              </p>
+            ) : (
+              stock.map((product) => (
+                <Link
+                  key={product.productId}
+                  to={`${catalogPath}/${product.productId}`}
+                  state={{
+                    product,
+                    imageBlob: productImages[product.productId]?.blob,
+                  }}
+                  className="flex w-full items-center gap-3 border border-gray-300 bg-white p-2 text-left shadow-sm"
+                >
+                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white">
+                    <img
+                      src={productImages[product.productId]?.url}
+                      alt={product.getProduct.name}
+                      className="max-h-12 max-w-12 object-contain"
+                    />
                   </div>
-                  <div className="mt-2 truncate">
-                    Código: {product.getProduct.fischerCode}
-                  </div>
-                </div>
 
-                <span className="px-1 text-xl leading-none">›</span>
-              </Link>
-            ))}
+                  <div className="min-w-0 flex-1 text-sm">
+                    <div className="flex items-center gap-2">
+                      <span>{product.getProduct.name}</span>
+                      <span className="bg-blue-100 px-2 py-0.5 text-xs text-blue-700">
+                        {product.actualStock} Cajas
+                      </span>
+                    </div>
+                    <div className="mt-2 truncate">
+                      Código: {product.getProduct.fischerCode}
+                    </div>
+                  </div>
+
+                  <span className="px-1 text-xl leading-none">›</span>
+                </Link>
+              ))
+            )}
           </div>
 
           <ButtonLink to={orderPath} variant="primary" fullWidth>

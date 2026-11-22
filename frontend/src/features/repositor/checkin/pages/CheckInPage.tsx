@@ -1,23 +1,25 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../../../components/ui/Button";
 import { saveLastCheckIn } from "../checkinStorage";
+import { useAuth } from "../../../../hooks/useAuth";
+import { GetCheckInInfo, type CheckInPlace } from "../services/checkinsApi";
 
 //cambiar por la info del backend de fecha y hora
 const visitDate = "20/05/26";
 const visitTime = "09:41 AM";
 
-//cambiar por la info del backend de la cadena, sucursal y sector
-const chains = ["Easy", "Sodimac", "Carrefour", "Coto"];
-const branches = ["Easy Vicente Lopez", "Sucursal Centro", "Sucursal Norte"];
-const sectors = ["Ferreteria", "Herramientas", "Construccion"];
+type SelectOption = {
+  value: string;
+  label: string;
+};
 
 type SelectFieldProps = {
   label: string;
   icon: string;
   value: string;
   placeholder: string;
-  options: string[];
+  options: SelectOption[];
   onChange: (value: string) => void;
 };
 
@@ -43,8 +45,8 @@ function SelectField({
         >
           <option value="">{placeholder}</option>
           {options.map((option) => (
-            <option key={option} value={option}>
-              {option}
+            <option key={option.value} value={option.value}>
+              {option.label}
             </option>
           ))}
         </select>
@@ -58,19 +60,97 @@ function SelectField({
 
 export default function CheckInPage() {
   const navigate = useNavigate();
+  const { token } = useAuth();
+
+  const [places, setPlaces] = useState<CheckInPlace[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   const [chain, setChain] = useState("");
   const [branch, setBranch] = useState("");
   const [sector, setSector] = useState("");
+
+  useEffect(() => {
+    if (!token) {
+      setError("No hay una sesión activa.");
+      setIsLoading(false);
+      return;
+    }
+
+    let cancelled = false;
+
+    async function loadPlaces() {
+      try {
+        setIsLoading(true);
+        setError(null);
+
+        const response = await GetCheckInInfo(token);
+
+        if (!cancelled) {
+          setPlaces(response);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          console.error("Error obteniendo información del check-in:", err);
+          setError("No se pudo cargar la información de los locales.");
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    loadPlaces();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [token]);
+
+  const chains = useMemo(() => {
+    return Array.from(
+      new Map(
+        places.map((place) => [place.franchise.id, place.franchise]),
+      ).values(),
+    );
+  }, [places]);
+
+  const branches = useMemo(() => {
+    return Array.from(
+      new Map(
+        places
+          .filter((place) => String(place.franchise.id) === chain)
+          .map((place) => [place.branch.id, place.branch]),
+      ).values(),
+    );
+  }, [places, chain]);
+
+  const sectors = places.filter((place) => String(place.branch.id) === branch);
+
   const canStartVisit = Boolean(chain && branch && sector);
 
   function handleStartVisit() {
+    const selectedChain = chains.find((item) => String(item.id) === chain);
+
+    const selectedBranch = branches.find((item) => String(item.id) === branch);
+
+    const selectedSector = sectors.find(
+      (item) => String(item.sectorId) === sector,
+    );
+
+    if (!selectedChain || !selectedBranch || !selectedSector) {
+      return;
+    }
+
     saveLastCheckIn({
       date: visitDate,
       time: visitTime,
-      chain,
-      branch,
-      sector,
+      chain: selectedChain.name,
+      branch: selectedBranch.direction,
+      sector: selectedSector.sector,
     });
+
     navigate("/repositor", { replace: true });
   }
 
@@ -78,7 +158,11 @@ export default function CheckInPage() {
     <div className="min-h-screen bg-gray-200 px-4 py-6">
       <div className="mx-auto flex min-h-[calc(100vh-48px)] w-full max-w-sm flex-col bg-[#F4F4F4]">
         <div className="bg-red-600 px-5 pt-10 pb-5 text-white">
-          <img className="h-6 w-18 object-contain" src="/fischerLog.png" alt="Fischer" />
+          <img
+            className="h-6 w-18 object-contain"
+            src="/fischerLog.png"
+            alt="Fischer"
+          />
         </div>
 
         <main className="flex flex-1 flex-col px-6 py-12 text-black">
@@ -99,30 +183,58 @@ export default function CheckInPage() {
           </div>
 
           <div className="mt-4 flex flex-col gap-4">
-            <SelectField
-              label="Cadena"
-              icon="▦"
-              value={chain}
-              placeholder="Selecciona una cadena"
-              options={chains}
-              onChange={setChain}
-            />
-            <SelectField
-              label="Sucursal"
-              icon="⌖"
-              value={branch}
-              placeholder="Selecciona una sucursal"
-              options={branches}
-              onChange={setBranch}
-            />
-            <SelectField
-              label="Sector"
-              icon="⌾"
-              value={sector}
-              placeholder="Selecciona un sector"
-              options={sectors}
-              onChange={setSector}
-            />
+            {isLoading && (
+              <p className="text-sm text-gray-500">
+                Cargando cadenas, sucursales y sectores...
+              </p>
+            )}
+
+            {error && <p className="text-sm text-red-600">{error}</p>}
+
+            <div className="flex flex-col gap-4">
+              <SelectField
+                label="Cadena"
+                icon="▦"
+                value={chain}
+                placeholder="Selecciona una cadena"
+                options={chains.map((item) => ({
+                  value: String(item.id),
+                  label: item.name,
+                }))}
+                onChange={(value) => {
+                  setChain(value);
+                  setBranch("");
+                  setSector("");
+                }}
+              />
+
+              <SelectField
+                label="Sucursal"
+                icon="⌖"
+                value={branch}
+                placeholder="Selecciona una sucursal"
+                options={branches.map((item) => ({
+                  value: String(item.id),
+                  label: item.direction,
+                }))}
+                onChange={(value) => {
+                  setBranch(value);
+                  setSector("");
+                }}
+              />
+
+              <SelectField
+                label="Sector"
+                icon="⌾"
+                value={sector}
+                placeholder="Selecciona un sector"
+                options={sectors.map((item) => ({
+                  value: String(item.sectorId),
+                  label: item.sector,
+                }))}
+                onChange={setSector}
+              />
+            </div>
           </div>
 
           <div className="mt-7 flex items-center gap-4 rounded-sm border border-red-500 bg-red-50 px-4 py-3 text-red-600">

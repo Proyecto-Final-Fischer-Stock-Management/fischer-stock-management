@@ -22,9 +22,16 @@ export default function AccountsPage() {
     useState<(typeof roles)[number]>("Administrador");
   const [notice, setNotice] = useState("");
   const query = normalizeSearch(search);
-  const visibleUsers = users.filter((user) =>
-    normalizeSearch(user.name).includes(query),
-  );
+  const visibleUsers = users.filter((user) => {
+    const matchesName = normalizeSearch(user.name).includes(query);
+
+    const matchesRole =
+      selectedRole === "Administrador"
+        ? user.role === "admin"
+        : user.role === "repositor";
+
+    return matchesName && matchesRole;
+  });
 
   function deleteUser(user: DemoAccount) {
     if (!window.confirm(`¿Eliminar la cuenta de ${user.name}?`)) return;
