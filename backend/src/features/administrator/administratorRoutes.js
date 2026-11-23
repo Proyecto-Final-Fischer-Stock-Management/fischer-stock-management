@@ -24,7 +24,7 @@ router.get("/dashboard/stats", (req, res) => {});
 router.get("/dashboard/visits", (req, res) => {});
 
 // Get one user
-router.get("/accounts/user/:id", async (req, res) => {
+router.get("/accounts/user/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -34,14 +34,12 @@ router.get("/accounts/user/:id", async (req, res) => {
       user,
     });
   } catch (err) {
-    return res.status(503).send({
-      message: err.message,
-    });
+    return next(err);
   }
 });
 
 // Get all users
-router.get("/accounts/users/:id", async (req, res) => {
+router.get("/accounts/users/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
     const users = await service.UGettingAllProcess(id);
@@ -49,14 +47,12 @@ router.get("/accounts/users/:id", async (req, res) => {
       users,
     });
   } catch (err) {
-    return res.status(503).send({
-      message: err.message,
-    });
+    return next(err);
   }
 });
 
 // Create a user
-router.post("/accounts/user", async (req, res) => {
+router.post("/accounts/user", async (req, res, next) => {
   try {
     const { completeName, email, role, password } = req.body;
 
@@ -69,21 +65,12 @@ router.post("/accounts/user", async (req, res) => {
 
     return res.status(201).send({ result });
   } catch (err) {
-    if (err.message === "Required fields incompleted") {
-      return res.status(400).send({ message: "Complete the required fields" });
-    } else if (err.message === "Prisma has failed, unable to create user") {
-      return res
-        .status(500)
-        .send({ message: "Server error, contact developement team" });
-    }
-    return res.status(503).send({
-      message: err.message,
-    });
+    return next(err);
   }
 });
 
 // Delete a user
-router.delete("/accounts/user", async (req, res) => {
+router.delete("/accounts/user", async (req, res, next) => {
   try {
     const { id } = req.body;
 
@@ -91,35 +78,33 @@ router.delete("/accounts/user", async (req, res) => {
 
     return res.status(200).send({ result });
   } catch (err) {
-    return res.status(503).send({
-      message: err.message,
-    });
+    return next(err);
   }
 });
 
 // Get all products --- TO TEST
-router.get("/stock/products", async (req, res) => {
+router.get("/stock/products", async (req, res, next) => {
   try {
     const info = await service.PGettingAllProcess();
     return res.status(200).send({ info });
   } catch (err) {
-    res.status(503).send({ message: err.message });
+    return next(err);
   }
 });
 
 // Get one product --- TO TEST
-router.get("/stock/product/:fischerCode", async (req, res) => {
+router.get("/stock/product/:fischerCode", async (req, res, next) => {
   try {
     const { fischerCode } = Number(req.params.fischerCode);
     const info = await service.PGettingOneProcess(fischerCode);
     return res.status(200).send({ info });
   } catch (err) {
-    res.status(503).send({ message: err.message });
+    return next(err);
   }
 });
 
 // Get product image
-router.get("/stock/product/:fischerCode/image", async (req, res) => {
+router.get("/stock/product/:fischerCode/image", async (req, res, next) => {
   try {
     const { fischerCode } = req.params;
 
@@ -135,9 +120,7 @@ router.get("/stock/product/:fischerCode/image", async (req, res) => {
 
     return res.status(200).send(product.product_picture);
   } catch (err) {
-    return res.status(503).send({
-      message: err.message,
-    });
+    return next(err);
   }
 });
 
@@ -145,7 +128,7 @@ router.get("/stock/product/:fischerCode/image", async (req, res) => {
 router.post(
   "/stock/product",
   upload.single("productPicture"),
-  async (req, res) => {
+  async (req, res, next) => {
     try {
       if (!req.file) {
         return res.status(400).json({
@@ -177,12 +160,7 @@ router.post(
       const result = await service.PCreationProcess(product);
       return res.status(201).send({ result });
     } catch (err) {
-      if (err.message === "Required fields are uncompleted") {
-        return res
-          .status(400)
-          .send({ message: "Complete the required fields" });
-      }
-      return res.status(503).send(err.message);
+      return next(err);
     }
   },
 );
@@ -190,15 +168,13 @@ router.post(
 // router.put("/stock/product", async (req, res) => {});
 
 // Delete a product --- TO TEST
-router.delete("/stock/product", async (req, res) => {
+router.delete("/stock/product", async (req, res, next) => {
   try {
     const { fischerCode } = req.body;
     const result = await service.PDeletionProcess(fischerCode);
     return res.status(202).send(result);
   } catch (err) {
-    return res.status(503).send({
-      message: err.message,
-    });
+    return next(err);
   }
 });
 

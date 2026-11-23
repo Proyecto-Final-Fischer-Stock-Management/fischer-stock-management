@@ -3,7 +3,11 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button, ButtonLink } from "../../../../components/ui/Button";
 import type { StockProduct } from "../../catalog/services/catalogApi.ts";
 import Input from "../../../../components/ui/Input";
-import { addProductToCart } from "../../order/cartStorage";
+import {
+  addProductToCart,
+  updateProductInCart,
+  type ProductReport,
+} from "../../order/cartStorage";
 type ProductNavigationState = {
   product: StockProduct;
   imageBlob?: Blob;
@@ -12,7 +16,7 @@ type ProductNavigationState = {
 export default function ProductFormPage() {
   const { pathname, state } = useLocation();
 
-  const navigationState = state as ProductNavigationState | undefined;
+  const navigationState = state as ProductNavigationState;
 
   const navigate = useNavigate();
 
@@ -21,11 +25,12 @@ export default function ProductFormPage() {
 
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
+  const [shelfStock, setShelfStock] = useState("");
   const [hasStockBreak, setHasStockBreak] = useState<"yes" | "no" | null>(null);
-
+  const [observations, setObservations] = useState("");
   const [orderBoxes, setOrderBoxes] = useState("");
   const [cartMessage, setCartMessage] = useState("");
-  const [wasAddedToCart, setWasAddedToCart] = useState(false);
+  const [boxesAddedFromThisForm, setBoxesAddedFromThisForm] = useState(0);
 
   useEffect(() => {
     if (!imageBlob) {
@@ -56,18 +61,40 @@ export default function ProductFormPage() {
     return Number.isNaN(boxesToOrder) || boxesToOrder < 1 ? 0 : boxesToOrder;
   }
 
+  function getProductReport(): ProductReport {
+    const parsedShelfStock =
+      shelfStock.trim() === "" ? null : Number(shelfStock);
+
+    return {
+      shelfStock:
+        parsedShelfStock !== null && Number.isFinite(parsedShelfStock)
+          ? parsedShelfStock
+          : null,
+      hasStockBreak,
+      observations: observations.trim(),
+    };
+  }
+
   function handleSubmitReport() {
-    if (!wasAddedToCart) {
-      addProductToCart(product, getBoxesToOrder());
+    const report = getProductReport();
+    const boxes = getBoxesToOrder();
+
+    if (boxesAddedFromThisForm === 0) {
+      addProductToCart(product, boxes, report);
+    } else {
+      updateProductInCart(product, boxesAddedFromThisForm, boxes, report);
     }
 
     navigate(orderPath);
   }
 
   function handleAddToCart() {
-    addProductToCart(product, getBoxesToOrder());
+    const boxes = getBoxesToOrder();
+
+    addProductToCart(product, boxes, getProductReport());
+
+    setBoxesAddedFromThisForm((previous) => previous + boxes);
     setCartMessage("Producto sumado al carrito.");
-    setWasAddedToCart(true);
   }
 
   return (
@@ -129,6 +156,11 @@ export default function ProductFormPage() {
                   <Input
                     className="min-w-0 flex-1 border-r-0 text-left"
                     placeholder="Ingrese stock actual"
+                    type="number"
+                    min={0}
+                    step={1}
+                    value={shelfStock}
+                    onChange={(event) => setShelfStock(event.target.value)}
                   />
                   <div className="flex w-16 items-center justify-center border border-gray-300 bg-gray-50 text-xs">
                     Cajas
@@ -182,7 +214,6 @@ export default function ProductFormPage() {
                     onChange={(event) => {
                       setOrderBoxes(event.target.value);
                       setCartMessage("");
-                      setWasAddedToCart(false);
                     }}
                   />
                   <div className="flex w-16 items-center justify-center border border-gray-300 bg-gray-50 text-xs">
@@ -193,7 +224,11 @@ export default function ProductFormPage() {
 
               <label className="mt-3 block">
                 <span className="mb-2 block">Sugerencias / observaciones</span>
-                <textarea className="h-12 w-full resize-none border border-gray-300 bg-white px-3 py-2 text-sm focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none" />
+                <textarea
+                  className="h-12 w-full resize-none border border-gray-300 bg-white px-3 py-2 text-sm focus:border-red-500 focus:ring-2 focus:ring-red-500 focus:outline-none"
+                  value={observations}
+                  onChange={(event) => setObservations(event.target.value)}
+                />{" "}
               </label>
 
               <Button

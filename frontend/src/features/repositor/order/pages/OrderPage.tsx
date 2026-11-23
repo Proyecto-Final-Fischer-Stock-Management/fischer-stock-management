@@ -2,10 +2,12 @@ import { useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "../../../../components/ui/Button";
 import { clearCart, loadCart } from "../cartStorage";
+import { loadLastCheckIn } from "../../checkin/checkinStorage";
 
 export default function OrderPage() {
   const { pathname } = useLocation();
   const [items, setItems] = useState(() => loadCart());
+  const [checkIn] = useState(() => loadLastCheckIn());
   const isRepositorRoute = pathname.startsWith("/repositor");
   const catalogPath = isRepositorRoute
     ? "/repositor/catalog"
@@ -61,7 +63,7 @@ export default function OrderPage() {
           <section>
             <h2 className="mb-3 font-medium">Resumen del pedido</h2>
             <div className="border border-gray-300 bg-white p-3 leading-tight text-gray-500 shadow-sm">
-              <div>Sucursal: Pendiente</div>
+              <div>Sucursal: {checkIn?.branch}</div>
               <div>Fecha: {orderDate}</div>
               <div>Productos: {items.length}</div>
               <div>Cajas: {totalBoxes}</div>

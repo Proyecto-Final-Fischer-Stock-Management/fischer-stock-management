@@ -4,7 +4,7 @@ import { SCreationProcess } from "./automaticService.js";
 const router = Router();
 
 // Post a stock (product and place information)
-router.post("/catalog/stock", async (req, res) => {
+router.post("/catalog/stock", async (req, res, next) => {
   try {
     const { productId, sectorId, minimumStock, actualStock, unitsPerCage } =
       req.body;
@@ -19,9 +19,7 @@ router.post("/catalog/stock", async (req, res) => {
       result,
     });
   } catch (err) {
-    res.status(503).send({
-      message: err.message,
-    });
+    return next(err);
   }
 });
 
