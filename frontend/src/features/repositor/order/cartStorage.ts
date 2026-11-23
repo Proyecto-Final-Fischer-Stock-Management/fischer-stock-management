@@ -125,28 +125,3 @@ export function updateProductInCart(
   saveCart(cart);
   return cart;
 }
-
-const API_BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:4306";
-
-export async function GetProductImage(
-  fischerCode: number,
-  token: string,
-): Promise<Blob> {
-  const response = await fetch(
-    `${API_BASE_URL}/stockman/catalog/product/${fischerCode}/image`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
-
-  if (!response.ok) {
-    throw new Error("No se pudo obtener la imagen del producto");
-  }
-
-  const imageBlob = await response.blob();
-
-  return imageBlob;
-}

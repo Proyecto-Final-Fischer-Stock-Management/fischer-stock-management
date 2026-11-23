@@ -1,12 +1,81 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "../../../../components/ui/Button";
 import { clearCart, loadCart } from "../cartStorage";
 import { loadLastCheckIn } from "../../checkin/checkinStorage";
+import { useAuth } from "../../../../hooks/useAuth";
+import { GetProductImage } from "../../catalog/services/catalogApi";
 
 export default function OrderPage() {
   const { pathname } = useLocation();
   const [items, setItems] = useState(() => loadCart());
+  const { token } = useAuth();
+  const [productImageUrls, setProductImageUrls] = useState<
+    Record<string, string>
+  >({});
+
+  useEffect(() => {
+    if (!token || items.length === 0) {
+      setProductImageUrls({});
+      return;
+    }
+
+    let cancelled = false;
+    const createdUrls: string[] = [];
+
+    async function loadImages() {
+      const results = await Promise.all(
+        items.map(async (item) => {
+          try {
+            const imageBlob = await GetProductImage(
+              item.product.getProduct.fischerCode,
+              token,
+            );
+
+            const imageUrl = URL.createObjectURL(imageBlob);
+
+            createdUrls.push(imageUrl);
+
+            return {
+              productId: item.productId,
+              url: imageUrl,
+            };
+          } catch (error) {
+            console.error(
+              `Error cargando imagen del producto ${item.productId}`,
+              error,
+            );
+
+            return null;
+          }
+        }),
+      );
+
+      if (cancelled) {
+        createdUrls.forEach((url) => URL.revokeObjectURL(url));
+        return;
+      }
+
+      const images: Record<string, string> = {};
+
+      results.forEach((result) => {
+        if (result) {
+          images[result.productId] = result.url;
+        }
+      });
+
+      setProductImageUrls(images);
+    }
+
+    loadImages();
+
+    return () => {
+      cancelled = true;
+
+      createdUrls.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [items, token]);
+
   const [checkIn] = useState(() => loadLastCheckIn());
   const isRepositorRoute = pathname.startsWith("/repositor");
   const catalogPath = isRepositorRoute
@@ -92,11 +161,17 @@ export default function OrderPage() {
                     className="flex w-full items-center gap-3 border border-gray-300 bg-white p-2 shadow-sm"
                   >
                     <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white">
-                      <img
-                        src={item.imageSrc}
-                        alt={item.name}
-                        className="max-h-12 max-w-12 object-contain"
-                      />
+                      {productImageUrls[item.productId] ? (
+                        <img
+                          src={productImageUrls[item.productId]}
+                          alt={item.name}
+                          className="max-h-12 max-w-12 object-contain"
+                        />
+                      ) : (
+                        <span className="text-xs text-gray-400">
+                          Sin imagen
+                        </span>
+                      )}
                     </div>
 
                     <div className="min-w-0 flex-1">
