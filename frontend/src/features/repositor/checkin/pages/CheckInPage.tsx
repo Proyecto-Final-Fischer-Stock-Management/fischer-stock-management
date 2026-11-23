@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../../../../components/ui/Button";
 import { saveLastCheckIn } from "../checkinStorage";
 import { useAuth } from "../../../../hooks/useAuth";
-import { GetCheckInInfo, type CheckInPlace } from "../services/checkinsApi";
-
-//cambiar por la info del backend de fecha y hora
-const visitDate = "20/05/26";
-const visitTime = "09:41 AM";
+import {
+  PushCheckIn,
+  GetCheckInInfo,
+  type CheckInPlace,
+} from "../services/checkinsApi";
 
 type SelectOption = {
   value: string;
@@ -130,6 +130,13 @@ export default function CheckInPage() {
 
   const canStartVisit = Boolean(chain && branch && sector);
 
+  const ahora: Date = new Date();
+
+  const visitDate: string = ahora.toLocaleDateString("es-AR");
+  const visitTime: string = ahora.toLocaleTimeString("es-AR", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
   function handleStartVisit() {
     const selectedChain = chains.find((item) => String(item.id) === chain);
 
@@ -150,6 +157,8 @@ export default function CheckInPage() {
       branch: selectedBranch.direction,
       sector: selectedSector.sector,
     });
+
+    PushCheckIn(token, Number(selectedChain.id));
 
     navigate("/repositor", { replace: true });
   }
@@ -252,7 +261,7 @@ export default function CheckInPage() {
             disabled={!canStartVisit}
             onClick={handleStartVisit}
           >
-            <span className="flex-1 text-center">Iniciar visita</span>
+            <span className="flex-1 text-center">Iniciar recorrido</span>
             <span>→</span>
           </Button>
         </main>

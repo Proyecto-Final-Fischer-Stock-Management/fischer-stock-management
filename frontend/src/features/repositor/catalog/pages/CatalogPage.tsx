@@ -47,7 +47,6 @@ export default function CatalogPage() {
         setIsLoading(true);
         setError(null);
 
-        // Limpiamos los productos anteriores mientras cargamos los nuevos.
         setStock([]);
         setProductImages({});
 

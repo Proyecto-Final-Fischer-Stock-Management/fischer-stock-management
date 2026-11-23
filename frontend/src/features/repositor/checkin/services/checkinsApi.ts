@@ -66,3 +66,13 @@ export async function GetCheckInInfo(token: string | null) {
     },
   }));
 }
+
+export async function PushCheckIn(token: string, sectorId: number) {
+  const response = await apiRequest("/stockman/check-in", {
+    method: "POST",
+    body: { sectorId },
+    token,
+  });
+
+  return response;
+}

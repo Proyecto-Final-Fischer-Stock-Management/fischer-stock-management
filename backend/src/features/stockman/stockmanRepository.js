@@ -66,9 +66,10 @@ export function GetByPlace(sectorId) {
       minimun_stock: true,
       units_per_cage: true,
     },
-    include: {
+    select: {
       get_product: {
         select: {
+          fischer_code: true,
           name: true,
           easy_sap: true,
           sodimac_sku: true,
@@ -116,6 +117,7 @@ export function SendOrder(
 }
 
 export function GetProductImage(fischerCode) {
+  console.log("REPOSITORY FISCHER CODE:", fischerCode);
   return prisma.product.findUnique({
     where: {
       fischer_code: fischerCode,

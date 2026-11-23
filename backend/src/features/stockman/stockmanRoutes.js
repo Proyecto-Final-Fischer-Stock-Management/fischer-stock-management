@@ -76,6 +76,8 @@ router.put("/sendorder", async (req, res, next) => {
 router.get("/catalog/product/:fischerCode/image", async (req, res, next) => {
   try {
     const { fischerCode } = req.params;
+    console.log("PARAMS:", req.params);
+    console.log("FISCHER CODE:", fischerCode);
 
     const product = await service.GettingProductImage(Number(fischerCode));
 
