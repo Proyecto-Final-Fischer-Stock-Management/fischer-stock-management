@@ -4,17 +4,17 @@ export default function AuthMiddleWare(req, res, next) {
   const authorization = req.headers.authorization;
 
   if (!authorization) {
-    return res.status(401).send({
-      message: "Missing authorization token",
-    });
+    return next(
+      Object.assign(new Error("Missing authorization token"), { status: 401 }),
+    );
   }
 
   const [scheme, token] = authorization.split(" ");
 
   if (scheme !== "Bearer" || !token) {
-    return res.status(401).send({
-      message: "Invalid authorization header",
-    });
+    return next(
+      Object.assign(new Error("Invalid authorization header"), { status: 401 }),
+    );
   }
 
   try {
@@ -24,8 +24,6 @@ export default function AuthMiddleWare(req, res, next) {
 
     next();
   } catch (err) {
-    return res.status(401).send({
-      message: err.message,
-    });
+    return next(err);
   }
 }

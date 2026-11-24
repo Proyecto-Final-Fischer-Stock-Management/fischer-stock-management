@@ -2,12 +2,18 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../../../components/ui/Button";
 import { useAuth } from "../../../../hooks/useAuth";
-import { loadLastCheckIn, type RepositorCheckIn } from "../../checkin/checkinStorage";
+import {
+  loadLastCheckIn,
+  clearLastCheckIn,
+  type RepositorCheckIn,
+} from "../../checkin/checkinStorage";
 
 export default function RepositorHomePage() {
   const { logout } = useAuth();
   const navigate = useNavigate();
-  const [lastCheckIn] = useState<RepositorCheckIn | null>(() => loadLastCheckIn());
+  const [lastCheckIn] = useState<RepositorCheckIn | null>(() =>
+    loadLastCheckIn(),
+  );
 
   useEffect(() => {
     if (!lastCheckIn) {
@@ -23,7 +29,11 @@ export default function RepositorHomePage() {
     <div className="min-h-screen bg-gray-200 px-4 py-6">
       <div className="mx-auto flex min-h-[calc(100vh-48px)] w-full max-w-sm flex-col bg-[#F4F4F4]">
         <div className="bg-red-600 px-5 pt-10 pb-5 text-white">
-          <img className="h-6 w-18 object-contain" src="/fischerLog.png" alt="Fischer" />
+          <img
+            className="h-6 w-18 object-contain"
+            src="/fischerLog.png"
+            alt="Fischer"
+          />
         </div>
 
         <div className="border-b border-gray-300 bg-white px-7 py-4 text-center text-sm">
@@ -43,19 +53,24 @@ export default function RepositorHomePage() {
             <div className="border-b border-gray-300 px-4 py-5 text-center">
               Cadena: {lastCheckIn.chain}
             </div>
-            <div className="px-4 py-5 text-center">Sector: {lastCheckIn.sector}</div>
+            <div className="px-4 py-5 text-center">
+              Sector: {lastCheckIn.sector}
+            </div>
           </section>
 
           <div className="mt-7 flex flex-col gap-4">
             <button
               type="button"
-              onClick={() => navigate("/repositor/check-in")}
+              onClick={() => (
+                navigate("/repositor/check-in"),
+                clearLastCheckIn()
+              )}
               className="flex h-15 items-center gap-7 rounded-sm border border-gray-300 bg-white px-5 text-left shadow-sm transition-colors hover:bg-gray-50"
             >
-              <img 
-              className="flex h-10 w-10 shrink-0 items-center justify-center"
-              src="CheckOut.png"
-              alt="Check out"
+              <img
+                className="flex h-10 w-10 shrink-0 items-center justify-center"
+                src="CheckOut.png"
+                alt="Check out"
               />
               <span>Check Out</span>
             </button>
@@ -65,10 +80,10 @@ export default function RepositorHomePage() {
               onClick={() => navigate("/repositor/catalog")}
               className="flex h-15 items-center gap-7 rounded-sm border border-gray-300 bg-white px-5 text-left shadow-sm transition-colors hover:bg-gray-50"
             >
-              <img 
-              className="flex h-10 w-10 shrink-0 items-center justify-center"
-              src="Lupa2.png"
-              alt="Buscar"
+              <img
+                className="flex h-10 w-10 shrink-0 items-center justify-center"
+                src="Lupa2.png"
+                alt="Buscar"
               />
               <span>Buscar producto</span>
             </button>

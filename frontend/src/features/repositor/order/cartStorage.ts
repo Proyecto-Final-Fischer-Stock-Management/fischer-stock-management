@@ -1,14 +1,22 @@
 import type { StockProduct } from "../catalog/services/catalogApi";
 
+export type ProductReport = {
+  shelfStock: number | null;
+  hasStockBreak: "yes" | "no" | null;
+  observations: string;
+};
+
 export type CartItem = {
   productId: string;
   name: string;
   code: string;
   boxes: number;
   addedAt: string;
+  product: StockProduct;
+  report: ProductReport;
 };
 
-const CART_STORAGE_KEY = "fischer-stock-cart";
+const CART_STORAGE_KEY = "fischer-stock-cart-v2";
 
 export function loadCart(): CartItem[] {
   const rawCart = window.localStorage.getItem(CART_STORAGE_KEY);
@@ -33,21 +41,30 @@ export function clearCart() {
   window.localStorage.removeItem(CART_STORAGE_KEY);
 }
 
-export function addProductToCart(product: StockProduct, boxes: number) {
+export function addProductToCart(
+  product: StockProduct,
+  boxes: number,
+  report: ProductReport,
+) {
   const cart = loadCart();
+
   const existingItem = cart.find(
     (item) => item.productId === String(product.productId),
   );
+
   const addedAt = new Date().toISOString();
 
   if (existingItem) {
     existingItem.boxes += boxes;
     existingItem.addedAt = addedAt;
+    existingItem.product = product;
+    existingItem.report = report;
+
     saveCart(cart);
     return cart;
   }
 
-  const nextCart = [
+  const nextCart: CartItem[] = [
     ...cart,
     {
       productId: String(product.productId),
@@ -55,6 +72,8 @@ export function addProductToCart(product: StockProduct, boxes: number) {
       code: String(product.getProduct.fischerCode),
       boxes,
       addedAt,
+      product,
+      report,
     },
   ];
 
@@ -62,27 +81,47 @@ export function addProductToCart(product: StockProduct, boxes: number) {
   return nextCart;
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:4306";
+export function updateProductReport(productId: string, report: ProductReport) {
+  const cart = loadCart();
 
-export async function GetProductImage(
-  fischerCode: number,
-  token: string,
-): Promise<Blob> {
-  const response = await fetch(
-    `${API_BASE_URL}/stockman/catalog/product/${fischerCode}/image`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
+  const existingItem = cart.find((item) => item.productId === productId);
 
-  if (!response.ok) {
-    throw new Error("No se pudo obtener la imagen del producto");
+  if (!existingItem) {
+    return cart;
   }
 
-  const imageBlob = await response.blob();
+  existingItem.report = report;
+  existingItem.addedAt = new Date().toISOString();
 
-  return imageBlob;
+  saveCart(cart);
+  return cart;
+}
+
+export function updateProductInCart(
+  product: StockProduct,
+  previouslyAddedBoxes: number,
+  newBoxes: number,
+  report: ProductReport,
+) {
+  const cart = loadCart();
+
+  const existingItem = cart.find(
+    (item) => item.productId === String(product.productId),
+  );
+
+  if (!existingItem) {
+    return addProductToCart(product, newBoxes, report);
+  }
+
+  existingItem.boxes = Math.max(
+    0,
+    existingItem.boxes - previouslyAddedBoxes + newBoxes,
+  );
+
+  existingItem.product = product;
+  existingItem.report = report;
+  existingItem.addedAt = new Date().toISOString();
+
+  saveCart(cart);
+  return cart;
 }

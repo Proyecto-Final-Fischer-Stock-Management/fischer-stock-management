@@ -26,6 +26,7 @@ export async function SGettingManyProcess(sectorId) {
     unitsPerCage: item.units_per_cage,
 
     getProduct: {
+      fischerCode: item.get_product.fischer_code,
       name: item.get_product.name,
       easySap: item.get_product.easy_sap,
       sodimacSku: item.get_product.sodimac_sku,
@@ -60,6 +61,7 @@ export async function SendingOrder(
 }
 
 export async function GettingProductImage(fischerCode) {
+  console.log("SERVICE FISCHER CODE:", fischerCode);
   const product = await repository.GetProductImage(fischerCode);
 
   return product;
