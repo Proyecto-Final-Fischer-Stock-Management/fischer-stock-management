@@ -35,6 +35,7 @@ export async function SGettingManyProcess(sectorId) {
       hipertehuelcheCode: item.get_product.hipertehuelche_code,
     },
     getPlace: {
+      id: item.get_sector.id,
       sector: item.get_sector.sector,
       bossEmail: item.get_sector.sector_boss_email,
     },
@@ -46,22 +47,28 @@ export async function SendingOrder(
   sectorId,
   updatedStock,
   stockOut,
-  timeOfSend,
   franchise,
 ) {
+  console.log("Datos recibidos por el service:", {
+    productId,
+    sectorId,
+    updatedStock,
+    stockOut,
+    franchise,
+  });
+
   await repository.SendOrder(
     productId,
     sectorId,
     updatedStock,
     stockOut,
-    timeOfSend,
     franchise,
   );
+
   return "Order succesfully sent";
 }
 
 export async function GettingProductImage(fischerCode) {
-  console.log("SERVICE FISCHER CODE:", fischerCode);
   const product = await repository.GetProductImage(fischerCode);
 
   return product;

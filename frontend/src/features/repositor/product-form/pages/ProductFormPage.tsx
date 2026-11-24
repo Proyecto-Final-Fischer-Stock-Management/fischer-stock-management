@@ -203,7 +203,9 @@ export default function ProductFormPage() {
               </div>
 
               <label className="mt-3 block">
-                <span className="mb-2 block">Cantidad a pedir (Mínimo)</span>
+                <span className="mb-2 block">
+                  Cantidad a pedir (Mínimo {product.minimunStock})
+                </span>
                 <div className="flex">
                   <Input
                     className="min-w-0 flex-1 border-r-0 text-left"
