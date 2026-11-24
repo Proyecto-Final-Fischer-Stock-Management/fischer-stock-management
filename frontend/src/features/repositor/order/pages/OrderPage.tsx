@@ -20,6 +20,7 @@ export default function OrderPage() {
       return;
     }
 
+    const authToken = token;
     let cancelled = false;
     const createdUrls: string[] = [];
 
@@ -29,7 +30,7 @@ export default function OrderPage() {
           try {
             const imageBlob = await GetProductImage(
               item.product.getProduct.fischerCode,
-              token,
+              authToken,
             );
 
             const imageUrl = URL.createObjectURL(imageBlob);

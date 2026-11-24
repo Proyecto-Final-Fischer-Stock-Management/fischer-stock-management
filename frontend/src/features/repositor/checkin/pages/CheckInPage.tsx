@@ -138,6 +138,7 @@ export default function CheckInPage() {
     minute: "2-digit",
   });
   function handleStartVisit() {
+    if (!token) return;
     const selectedChain = chains.find((item) => String(item.id) === chain);
 
     const selectedBranch = branches.find((item) => String(item.id) === branch);

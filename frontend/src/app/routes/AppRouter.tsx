@@ -1,5 +1,8 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import AdminPlaceholderPage from "../../features/admin/dashboard/pages/AdminPlaceholderPage";
+import CreateProductPage from "../../features/admin/stock/pages/CreateProductPage";
+import EditProductPage from "../../features/admin/stock/pages/EditProductPage";
+import CreateUserPage from "../../features/admin/accounts/pages/CreateUserPage";
+import EditUserPage from "../../features/admin/accounts/pages/EditUserPage";
 import AdminHomePage from "../../features/admin/dashboard/pages/AdminHomePage";
 import LoginPage from "../../features/auth/pages/LoginPage";
 import CatalogPage from "../../features/repositor/catalog/pages/CatalogPage";
@@ -26,19 +29,19 @@ export function AppRouter() {
         <Route path="/admin/stock" element={<StockPage />} />
         <Route
           path="/admin/stock/create"
-          element={<AdminPlaceholderPage title="Crear producto" backTo="/admin/stock" />}
+          element={<CreateProductPage />}
         />
         <Route
           path="/admin/stock/:productId/edit"
-          element={<AdminPlaceholderPage title="Editar producto" backTo="/admin/stock" />}
+          element={<EditProductPage />}
         />
         <Route
           path="/admin/accounts/create"
-          element={<AdminPlaceholderPage title="Crear usuario" backTo="/admin/accounts" />}
+          element={<CreateUserPage />}
         />
         <Route
           path="/admin/accounts/:userId/edit"
-          element={<AdminPlaceholderPage title="Editar cuenta" backTo="/admin/accounts" />}
+          element={<EditUserPage />}
         />
       </Route>
 

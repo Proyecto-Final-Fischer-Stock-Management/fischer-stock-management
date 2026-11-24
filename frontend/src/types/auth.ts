@@ -9,7 +9,7 @@ export type AuthUser = {
 
 export type AuthContextValue = {
   user: AuthUser | null;
-  token: string;
+  token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (user: AuthUser, token: string) => void;

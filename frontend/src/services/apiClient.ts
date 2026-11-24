@@ -10,6 +10,7 @@ export class ApiError extends Error {
 
 type ApiRequestOptions = Omit<RequestInit, "body" | "headers"> & {
   body?: unknown;
+  responseType?: "blob";
   headers?: HeadersInit;
   token?: string | null;
 };
@@ -18,7 +19,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:4306";
 
 export async function apiRequest<TResponse>(
   path: string,
-  { body, headers, token, ...options }: ApiRequestOptions = {},
+  { body, headers, token, responseType, ...options }: ApiRequestOptions = {},
 ): Promise<TResponse> {
   const response = await fetch(`${API_BASE_URL}${path}`, {
     ...options,
@@ -35,10 +36,14 @@ export async function apiRequest<TResponse>(
   });
 
   const contentType = response.headers.get("content-type");
-  const payload = contentType?.includes("application/json")
-    ? await response.json()
-    : await response.text();
-
+  let payload: unknown;
+  if (responseType === "blob" && response.ok) {
+    payload = await response.blob();
+  } else if (contentType?.includes("application/json")) {
+    payload = await response.json();
+  } else {
+    payload = await response.text();
+  }
   if (!response.ok) {
     if (response.status === 401) {
       window.dispatchEvent(new Event("auth:logout"));
