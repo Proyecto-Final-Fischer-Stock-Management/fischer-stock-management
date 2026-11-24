@@ -80,6 +80,7 @@ export function GetByPlace(sectorId) {
       },
       get_sector: {
         select: {
+          id: true,
           sector: true,
           sector_boss_email: true,
         },
@@ -93,7 +94,6 @@ export function SendOrder(
   sectorId,
   updatedStock,
   stockOut,
-  timeOfSend,
   franchise,
 ) {
   return prisma.stock.update({
@@ -105,7 +105,6 @@ export function SendOrder(
     },
     data: {
       updated_stock: updatedStock,
-      update_time: timeOfSend,
       update_place: franchise,
       get_product: {
         update: {
@@ -117,7 +116,6 @@ export function SendOrder(
 }
 
 export function GetProductImage(fischerCode) {
-  console.log("REPOSITORY FISCHER CODE:", fischerCode);
   return prisma.product.findUnique({
     where: {
       fischer_code: fischerCode,

@@ -50,20 +50,13 @@ router.get("/catalog/stock/:sectorId", async (req, res, next) => {
 // Modify the product's information
 router.put("/sendorder", async (req, res, next) => {
   try {
-    const {
-      productId,
-      sectorId,
-      updatedStock,
-      stockOut,
-      timeOfSend,
-      franchise,
-    } = req.body;
+    const { productId, sectorId, updatedStock, stockOut, franchise } =
+      req.body.information;
     const result = await service.SendingOrder(
       productId,
       sectorId,
       updatedStock,
       stockOut,
-      timeOfSend,
       franchise,
     );
     return res.status(202).send({ result });
@@ -76,8 +69,6 @@ router.put("/sendorder", async (req, res, next) => {
 router.get("/catalog/product/:fischerCode/image", async (req, res, next) => {
   try {
     const { fischerCode } = req.params;
-    console.log("PARAMS:", req.params);
-    console.log("FISCHER CODE:", fischerCode);
 
     const product = await service.GettingProductImage(Number(fischerCode));
 

@@ -9,10 +9,15 @@ export type StockProduct = {
   getProduct: {
     fischerCode: number;
     name: string;
-    easySap: number;
+    easySap: string;
+    sodimacSku: string;
+    hipertehuelcheCode: string;
+    carrefourEan: number;
+    anonimaCodInt: number;
     stockout: boolean;
   };
   getPlace: {
+    id: number;
     sector: string;
     sectorBossEmail: number;
   };
@@ -29,9 +34,7 @@ export async function GetStock(sectorId: number, token: string) {
   });
 }
 
-
-const API_BASE_URL =
-  import.meta.env.VITE_API_URL ?? "http://localhost:4306";
+const API_BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:4306";
 
 export async function GetProductImage(
   fischerCode: number,
@@ -55,4 +58,3 @@ export async function GetProductImage(
 
   return imageBlob;
 }
-

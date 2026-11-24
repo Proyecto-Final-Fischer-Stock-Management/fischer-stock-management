@@ -5,10 +5,12 @@ import { clearCart, loadCart } from "../cartStorage";
 import { loadLastCheckIn } from "../../checkin/checkinStorage";
 import { useAuth } from "../../../../hooks/useAuth";
 import { GetProductImage } from "../../catalog/services/catalogApi";
+import { PostProductsInformation } from "../services/ordersApi";
 
 export default function OrderPage() {
   const { pathname } = useLocation();
   const [items, setItems] = useState(() => loadCart());
+  const [isSending, setIsSending] = useState(false);
   const { token } = useAuth();
   const [productImageUrls, setProductImageUrls] = useState<
     Record<string, string>
@@ -93,13 +95,41 @@ export default function OrderPage() {
     [],
   );
 
-  function handleSendByMail() {
-    const productLines = items
-      .map((item) => `${item.name} (${item.code}) - ${item.boxes} cajas`)
-      .join("\n");
-    const subject = encodeURIComponent("Pedido sugerido Fischer");
-    const body = encodeURIComponent(productLines);
-    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+  async function handleSend() {
+    if (!token || items.length === 0 || isSending) return;
+
+    try {
+      setIsSending(true);
+
+      await Promise.all(
+        items.map((item) => {
+          console.log("Producto completo:", item.product);
+          console.log("Sector ID:", item.product.sectorId);
+
+          return PostProductsInformation(token, {
+            productId: Number(item.product.getProduct.fischerCode),
+            sectorId: Number(item.product.getPlace.id),
+            updatedStock: item.report.shelfStock ?? 0,
+            stockOut: item.report.hasStockBreak === "yes",
+            franchise: checkIn?.chain ?? "",
+          });
+        }),
+      );
+
+      const productLines = items
+        .map((item) => `${item.name} (${item.code}) - ${item.boxes} cajas`)
+        .join("\n");
+
+      const subject = encodeURIComponent("Pedido sugerido Fischer");
+      const body = encodeURIComponent(productLines);
+
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    } catch (error) {
+      console.error("Error enviando la información del pedido:", error);
+      alert("No se pudo enviar la información del pedido.");
+    } finally {
+      setIsSending(false);
+    }
   }
 
   function handleClearCart() {
@@ -196,10 +226,11 @@ export default function OrderPage() {
             <Button
               variant="primary"
               fullWidth
-              disabled={items.length === 0}
-              onClick={handleSendByMail}
+              disabled={items.length === 0 || isSending}
+              onClick={handleSend}
             >
-              Enviar pedido por mail <span className="ml-auto">›</span>
+              {isSending ? "Enviando información..." : "Enviar pedido por mail"}
+              <span className="ml-auto">›</span>
             </Button>
             {items.length > 0 ? (
               <Button variant="ghost" fullWidth onClick={handleClearCart}>
