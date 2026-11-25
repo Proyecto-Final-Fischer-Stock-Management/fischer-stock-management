@@ -40,11 +40,12 @@ export function GetLastCheckIn(stockmanId) {
     orderBy: {
       checkin_time: "desc",
     },
-    include: {
+    select: {
+      sector_id,
       madein: {
-        include: {
+        select: {
           has_branch: {
-            include: {
+            select: {
               has_franchise: true,
             },
           },
